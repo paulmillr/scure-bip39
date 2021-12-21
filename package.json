@@ -1,0 +1,43 @@
+{
+  "name": "micro-bip39",
+  "version": "0.1.0",
+  "description": "Create BIP39 mnemonic phrases with minimum dependencies",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "wordlists"
+  ],
+  "dependencies": {
+    "@noble/hashes": "^0.5.1",
+    "micro-base": "^0.10.0"
+  },
+  "contributors": [
+    {
+      "name": "Patricio Palladino",
+      "email": "patricio@nomiclabs.io"
+    },
+    {
+      "name": "Paul Miller",
+      "url": "https://paulmillr.com"
+    }
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "cd test && tsc && mocha bip39.test.js"
+  },
+  "keywords": [
+    "bip39",
+    "mnemonic",
+    "phrase",
+    "code",
+    "bip0039",
+    "bip-39",
+    "micro"
+  ],
+  "devDependencies": {
+    "@types/mocha": "^9.0.0",
+    "mocha": "^9.1.3",
+    "typescript": "^4.5.4"
+  }
+}

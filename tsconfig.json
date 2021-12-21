@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "rootDirs": [
+      "."
+    ],
+    "outDir": ".",
+    "sourceMap": false,
+    "noUnusedLocals": true,
+    "declaration": true,
+    "declarationMap": false
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": ["node_modules", "./*.d.ts", "./test/*.d.ts"]
+}
