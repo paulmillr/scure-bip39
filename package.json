@@ -8,7 +8,7 @@
     "wordlists"
   ],
   "dependencies": {
-    "@noble/hashes": "^0.5.1",
+    "@noble/hashes": "^0.5.2",
     "micro-base": "^0.10.0"
   },
   "contributors": [
