@@ -14,9 +14,11 @@ Or, `yarn add micro-bip39`
 
 ## API
 
+This submodule contains the word lists defined by BIP39 for Czech, English, French, Italian, Japanese, Korean, Simplified and Traditional Chinese, and Spanish. These are not imported by default, as that would increase bundle sizes too much. Instead, you should import and use them explicitly.
+
 To import a particular wordlist, use:
 
-```
+```typescript
 import { wordlist } from 'micro-bip39/wordlists/english';
 import { wordlist as spanish } from 'micro-bip39/wordlists/spanish';
 ```
