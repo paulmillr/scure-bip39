@@ -1,14 +1,15 @@
 {
   "name": "micro-bip39",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create BIP39 mnemonic phrases with minimum dependencies",
   "main": "index.js",
   "files": [
     "index.js",
+    "index.d.ts",
     "wordlists"
   ],
   "dependencies": {
-    "@noble/hashes": "^0.5.2",
+    "@noble/hashes": "^0.5.3",
     "micro-base": "^0.10.0"
   },
   "contributors": [
