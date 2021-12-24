@@ -1,6 +1,6 @@
 {
   "name": "micro-bip39",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Create BIP39 mnemonic phrases with minimum dependencies",
   "main": "index.js",
   "files": [
