@@ -34,7 +34,8 @@
     "code",
     "bip0039",
     "bip-39",
-    "micro"
+    "micro",
+    "wordlist"
   ],
   "devDependencies": {
     "@types/mocha": "^9.0.0",
