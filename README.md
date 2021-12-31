@@ -6,6 +6,9 @@ Developed for, and then extracted from
 [js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography). The source code is the same,
 the files have been copied for convenience.
 
+Check out [micro-bip32](https://github.com/paulmillr/micro-bip32) if you need
+hierarchical deterministic wallets ("HD Wallets").
+
 ## Usage
 
 > npm install micro-bip39
