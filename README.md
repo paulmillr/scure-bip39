@@ -1,6 +1,6 @@
 # micro-bip39
 
-Create BIP39 mnemonic phrases with minimum dependencies.
+Audited & minimal implementation of BIP39 mnemonic phrases.
 
 Developed for, and then extracted from
 [js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography). The source code is the same,
@@ -8,6 +8,8 @@ the files have been copied for convenience.
 
 Check out [micro-bip32](https://github.com/paulmillr/micro-bip32) if you need
 hierarchical deterministic wallets ("HD Wallets").
+
+The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf).
 
 ## Usage
 
