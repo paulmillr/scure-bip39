@@ -2045,4 +2045,4 @@ zvesela
 zvon
 zvrat
 zvukovod
-zvyk`.split("\n");
+zvyk`.split('\n');

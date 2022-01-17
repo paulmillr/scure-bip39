@@ -2045,4 +2045,4 @@ export const wordlist: string[] = `的
 韦
 怨
 矮
-歇`.split("\n");
+歇`.split('\n');

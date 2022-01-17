@@ -2045,4 +2045,4 @@ yacht
 zèbre
 zénith
 zeste
-zoologie`.split("\n");
+zoologie`.split('\n');

@@ -2045,4 +2045,4 @@ export const wordlist: string[] = `あいこくしん
 わじまし
 わすれもの
 わらう
-われる`.split("\n");
+われる`.split('\n');

@@ -2045,4 +2045,4 @@ youth
 zebra
 zero
 zone
-zoo`.split("\n");
+zoo`.split('\n');

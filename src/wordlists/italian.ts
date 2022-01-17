@@ -2045,4 +2045,4 @@ zotico
 zucchero
 zufolo
 zulu
-zuppa`.split("\n");
+zuppa`.split('\n');

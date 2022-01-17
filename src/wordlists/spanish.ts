@@ -2045,4 +2045,4 @@ zarza
 zona
 zorro
 zumo
-zurdo`.split("\n");
+zurdo`.split('\n');

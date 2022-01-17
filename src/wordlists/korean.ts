@@ -2045,4 +2045,4 @@ export const wordlist: string[] = `가격
 희망
 희생
 흰색
-힘껏`.split("\n");
+힘껏`.split('\n');
