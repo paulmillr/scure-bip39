@@ -1,6 +1,6 @@
 {
   "name": "@scure/bip39",
-  "version": "0.1.3",
+  "version": "1.0.0-rc0",
   "description": "Secure, audited & minimal implementation of BIP39 mnemonic phrases",
   "main": "index.js",
   "files": [
@@ -9,8 +9,8 @@
     "wordlists"
   ],
   "dependencies": {
-    "@noble/hashes": "^0.5.5",
-    "@scure/base": "^0.10.1"
+    "@noble/hashes": "~1.0.0",
+    "@scure/base": "~1.0.0-rc1"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",
