@@ -12,7 +12,9 @@ The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF]
 
 > npm install @scure/bip39
 
-Or, `yarn add @scure/bip39`
+Or
+
+> yarn add @scure/bip39
 
 ## API
 
