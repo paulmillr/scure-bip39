@@ -36,6 +36,20 @@ function mnemonicToSeed(mnemonic: string, passphrase?: string): Promise<Uint8Arr
 function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
 ```
 
+All wordlists:
+
+```typescript
+import { wordlist } from '@scure/bip39/wordlists/czech';
+import { wordlist } from '@scure/bip39/wordlists/english';
+import { wordlist } from '@scure/bip39/wordlists/french';
+import { wordlist } from '@scure/bip39/wordlists/italian';
+import { wordlist } from '@scure/bip39/wordlists/japanese';
+import { wordlist } from '@scure/bip39/wordlists/korean';
+import { wordlist } from '@scure/bip39/wordlists/simplified-chinese';
+import { wordlist } from '@scure/bip39/wordlists/spanish';
+import { wordlist } from '@scure/bip39/wordlists/traditional-chinese';
+```
+
 ## License
 
 [MIT License](./LICENSE)
