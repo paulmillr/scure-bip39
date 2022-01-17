@@ -1,21 +1,18 @@
-# micro-bip39
+# scure-bip39
 
-Audited & minimal implementation of BIP39 mnemonic phrases.
+Secure, audited & minimal implementation of BIP39 mnemonic phrases.
 
-Developed for, and then extracted from
-[js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography). The source code is the same,
-the files have been copied for convenience.
-
-Check out [micro-bip32](https://github.com/paulmillr/micro-bip32) if you need
+Developed for
+[js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography). Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
 hierarchical deterministic wallets ("HD Wallets").
 
-The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf).
+The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf). Before the audit it was called micro-base39.
 
 ## Usage
 
-> npm install micro-bip39
+> npm install @scure/bip39
 
-Or, `yarn add micro-bip39`
+Or, `yarn add @scure/bip39`
 
 ## API
 
@@ -24,8 +21,8 @@ This submodule contains the word lists defined by BIP39 for Czech, English, Fren
 To import a particular wordlist, use:
 
 ```typescript
-import { wordlist } from 'micro-bip39/wordlists/english';
-import { wordlist as spanish } from 'micro-bip39/wordlists/spanish';
+import { wordlist } from '@scure/bip39/wordlists/english';
+import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
 ```
 
 ```typescript
@@ -41,4 +38,4 @@ function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
 
 [MIT License](./LICENSE)
 
-Copyright (c) 2021 Patricio Palladino, Paul Miller, ethereum-cryptography contributors
+Copyright (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com)
