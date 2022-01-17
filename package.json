@@ -40,6 +40,7 @@
     "bip0039",
     "bip-39",
     "micro",
+    "scure",
     "wordlist"
   ]
 }
