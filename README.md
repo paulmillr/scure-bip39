@@ -18,14 +18,13 @@ Or
 
 ## API
 
-This submodule contains the word lists defined by BIP39 for Czech, English, French, Italian, Japanese, Korean, Simplified and Traditional Chinese, and Spanish. These are not imported by default, as that would increase bundle sizes too much. Instead, you should import and use them explicitly.
-
-To import a particular wordlist, use:
-
-```typescript
+```js
+import { generateMnemonic } from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
+console.log(generateMnemonic(wordlist));
 ```
+
+This submodule contains the word lists defined by BIP39 for Czech, English, French, Italian, Japanese, Korean, Simplified and Traditional Chinese, and Spanish. These are not imported by default, as that would increase bundle sizes too much. Instead, you should import and use them explicitly.
 
 ```typescript
 function generateMnemonic(wordlist: string[], strength?: number): string;
