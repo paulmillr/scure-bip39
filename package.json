@@ -51,5 +51,11 @@
     "micro",
     "scure",
     "wordlist"
+  ],
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://paulmillr.com/funding/"
+    }
   ]
 }
