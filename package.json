@@ -10,7 +10,8 @@
   ],
   "dependencies": {
     "@noble/hashes": "~1.0.0",
-    "@scure/base": "~1.0.0-rc1"
+    "@scure/base": "~1.0.0-rc1",
+    "prettier": "^2.4.1"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",
@@ -36,6 +37,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
+    "lint": "prettier --check 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
+    "format": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
     "test": "cd test && tsc && mocha bip39.test.js"
   },
   "keywords": [

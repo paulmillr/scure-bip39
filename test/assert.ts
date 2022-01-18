@@ -1,23 +1,17 @@
 // Minimal assert version to avoid dependecies on node internals
 // Allows to verify that none of brwoserify version of node internals is included in resulting build
-async function deepStrictEqual(
-  actual: unknown,
-  expected: unknown,
-  message?: string
-) {
+async function deepStrictEqual(actual: unknown, expected: unknown, message?: string) {
   const [actualType, expectedType] = [typeof actual, typeof expected];
   const err = new Error(
     `Non-equal values: actual=${actual} (type=${actualType}) expected=${expected} (type=${expectedType})${
-      message ? `. Message: ${message}` : ""
+      message ? `. Message: ${message}` : ''
     }`
   );
   if (actualType !== expectedType) {
     throw err;
   }
   // Primitive types
-  if (
-    ["string", "number", "bigint", "undefined", "boolean"].includes(actualType)
-  ) {
+  if (['string', 'number', 'bigint', 'undefined', 'boolean'].includes(actualType)) {
     if (actual !== expected) {
       throw err;
     }
@@ -46,10 +40,10 @@ async function deepStrictEqual(
   if (actual === null && expected === null) {
     return;
   }
-  if (actualType === "object") {
+  if (actualType === 'object') {
     const [actualKeys, expectedKeys] = [
       Object.keys(actual as object),
-      Object.keys(expected as object)
+      Object.keys(expected as object),
     ];
     deepStrictEqual(actualKeys, expectedKeys, message);
     for (const key of actualKeys) {
@@ -66,7 +60,7 @@ async function throws(cb: () => any) {
   } catch (e) {
     return;
   }
-  throw new Error("Missing expected exception.");
+  throw new Error('Missing expected exception.');
 }
 
 async function rejects(cb: () => Promise<any>): Promise<void> {
@@ -75,7 +69,7 @@ async function rejects(cb: () => Promise<any>): Promise<void> {
   } catch (e) {
     return;
   }
-  throw new Error("Missing expected rejection.");
+  throw new Error('Missing expected rejection.');
 }
 
 // Run tests with node assert:
