@@ -19,9 +19,20 @@ Or
 ## API
 
 ```js
-import { generateMnemonic } from '@scure/bip39';
+import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-console.log(generateMnemonic(wordlist));
+// Generate 12 random words
+const mn = bip39.generateMnemonic(wordlist);
+console.log(mn);
+
+// Reversible; convert mnemonic to byte array
+bip39.entropyToMnemonic(bip39.mnemonicToEntropy(mn, wordlist));
+
+// Validate
+bip39.validateMnemonic(mn, wordlist);
+
+// Irreversible, there is no seedToMnemonic
+bip39.mnemonicToSeedSync(mn, 'password');
 ```
 
 This submodule contains the word lists defined by BIP39 for Czech, English, French, Italian, Japanese, Korean, Simplified and Traditional Chinese, and Spanish. These are not imported by default, as that would increase bundle sizes too much. Instead, you should import and use them explicitly.
