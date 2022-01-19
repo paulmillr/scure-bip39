@@ -8,6 +8,7 @@
     "index.d.ts",
     "wordlists"
   ],
+  "types": "index.d.ts",
   "dependencies": {
     "@noble/hashes": "~1.0.0",
     "@scure/base": "~1.0.0-rc1"
