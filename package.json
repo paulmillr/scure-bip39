@@ -10,12 +10,12 @@
   ],
   "dependencies": {
     "@noble/hashes": "~1.0.0",
-    "@scure/base": "~1.0.0-rc1",
-    "prettier": "^2.4.1"
+    "@scure/base": "~1.0.0-rc1"
   },
   "devDependencies": {
-    "@types/mocha": "^9.0.0",
-    "mocha": "^9.1.3",
+    "@types/mocha": "9.0.0",
+    "mocha": "9.1.3",
+    "prettier": "2.4.1",
     "typescript": "4.5.4"
   },
   "author": "Paul Miller (https://paulmillr.com)",
