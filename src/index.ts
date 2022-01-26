@@ -27,9 +27,17 @@ function assertEntropy(entropy: Uint8Array) {
   assertBytes(entropy, 16, 20, 24, 28, 32);
 }
 
+/**
+ * Generate x random words. Uses cryptographically secure Random Number Generator.
+ * @param wordlist imported wordlist for specific language
+ * @param strength mnemonic strength 128-256 bits
+ * @example
+ * generateMnemonic(wordlist, 128)
+ * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
+ */
 export function generateMnemonic(wordlist: string[], strength: number = 128): string {
   assertNumber(strength);
-  if (strength % 32 !== 0 || strength > 524288) throw new TypeError('Invalid entropy');
+  if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy');
   return entropyToMnemonic(randomBytes(strength / 8), wordlist);
 }
 
@@ -54,6 +62,19 @@ function getCoder(wordlist: string[]) {
   );
 }
 
+/**
+ * Reversible: Converts mnemonic string to raw entropy in form of byte array.
+ * @param mnemonic 12-24 words
+ * @param wordlist imported wordlist for specific language
+ * @example
+ * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+ * mnemonicToEntropy(mnem, wordlist)
+ * // Produces
+ * new Uint8Array([
+ *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
+ *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
+ * ])
+ */
 export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Array {
   const { words } = normalize(mnemonic);
   const entropy = getCoder(wordlist).decode(words);
@@ -61,12 +82,28 @@ export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Ar
   return entropy;
 }
 
+/**
+ * Reversible: Converts raw entropy in form of byte array to mnemonic string.
+ * @param entropy byte array
+ * @param wordlist imported wordlist for specific language
+ * @returns 12-24 words
+ * @example
+ * const ent = new Uint8Array([
+ *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
+ *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
+ * ]);
+ * entropyToMnemonic(ent, wordlist);
+ * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
+ */
 export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string {
   assertEntropy(entropy);
   const words = getCoder(wordlist).encode(entropy);
   return words.join(isJapanese(wordlist) ? '\u3000' : ' ');
 }
 
+/**
+ * Validates mnemonic for being 12-24 words contained in `wordlist`
+ */
 export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean {
   try {
     mnemonicToEntropy(mnemonic, wordlist);
@@ -78,10 +115,30 @@ export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean 
 
 const salt = (passphrase: string) => nfkd(`mnemonic${passphrase}`);
 
+/**
+ * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic.
+ * @param mnemonic 12-24 words
+ * @param passphrase string that will additionally protect the key
+ * @returns 64 bytes of key data
+ * @example
+ * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+ * await mnemonicToSeed(mnem, 'password');
+ * // new Uint8Array([...64 bytes])
+ */
 export function mnemonicToSeed(mnemonic: string, passphrase = '') {
   return pbkdf2Async(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
 }
 
+/**
+ * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic.
+ * @param mnemonic 12-24 words
+ * @param passphrase string that will additionally protect the key
+ * @returns 64 bytes of key data
+ * @example
+ * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+ * mnemonicToSeedSync(mnem, 'password');
+ * // new Uint8Array([...64 bytes])
+ */
 export function mnemonicToSeedSync(mnemonic: string, passphrase = '') {
   return pbkdf2(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
 }
