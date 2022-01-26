@@ -11,16 +11,25 @@ const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u
 // Normalization replaces equivalent sequences of characters
 // so that any two texts that are equivalent will be reduced
 // to the same sequence of code points, called the normal form of the original text.
-const nfkd = (str: string) => str.normalize('NFKD');
+function nfkd(str: string) {
+  if (typeof str !== 'string') throw new TypeError(`Invalid mnemonic type: ${typeof str}`);
+  return str.normalize('NFKD');
+}
 
-function assertMnemonic(mnemonic: string) {
-  if (typeof mnemonic !== 'string')
-    throw new TypeError(`Invalid mnemonic type: ${typeof mnemonic}`);
+function normalize(str: string) {
+  const norm = nfkd(str);
+  const words = norm.split(' ');
+  if (![12, 15, 18, 21, 24].includes(words.length)) throw new Error('Invalid mnemonic');
+  return { nfkd: norm, words };
+}
+
+function assertEntropy(entropy: Uint8Array) {
+  assertBytes(entropy, 16, 20, 24, 28, 32);
 }
 
 export function generateMnemonic(wordlist: string[], strength: number = 128): string {
   assertNumber(strength);
-  if (strength % 32 !== 0) throw new TypeError('Invalid entropy');
+  if (strength % 32 !== 0 || strength > 524288) throw new TypeError('Invalid entropy');
   return entropyToMnemonic(randomBytes(strength / 8), wordlist);
 }
 
@@ -46,16 +55,14 @@ function getCoder(wordlist: string[]) {
 }
 
 export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Array {
-  assertMnemonic(mnemonic);
-  const words = nfkd(mnemonic).split(' ');
-  if (![12, 15, 18, 21, 24].includes(words.length)) throw new Error('Invalid mnemonic');
+  const { words } = normalize(mnemonic);
   const entropy = getCoder(wordlist).decode(words);
-  assertBytes(entropy, 16, 20, 24, 28, 32);
+  assertEntropy(entropy);
   return entropy;
 }
 
 export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string {
-  assertBytes(entropy, 16, 20, 24, 28, 32);
+  assertEntropy(entropy);
   const words = getCoder(wordlist).encode(entropy);
   return words.join(isJapanese(wordlist) ? '\u3000' : ' ');
 }
@@ -69,14 +76,12 @@ export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean 
   return true;
 }
 
-const salt = (passphrase = '') => nfkd(`mnemonic${passphrase}`);
+const salt = (passphrase: string) => nfkd(`mnemonic${passphrase}`);
 
 export function mnemonicToSeed(mnemonic: string, passphrase = '') {
-  assertMnemonic(mnemonic);
-  return pbkdf2Async(sha512, nfkd(mnemonic), salt(passphrase), { c: 2048, dkLen: 64 });
+  return pbkdf2Async(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
 }
 
 export function mnemonicToSeedSync(mnemonic: string, passphrase = '') {
-  assertMnemonic(mnemonic);
-  return pbkdf2(sha512, nfkd(mnemonic), salt(passphrase), { c: 2048, dkLen: 64 });
+  return pbkdf2(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
 }
