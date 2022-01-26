@@ -21,17 +21,22 @@ Or
 ```js
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-// Generate 12 random words
+
+// Generate x random words. Uses Cryptographically-Secure Random Number Generator.
 const mn = bip39.generateMnemonic(wordlist);
 console.log(mn);
 
-// Reversible; convert mnemonic to byte array
-bip39.entropyToMnemonic(bip39.mnemonicToEntropy(mn, wordlist));
+// Reversible: Converts mnemonic string to raw entropy in form of byte array.
+const ent = bip39.mnemonicToEntropy(mn, wordlist)
 
-// Validate
+// Reversible: Converts raw entropy in form of byte array to mnemonic string.
+bip39.entropyToMnemonic(ent, wordlist);
+
+// Validates mnemonic for being 12-24 words contained in `wordlist`.
 bip39.validateMnemonic(mn, wordlist);
 
-// Irreversible, there is no seedToMnemonic
+// Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
+await bip39.mnemonicToSeed(mn, 'password');
 bip39.mnemonicToSeedSync(mn, 'password');
 ```
 

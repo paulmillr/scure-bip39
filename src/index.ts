@@ -28,7 +28,7 @@ function assertEntropy(entropy: Uint8Array) {
 }
 
 /**
- * Generate x random words. Uses cryptographically secure Random Number Generator.
+ * Generate x random words. Uses Cryptographically-Secure Random Number Generator.
  * @param wordlist imported wordlist for specific language
  * @param strength mnemonic strength 128-256 bits
  * @example
@@ -102,7 +102,7 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): stri
 }
 
 /**
- * Validates mnemonic for being 12-24 words contained in `wordlist`
+ * Validates mnemonic for being 12-24 words contained in `wordlist`.
  */
 export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean {
   try {
@@ -116,7 +116,7 @@ export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean 
 const salt = (passphrase: string) => nfkd(`mnemonic${passphrase}`);
 
 /**
- * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic.
+ * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
  * @param mnemonic 12-24 words
  * @param passphrase string that will additionally protect the key
  * @returns 64 bytes of key data
@@ -130,7 +130,7 @@ export function mnemonicToSeed(mnemonic: string, passphrase = '') {
 }
 
 /**
- * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic.
+ * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
  * @param mnemonic 12-24 words
  * @param passphrase string that will additionally protect the key
  * @returns 64 bytes of key data
