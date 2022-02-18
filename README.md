@@ -12,6 +12,17 @@ Compared to popular `bip39` package, scure-bip39:
 Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
 hierarchical deterministic wallets ("HD Wallets").
 
+### This library belongs to *scure*
+
+> **scure** — secure audited packages for every use case.
+
+- Independent security audits
+- All releases are signed with PGP keys
+- Check out all libraries:
+  [base](https://github.com/paulmillr/scure-base),
+  [bip32](https://github.com/paulmillr/scure-bip32),
+  [bip39](https://github.com/paulmillr/scure-bip39)
+
 ## Usage
 
 > npm install @scure/bip39
