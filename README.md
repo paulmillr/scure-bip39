@@ -1,12 +1,16 @@
 # scure-bip39
 
-Secure, audited & minimal implementation of BIP39 mnemonic phrases.
+Secure, [audited](#security) & minimal implementation of BIP39 mnemonic phrases.
 
-Developed for
-[js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography). Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
+Compared to popular `bip39` package, scure-bip39:
+
+- Is 491KB all-bundled instead of 1.3MB
+- Uses 2 dependencies instead of 15
+- Wordlists are 157KB instead of 315KB
+- Had an external security [audit](#security) by Cure53 on Jan 5, 2022
+
+Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
 hierarchical deterministic wallets ("HD Wallets").
-
-The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf). Before the audit it was called `micro-base39`.
 
 ## Usage
 
@@ -64,6 +68,15 @@ import { wordlist } from '@scure/bip39/wordlists/simplified-chinese';
 import { wordlist } from '@scure/bip39/wordlists/spanish';
 import { wordlist } from '@scure/bip39/wordlists/traditional-chinese';
 ```
+
+## Security
+
+The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf).
+
+1. The library was initially developed for [js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography)
+2. At commit [ae00e6d7](https://github.com/ethereum/js-ethereum-cryptography/commit/ae00e6d7d24fb3c76a1c7fe10039f6ecd120b77e), it
+  was extracted to a separate package called `micro-bip39`
+3. After the audit we've decided to use NPM namespace for security. Since `@micro` namespace was taken, we've renamed the package to `@scure/bip39`
 
 ## License
 
