@@ -1,8 +1,9 @@
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
+import assert from '@noble/hashes/_assert';
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2';
 import { sha256 } from '@noble/hashes/sha256';
 import { sha512 } from '@noble/hashes/sha512';
-import { assertBytes, assertNumber, randomBytes } from '@noble/hashes/utils';
+import { randomBytes } from '@noble/hashes/utils';
 import { utils as baseUtils } from '@scure/base';
 
 // Japanese wordlist
@@ -24,7 +25,7 @@ function normalize(str: string) {
 }
 
 function assertEntropy(entropy: Uint8Array) {
-  assertBytes(entropy, 16, 20, 24, 28, 32);
+  assert.bytes(entropy, 16, 20, 24, 28, 32);
 }
 
 /**
@@ -36,7 +37,7 @@ function assertEntropy(entropy: Uint8Array) {
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
  */
 export function generateMnemonic(wordlist: string[], strength: number = 128): string {
-  assertNumber(strength);
+  assert.number(strength);
   if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy');
   return entropyToMnemonic(randomBytes(strength / 8), wordlist);
 }

@@ -11,8 +11,8 @@
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "@noble/hashes": "~1.0.0",
-    "@scure/base": "~1.0.0"
+    "@noble/hashes": "~1.1.1",
+    "@scure/base": "~1.1.0"
   },
   "devDependencies": {
     "@types/mocha": "9.0.0",
