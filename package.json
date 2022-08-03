@@ -39,8 +39,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "lint": "prettier --check 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
-    "format": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
+    "lint": "prettier --check 'src/**/*.ts' 'test/*.test.ts'",
+    "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts'",
     "test": "cd test && tsc && mocha bip39.test.js"
   },
   "keywords": [
