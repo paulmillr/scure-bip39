@@ -90,7 +90,7 @@ describe('BIP39', () => {
     });
   });
 
-  describe('Menonic to seed', () => {
+  describe('Mnemonic to seed', () => {
     describe('Without passphrase', () => {
       const MENMONIC =
         'koala óxido urbe crudo momia idioma boina rostro títere dilema himno víspera';
@@ -101,7 +101,7 @@ describe('BIP39', () => {
 
       describe('Sync', () => {
         it('Should recover the right seed', () => {
-          const recoveredSeed = mnemonicToSeedSync(MENMONIC);
+          const recoveredSeed = mnemonicToSeedSync(MENMONIC, spanishWordlist);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
         });
       });
@@ -126,7 +126,7 @@ describe('BIP39', () => {
 
       describe('Sync', () => {
         it('Should recover the right seed', () => {
-          const recoveredSeed = mnemonicToSeedSync(MENMONIC, PASSPHRASE);
+          const recoveredSeed = mnemonicToSeedSync(MENMONIC, spanishWordlist, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
         });
       });
@@ -395,9 +395,13 @@ describe('BIP39', () => {
       i: number
     ) {
       const [entropy, mnemonic, seed] = v;
-      describe(`for ${description} (${i}), ${entropy}`, async () => {
+      it(`for ${description} (${i}), ${entropy}`, async () => {
         deepStrictEqual(toHex(mnemonicToEntropy(mnemonic, wordlist)), entropy, 'mnemonicToEntropy');
-        deepStrictEqual(toHex(mnemonicToSeedSync(mnemonic, password)), seed, 'mnemonicToSeedSync');
+        deepStrictEqual(
+          toHex(mnemonicToSeedSync(mnemonic, wordlist, password)),
+          seed,
+          'mnemonicToSeedSync'
+        );
         const res = await mnemonicToSeed(mnemonic, password);
         deepStrictEqual(toHex(res), seed, 'mnemonicToSeed');
         deepStrictEqual(
@@ -420,35 +424,36 @@ describe('BIP39', () => {
         i
       );
     }
-    describe('Invalid entropy', () => {
+    it('Invalid entropy', () => {
       throws(() => entropyToMnemonic(new Uint8Array([]), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array([0, 0, 0]), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array(1028), englishWordlist));
     });
-    describe('UTF8 passwords', () => {
+    it('UTF8 passwords', () => {
       for (const [_, mnemonic, seed] of VECTORS.japanese) {
         const password = '㍍ガバヴァぱばぐゞちぢ十人十色';
         const normalizedPassword = 'メートルガバヴァぱばぐゞちぢ十人十色';
         deepStrictEqual(
-          toHex(mnemonicToSeedSync(mnemonic, password)),
+          toHex(mnemonicToSeedSync(mnemonic, japaneseWordlist, password)),
           seed,
           'mnemonicToSeedSync normalizes passwords'
         );
         deepStrictEqual(
-          toHex(mnemonicToSeedSync(mnemonic, normalizedPassword)),
+          toHex(mnemonicToSeedSync(mnemonic, japaneseWordlist, normalizedPassword)),
           seed,
           'mnemonicToSeedSync leaves normalizes passwords as-is'
         );
       }
     });
-    describe('generateMnemonic can vary entropy length', () => {
-      deepStrictEqual(
-        generateMnemonic(englishWordlist, 160).split(' ').length,
-        15,
-        'can vary generated entropy bit length'
-      );
+    it('generateMnemonic can vary entropy length', () => {
+      const mnemonicAsUint8 = generateMnemonic(englishWordlist, 160);
+      const recoveredIndices = Array.from(new Uint16Array(mnemonicAsUint8.buffer));
+
+      const mnemonicAsString = recoveredIndices.map((i) => englishWordlist[i]);
+
+      deepStrictEqual(mnemonicAsString, 15, 'can vary generated entropy bit length');
     });
-    describe('validateMnemonic', () => {
+    it('validateMnemonic', () => {
       deepStrictEqual(
         validateMnemonic('sleep kitten', englishWordlist),
         false,
