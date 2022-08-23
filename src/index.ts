@@ -74,7 +74,7 @@ function getCoder(wordlist: string[]) {
  * ])
  */
 export function mnemonicToEntropy(
-  mnemonic: string | Buffer | Uint8Array,
+  mnemonic: string | Buffer | number[] | Uint8Array,
   wordlist: string[]
 ): Uint8Array {
   let entropy;
@@ -83,6 +83,8 @@ export function mnemonicToEntropy(
     entropy = getCoder(wordlist).decode(normalize(mnemonicAsBuffer.toString()).words);
   } else if (Buffer.isBuffer(mnemonic)) {
     entropy = getCoder(wordlist).decode(normalize(mnemonic.toString()).words);
+  } else if (Array.isArray(mnemonic)) {
+    entropy = getCoder(wordlist).decode(normalize(Buffer.from(mnemonic).toString()).words);
   } else {
     entropy = getCoder(wordlist).decode(
       Array.from(new Uint16Array(mnemonic.buffer)).map((i) => wordlist[i])
@@ -120,7 +122,7 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): Uint
  * Validates mnemonic for being 12-24 words contained in `wordlist`.
  */
 export function validateMnemonic(
-  mnemonic: string | Buffer | Uint8Array,
+  mnemonic: string | Buffer | number[] | Uint8Array,
   wordlist: string[]
 ): boolean {
   try {
