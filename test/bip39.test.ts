@@ -63,6 +63,12 @@ describe('BIP39', () => {
         ),
         true
       );
+
+      const indices = ['jump police vessel depth mutual idea cable soap trophy dust hold wink'].map(
+        (word) => englishWordlist.indexOf(word)
+      );
+      const uInt8ArrayOfMnemonic = new Uint8Array(new Uint16Array(indices).buffer);
+      deepStrictEqual(validateMnemonic(uInt8ArrayOfMnemonic, englishWordlist), true);
     });
 
     it('should reject invalid menomics', () => {
@@ -103,6 +109,16 @@ describe('BIP39', () => {
         it('Should recover the right seed', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC, spanishWordlist);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
+
+          // with Uint8Array formatted mnemonic
+          const indices = MENMONIC.split(' ').map((word) => spanishWordlist.indexOf(word));
+          const uInt8ArrayOfMnemonic = new Uint8Array(new Uint16Array(indices).buffer);
+
+          const recoveredSeedWithUint8ArrayMnemonic = mnemonicToSeedSync(
+            uInt8ArrayOfMnemonic,
+            spanishWordlist
+          );
+          deepStrictEqual(equalsBytes(SEED, recoveredSeedWithUint8ArrayMnemonic), true);
         });
       });
 
@@ -125,9 +141,23 @@ describe('BIP39', () => {
       );
 
       describe('Sync', () => {
-        it('Should recover the right seed', () => {
+        it('Should recover the right seed with mnemonic passed as string', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC, spanishWordlist, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
+        });
+
+        it('Should recover the right seed with mnemonic passed as Uint8Array', () => {
+          // with Uint8Array formatted mnemonic
+          const indices = MENMONIC.split(' ').map((word) => spanishWordlist.indexOf(word));
+          const uInt8ArrayOfMnemonic = new Uint8Array(new Uint16Array(indices).buffer);
+
+          const recoveredSeedWithUint8ArrayMnemonic = mnemonicToSeedSync(
+            uInt8ArrayOfMnemonic,
+            spanishWordlist,
+            PASSPHRASE
+          );
+
+          deepStrictEqual(SEED, recoveredSeedWithUint8ArrayMnemonic);
         });
       });
 

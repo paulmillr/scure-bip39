@@ -74,17 +74,15 @@ function getCoder(wordlist: string[]) {
  * ])
  */
 export function mnemonicToEntropy(
-  mnemonic: string | Buffer | Uint8Array,
+  mnemonic: string | Uint8Array,
   wordlist: string[]
 ): Uint8Array {
   let entropy;
   if (typeof mnemonic === 'string') {
     const mnemonicAsBuffer = Buffer.from(normalize(mnemonic).nfkd, 'utf8');
     entropy = getCoder(wordlist).decode(normalize(mnemonicAsBuffer.toString()).words);
-  } else if (Buffer.isBuffer(mnemonic)) {
-    entropy = getCoder(wordlist).decode(normalize(mnemonic.toString()).words);
   } else {
-    // expected if intanceOf Uint8Array
+    // expected intanceOf Uint8Array when used with eth-hd-keyring
     entropy = getCoder(wordlist).decode(
       Array.from(new Uint16Array(mnemonic.buffer)).map((i) => wordlist[i])
     );
@@ -118,7 +116,7 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): Uint
  * Validates mnemonic for being 12-24 words contained in `wordlist`.
  */
 export function validateMnemonic(
-  mnemonic: string | Buffer | Uint8Array,
+  mnemonic: string | Uint8Array,
   wordlist: string[]
 ): boolean {
   try {
@@ -156,15 +154,13 @@ export function mnemonicToSeed(mnemonic: string, passphrase = '') {
  * // new Uint8Array([...64 bytes])
  */
 export function mnemonicToSeedSync(
-  mnemonic: string | Buffer | Uint8Array,
+  mnemonic: string | Uint8Array,
   wordlist: string[],
   passphrase = ''
 ) {
   let mnemonicBuffer;
   if (typeof mnemonic === 'string') {
     mnemonicBuffer = Buffer.from(normalize(mnemonic).nfkd, 'utf8');
-  } else if (Buffer.isBuffer(mnemonic)) {
-    mnemonicBuffer = mnemonic;
   } else {
     mnemonicBuffer = Buffer.from(
       Array.from(new Uint16Array(mnemonic.buffer))
