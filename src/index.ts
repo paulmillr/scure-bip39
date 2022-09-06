@@ -158,15 +158,15 @@ export function mnemonicToSeedSync(
   wordlist: string[],
   passphrase = ''
 ) {
-  let mnemonicBuffer;
+  let mnemonicUint8Array;
   if (typeof mnemonic === 'string') {
-    mnemonicBuffer = Buffer.from(normalize(mnemonic).nfkd, 'utf8');
+    mnemonicUint8Array = new TextEncoder().encode(normalize(mnemonic).nfkd)
   } else {
-    mnemonicBuffer = Buffer.from(
+    mnemonicUint8Array = new TextEncoder().encode(
       Array.from(new Uint16Array(mnemonic.buffer))
         .map((i) => wordlist[i])
         .join(' ')
     );
   }
-  return pbkdf2(sha512, mnemonicBuffer, salt(passphrase), { c: 2048, dkLen: 64 });
+  return pbkdf2(sha512, mnemonicUint8Array, salt(passphrase), { c: 2048, dkLen: 64 });
 }
