@@ -1,6 +1,6 @@
 // Minimal assert version to avoid dependecies on node internals
 // Allows to verify that none of brwoserify version of node internals is included in resulting build
-async function deepStrictEqual(actual: unknown, expected: unknown, message?: string) {
+function deepStrictEqual(actual: unknown, expected: unknown, message?: string) {
   const [actualType, expectedType] = [typeof actual, typeof expected];
   const err = new Error(
     `Non-equal values: actual=${actual} (type=${actualType}) expected=${expected} (type=${expectedType})${
