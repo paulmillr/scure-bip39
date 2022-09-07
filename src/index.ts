@@ -73,10 +73,7 @@ function getCoder(wordlist: string[]) {
  *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
  * ])
  */
-export function mnemonicToEntropy(
-  mnemonic: string | Uint8Array,
-  wordlist: string[]
-): Uint8Array {
+export function mnemonicToEntropy(mnemonic: string | Uint8Array, wordlist: string[]): Uint8Array {
   let entropy;
   if (typeof mnemonic === 'string') {
     const mnemonicAsBuffer = Buffer.from(normalize(mnemonic).nfkd, 'utf8');
@@ -115,10 +112,7 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): Uint
 /**
  * Validates mnemonic for being 12-24 words contained in `wordlist`.
  */
-export function validateMnemonic(
-  mnemonic: string | Uint8Array,
-  wordlist: string[]
-): boolean {
+export function validateMnemonic(mnemonic: string | Uint8Array, wordlist: string[]): boolean {
   try {
     mnemonicToEntropy(mnemonic, wordlist);
   } catch (e) {
@@ -160,7 +154,7 @@ export function mnemonicToSeedSync(
 ) {
   let mnemonicUint8Array;
   if (typeof mnemonic === 'string') {
-    mnemonicUint8Array = new TextEncoder().encode(normalize(mnemonic).nfkd)
+    mnemonicUint8Array = new TextEncoder().encode(normalize(mnemonic).nfkd);
   } else {
     mnemonicUint8Array = new TextEncoder().encode(
       Array.from(new Uint16Array(mnemonic.buffer))
