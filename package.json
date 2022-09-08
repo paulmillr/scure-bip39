@@ -1,5 +1,5 @@
 {
-  "name": "@scure/bip39",
+  "name": "@metamask/scure-bip39",
   "version": "1.1.0",
   "description": "Secure, audited & minimal implementation of BIP39 mnemonic phrases",
   "main": "index.js",
