@@ -534,7 +534,6 @@ describe('BIP39', () => {
         '346b7321d8c04f6f37b49fdf062a2fddc8e1bf8f1d33171b65074531ec546d1d3469974beccb1a09263440fc92e1042580a557fdce314e27ee4eabb25fa5e5fe',
       ],
     ],
-    
   };
   describe('BIP39-lib vectors', () => {
     function testVector(
