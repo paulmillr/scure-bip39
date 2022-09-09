@@ -1,3 +1,8 @@
+
+## MetaMask fork
+
+This is a temporary fork of the `@scure/bip39` package created by the MetaMask team. Please do not use this package for other projects, use `@scure/bip39` directly instead. We are not interested in maintaining this long-term. We will not be accepting community issues or PRs.
+
 # scure-bip39
 
 Secure, [audited](#security) & minimal implementation of BIP39 mnemonic phrases.
@@ -25,15 +30,15 @@ hierarchical deterministic wallets ("HD Wallets").
 
 ## Usage
 
-> npm install @scure/bip39
+> npm install @metamask/scure-bip39
 
 Or
 
-> yarn add @scure/bip39
+> yarn add @metamask/scure-bip39
 
 ```js
-import * as bip39 from '@scure/bip39';
-import { wordlist } from '@scure/bip39/wordlists/english';
+import * as bip39 from '@metamask/scure-bip39';
+import { wordlist } from '@metamask/scure-bip39/wordlists/english';
 
 // Generate x random words. Uses Cryptographically-Secure Random Number Generator.
 const mn = bip39.generateMnemonic(wordlist);
@@ -67,15 +72,15 @@ function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
 All wordlists:
 
 ```typescript
-import { wordlist } from '@scure/bip39/wordlists/czech';
-import { wordlist } from '@scure/bip39/wordlists/english';
-import { wordlist } from '@scure/bip39/wordlists/french';
-import { wordlist } from '@scure/bip39/wordlists/italian';
-import { wordlist } from '@scure/bip39/wordlists/japanese';
-import { wordlist } from '@scure/bip39/wordlists/korean';
-import { wordlist } from '@scure/bip39/wordlists/simplified-chinese';
-import { wordlist } from '@scure/bip39/wordlists/spanish';
-import { wordlist } from '@scure/bip39/wordlists/traditional-chinese';
+import { wordlist } from '@metamask/scure-bip39/wordlists/czech';
+import { wordlist } from '@metamask/scure-bip39/wordlists/english';
+import { wordlist } from '@metamask/scure-bip39/wordlists/french';
+import { wordlist } from '@metamask/scure-bip39/wordlists/italian';
+import { wordlist } from '@metamask/scure-bip39/wordlists/japanese';
+import { wordlist } from '@metamask/scure-bip39/wordlists/korean';
+import { wordlist } from '@metamask/scure-bip39/wordlists/simplified-chinese';
+import { wordlist } from '@metamask/scure-bip39/wordlists/spanish';
+import { wordlist } from '@metamask/scure-bip39/wordlists/traditional-chinese';
 ```
 
 ## Security
@@ -86,6 +91,7 @@ The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF]
 2. At commit [ae00e6d7](https://github.com/ethereum/js-ethereum-cryptography/commit/ae00e6d7d24fb3c76a1c7fe10039f6ecd120b77e), it
   was extracted to a separate package called `micro-bip39`
 3. After the audit we've decided to use NPM namespace for security. Since `@micro` namespace was taken, we've renamed the package to `@scure/bip39`
+4. As a modified fork for use by MetaMask, the package name is changed to `@metamask/scure-bip39`.
 
 ## License
 
