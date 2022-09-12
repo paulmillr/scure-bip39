@@ -77,7 +77,7 @@ export function mnemonicToEntropy(mnemonic: string | Uint8Array, wordlist: strin
   let entropy;
   if (typeof mnemonic === 'string') {
     const { words } = normalize(mnemonic);
-    entropy = getCoder(wordlist).decode(words)
+    entropy = getCoder(wordlist).decode(words);
   } else {
     // expected intanceOf Uint8Array when used with eth-hd-keyring
     entropy = getCoder(wordlist).decode(
