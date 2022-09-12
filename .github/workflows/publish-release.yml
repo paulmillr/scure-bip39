@@ -62,8 +62,6 @@ jobs:
       - name: Dry Run Publish
         # omit npm-token token to perform dry run publish
         uses: MetaMask/action-npm-publish@v1.1.0
-        env:
-          SKIP_PREPACK: true
 
   publish-npm:
     environment: npm-publish
@@ -84,5 +82,3 @@ jobs:
         uses: MetaMask/action-npm-publish@v1.1.0
         with:
           npm-token: ${{ secrets.NPM_TOKEN }}
-        env:
-          SKIP_PREPACK: true
