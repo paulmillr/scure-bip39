@@ -24,17 +24,11 @@
   "author": "Paul Miller (https://paulmillr.com)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/scure-bip39.git"
+    "url": "git+https://github.com/MetaMask/scure-bip39.git"
   },
   "contributors": [
-    {
-      "name": "Patricio Palladino",
-      "email": "patricio@nomiclabs.io"
-    },
-    {
-      "name": "Paul Miller",
-      "url": "https://paulmillr.com"
-    }
+    "Patricio Palladino <patricio@nomiclabs.io>",
+    "Paul Miller (https://paulmillr.com)"
   ],
   "license": "MIT",
   "scripts": {
@@ -54,5 +48,16 @@
     "scure",
     "wordlist",
     "noble"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/MetaMask/scure-bip39/issues"
+  },
+  "homepage": "https://github.com/MetaMask/scure-bip39#readme",
+  "directories": {
+    "test": "test"
+  }
 }
