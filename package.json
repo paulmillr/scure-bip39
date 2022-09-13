@@ -24,7 +24,7 @@
   "author": "Paul Miller (https://paulmillr.com)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MetaMask/scure-bip39.git"
+    "url": "https://github.com/MetaMask/scure-bip39.git"
   },
   "contributors": [
     "Patricio Palladino <patricio@nomiclabs.io>",
