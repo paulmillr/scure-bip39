@@ -7,7 +7,7 @@
     "rootDirs": [
       "."
     ],
-    "outDir": ".",
+    "outDir": "./dist",
     "sourceMap": false,
     "noUnusedLocals": true,
     "declaration": true,

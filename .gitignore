@@ -8,3 +8,4 @@
 /test/*.d.ts
 /test/*.js
 /node_modules
+/dist

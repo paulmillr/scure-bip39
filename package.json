@@ -4,10 +4,7 @@
   "description": "MetaMask fork of @scure/bip39: a secure, audited & minimal implementation of BIP39 mnemonic phrases",
   "main": "index.js",
   "files": [
-    "index.js",
-    "index.d.ts",
-    "wordlists/*.js",
-    "wordlists/*.d.ts"
+    "dist/"
   ],
   "types": "index.d.ts",
   "dependencies": {
