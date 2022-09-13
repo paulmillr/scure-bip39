@@ -6,4 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/MetaMask/scure-bip39/
+## [2.0.0]
+### Changed
+- Apply patches to allow passing mnemonic as a Uint8Array instead of as a string [#1](https://github.com/MetaMask/scure-bip39/pull/1)
+
+[Unreleased]: https://github.com/MetaMask/scure-bip39/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/MetaMask/scure-bip39/releases/tag/v2.0.0
