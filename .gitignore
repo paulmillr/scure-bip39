@@ -8,4 +8,4 @@
 /test/*.d.ts
 /test/*.js
 node_modules
-lib
+lib/**/**.js
