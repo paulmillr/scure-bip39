@@ -3,6 +3,48 @@
   "version": "1.1.0",
   "description": "Secure, audited & minimal implementation of BIP39 mnemonic phrases",
   "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    },
+    "./wordlists/czech": {
+      "import": "./lib/esm/wordlists/czech.js",
+      "default": "./lib/esm/wordlists/czech.js"
+    },
+    "./wordlists/english": {
+      "import": "./lib/esm/wordlists/english.js",
+      "default": "./lib/esm/wordlists/english.js"
+    },
+    "./wordlists/french": {
+      "import": "./lib/esm/wordlists/french.js",
+      "default": "./lib/esm/wordlists/french.js"
+    },
+    "./wordlists/italian": {
+      "import": "./lib/esm/wordlists/italian.js",
+      "default": "./lib/esm/wordlists/italian.js"
+    },
+    "./wordlists/japanese": {
+      "import": "./lib/esm/wordlists/japanese.js",
+      "default": "./lib/esm/wordlists/japanese.js"
+    },
+    "./wordlists/korean": {
+      "import": "./lib/esm/wordlists/korean.js",
+      "default": "./lib/esm/wordlists/korean.js"
+    },
+    "./wordlists/simplified-chinese": {
+      "import": "./lib/esm/wordlists/simplified-chinese.js",
+      "default": "./lib/esm/wordlists/simplified-chinese.js"
+    },
+    "./wordlists/spanish": {
+      "import": "./lib/esm/wordlists/spanish.js",
+      "default": "./lib/esm/wordlists/spanish.js"
+    },
+    "./wordlists/traditional-chinese": {
+      "import": "./lib/esm/wordlists/traditional-chinese.js",
+      "default": "./lib/esm/wordlists/traditional-chinese.js"
+    }
+  },
   "files": [
     "index.js",
     "index.d.ts",
@@ -38,7 +80,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.esm.json",
     "lint": "prettier --check 'src/**/*.ts' 'test/*.test.ts'",
     "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts'",
     "test": "cd test && tsc && mocha bip39.test.js"

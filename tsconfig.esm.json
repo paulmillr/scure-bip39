@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "lib/esm",
+    "target": "es2020",
+    "module": "es6",
+    "moduleResolution": "node16",
+    "noUnusedLocals": true,
+    "baseUrl": ".",
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+  ],
+}
