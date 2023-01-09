@@ -11,6 +11,7 @@ import { wordlist as japaneseWordlist } from '../wordlists/japanese';
 import { wordlist as spanishWordlist } from '../wordlists/spanish';
 import { bytesToHex as toHex } from '@noble/hashes/utils';
 import { deepStrictEqual, throws } from './assert';
+import { it, describe } from 'micro-should';
 
 export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) {
@@ -33,7 +34,9 @@ export function hexToBytes(hex: string): Uint8Array {
   const array = new Uint8Array(hex.length / 2);
   for (let i = 0; i < array.length; i++) {
     const j = i * 2;
-    array[i] = Number.parseInt(hex.slice(j, j + 2), 16);
+    const byte = Number.parseInt(hex.slice(j, j + 2), 16);
+    if (Number.isNaN(byte) || byte < 0) throw new Error('Invalid byte sequence');
+    array[i] = byte;
   }
   return array;
 }
@@ -90,7 +93,7 @@ describe('BIP39', () => {
     });
   });
 
-  describe('Menonic to seed', () => {
+  describe('Mnemonic to seed', () => {
     describe('Without passphrase', () => {
       const MENMONIC =
         'koala óxido urbe crudo momia idioma boina rostro títere dilema himno víspera';
@@ -100,14 +103,14 @@ describe('BIP39', () => {
       );
 
       describe('Sync', () => {
-        it('Should recover the right seed', () => {
+        it('recover the right seed', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
         });
       });
 
       describe('Async', () => {
-        it('Should recover the right seed', async () => {
+        it('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
         });
@@ -125,14 +128,14 @@ describe('BIP39', () => {
       );
 
       describe('Sync', () => {
-        it('Should recover the right seed', () => {
+        it('recover the right seed', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
         });
       });
 
       describe('Async', () => {
-        it('Should recover the right seed', async () => {
+        it('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
         });
@@ -486,3 +489,5 @@ describe('BIP39', () => {
     });
   });
 });
+
+it.run();
