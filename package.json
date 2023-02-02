@@ -11,11 +11,11 @@
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "@noble/hashes": "~1.1.1",
+    "@noble/hashes": "~1.2.0",
     "@scure/base": "~1.1.0"
   },
   "devDependencies": {
-    "micro-should": "0.3.0",
+    "micro-should": "0.4.0",
     "prettier": "2.6.2",
     "typescript": "4.7.3"
   },
