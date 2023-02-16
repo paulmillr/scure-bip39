@@ -14,14 +14,15 @@ hierarchical deterministic wallets ("HD Wallets").
 
 ### This library belongs to *scure*
 
-> **scure** — secure audited packages for every use case.
+> **scure** — secure, independently audited packages for every use case.
 
-- Independent security audits
 - All releases are signed with PGP keys
+- As minimal as possible
 - Check out all libraries:
   [base](https://github.com/paulmillr/scure-base),
   [bip32](https://github.com/paulmillr/scure-bip32),
-  [bip39](https://github.com/paulmillr/scure-bip39)
+  [bip39](https://github.com/paulmillr/scure-bip39),
+  [btc-signer](https://github.com/paulmillr/scure-btc-signer)
 
 ## Usage
 
