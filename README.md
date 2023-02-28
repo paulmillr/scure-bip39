@@ -1,47 +1,25 @@
-# scure-bip39
+# react-native-quick-scure-bip39
 
-Secure, [audited](#security) & minimal implementation of BIP39 mnemonic phrases.
-
-Compared to popular `bip39` package, scure-bip39:
-
-- Is 491KB all-bundled instead of 1.3MB
-- Uses 2 dependencies instead of 15
-- Wordlists are 157KB instead of 315KB
-- Had an external security [audit](#security) by Cure53 on Jan 5, 2022
-
-Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
-hierarchical deterministic wallets ("HD Wallets").
-
-### This library belongs to *scure*
-
-> **scure** — secure, independently audited packages for every use case.
-
-- All releases are signed with PGP keys
-- As minimal as possible
-- Check out all libraries:
-  [base](https://github.com/paulmillr/scure-base),
-  [bip32](https://github.com/paulmillr/scure-bip32),
-  [bip39](https://github.com/paulmillr/scure-bip39),
-  [btc-signer](https://github.com/paulmillr/scure-btc-signer)
+Secure, based on audited [scure-bip39](https://github.com/paulmillr/scure-bip39) and [react-native-quick-crypto](https://github.com/margelo/react-native-quick-crypto) implementation of BIP39 mnemonic phrases
 
 ## Usage
 
-> npm install @scure/bip39
+> npm install react-native-quick-scure-bip39
 
 Or
 
-> yarn add @scure/bip39
+> yarn add react-native-quick-scure-bip39
 
 ```js
-import * as bip39 from '@scure/bip39';
-import { wordlist } from '@scure/bip39/wordlists/english';
+import * as bip39 from 'react-native-quick-scure-bip39';
+import { wordlist } from 'react-native-quick-scure-bip39/wordlists/english';
 
 // Generate x random words. Uses Cryptographically-Secure Random Number Generator.
 const mn = bip39.generateMnemonic(wordlist);
 console.log(mn);
 
 // Reversible: Converts mnemonic string to raw entropy in form of byte array.
-const ent = bip39.mnemonicToEntropy(mn, wordlist)
+const ent = bip39.mnemonicToEntropy(mn, wordlist);
 
 // Reversible: Converts raw entropy in form of byte array to mnemonic string.
 bip39.entropyToMnemonic(ent, wordlist);
@@ -68,28 +46,19 @@ function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
 All wordlists:
 
 ```typescript
-import { wordlist } from '@scure/bip39/wordlists/czech';
-import { wordlist } from '@scure/bip39/wordlists/english';
-import { wordlist } from '@scure/bip39/wordlists/french';
-import { wordlist } from '@scure/bip39/wordlists/italian';
-import { wordlist } from '@scure/bip39/wordlists/japanese';
-import { wordlist } from '@scure/bip39/wordlists/korean';
-import { wordlist } from '@scure/bip39/wordlists/simplified-chinese';
-import { wordlist } from '@scure/bip39/wordlists/spanish';
-import { wordlist } from '@scure/bip39/wordlists/traditional-chinese';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/czech';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/english';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/french';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/italian';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/japanese';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/korean';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/simplified-chinese';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/spanish';
+import { wordlist } from 'react-native-quick-scure-bip39/bip39/wordlists/traditional-chinese';
 ```
-
-## Security
-
-The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf). See [changes since audit](https://github.com/paulmillr/scure-bip39/compare/1.0.0..main).
-
-1. The library was initially developed for [js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography)
-2. At commit [ae00e6d7](https://github.com/ethereum/js-ethereum-cryptography/commit/ae00e6d7d24fb3c76a1c7fe10039f6ecd120b77e), it
-  was extracted to a separate package called `micro-bip39`
-3. After the audit we've decided to use NPM namespace for security. Since `@micro` namespace was taken, we've renamed the package to `@scure/bip39`
 
 ## License
 
 [MIT License](./LICENSE)
 
-Copyright (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com)
+Copyright (c) 2023 Iliya Bolotov (bolotov-iliya.space)

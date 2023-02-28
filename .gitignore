@@ -7,3 +7,5 @@
 /index.d.ts
 /test/*.d.ts
 /test/*.js
+
+node_modules/

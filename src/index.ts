@@ -1,10 +1,8 @@
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
 import assert from '@noble/hashes/_assert';
-import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2';
-import { sha256 } from '@noble/hashes/sha256';
-import { sha512 } from '@noble/hashes/sha512';
-import { randomBytes } from '@noble/hashes/utils';
 import { utils as baseUtils } from '@scure/base';
+import crypto from 'react-native-quick-crypto';
+import { Buffer } from '@craftzdog/react-native-buffer';
 
 // Japanese wordlist
 const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u304f\u3057\u3093';
@@ -39,7 +37,7 @@ function assertEntropy(entropy: Uint8Array) {
 export function generateMnemonic(wordlist: string[], strength: number = 128): string {
   assert.number(strength);
   if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy');
-  return entropyToMnemonic(randomBytes(strength / 8), wordlist);
+  return entropyToMnemonic(new Uint8Array(crypto.randomBytes(strength / 8)), wordlist);
 }
 
 const calcChecksum = (entropy: Uint8Array) => {
@@ -47,7 +45,9 @@ const calcChecksum = (entropy: Uint8Array) => {
   const bitsLeft = 8 - entropy.length / 4;
   // Zero rightmost "bitsLeft" bits in byte
   // For example: bitsLeft=4 val=10111101 -> 10110000
-  return new Uint8Array([(sha256(entropy)[0] >> bitsLeft) << bitsLeft]);
+  return new Uint8Array([
+    (crypto.createHash('sha256').update(entropy).digest()[0] >> bitsLeft) << bitsLeft,
+  ]);
 };
 
 function getCoder(wordlist: string[]) {
@@ -127,7 +127,9 @@ const salt = (passphrase: string) => nfkd(`mnemonic${passphrase}`);
  * // new Uint8Array([...64 bytes])
  */
 export function mnemonicToSeed(mnemonic: string, passphrase = '') {
-  return pbkdf2Async(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
+  const mnemonicBuffer = Buffer.from(normalize(mnemonic).nfkd, 'utf8');
+  const saltBuffer = Buffer.from(salt(passphrase), 'utf8');
+  return crypto.pbkdf2Sync(mnemonicBuffer, saltBuffer, 2048, 64, 'sha512');
 }
 
 /**
@@ -141,5 +143,7 @@ export function mnemonicToSeed(mnemonic: string, passphrase = '') {
  * // new Uint8Array([...64 bytes])
  */
 export function mnemonicToSeedSync(mnemonic: string, passphrase = '') {
-  return pbkdf2(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
+  const mnemonicBuffer = Buffer.from(normalize(mnemonic).nfkd, 'utf8');
+  const saltBuffer = Buffer.from(salt(passphrase), 'utf8');
+  return crypto.pbkdf2Sync(mnemonicBuffer, saltBuffer, 2048, 64, 'sha512');
 }

@@ -1,7 +1,7 @@
 {
-  "name": "@scure/bip39",
+  "name": "react-native-quick-scure-bip39",
   "version": "1.1.1",
-  "description": "Secure, audited & minimal implementation of BIP39 mnemonic phrases",
+  "description": "Secure, based on audited scure-bip39 and react-native-quick-crypto implementation of BIP39 mnemonic phrases",
   "main": "index.js",
   "files": [
     "index.js",
@@ -12,27 +12,24 @@
   "types": "index.d.ts",
   "dependencies": {
     "@noble/hashes": "~1.2.0",
-    "@scure/base": "~1.1.0"
+    "@scure/base": "~1.1.0",
+    "react-native-quick-crypto": "^0.5.0"
   },
   "devDependencies": {
     "micro-should": "0.4.0",
     "prettier": "2.6.2",
     "typescript": "4.7.3"
   },
-  "author": "Paul Miller (https://paulmillr.com)",
-  "homepage": "https://paulmillr.com/",
+  "author": "Iliya Bolotov",
+  "homepage": "https://bolotov-iliya.space/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/paulmillr/scure-bip39.git"
+    "url": "https://github.com/I-Atlas/react-native-quick-scure-bip39.git"
   },
   "contributors": [
     {
-      "name": "Patricio Palladino",
-      "email": "patricio@nomiclabs.io"
-    },
-    {
-      "name": "Paul Miller",
-      "url": "https://paulmillr.com"
+      "name": "Iliya Bolotov",
+      "url": "https://bolotov-iliya.space/"
     }
   ],
   "license": "MIT",
@@ -51,13 +48,9 @@
     "bip-39",
     "micro",
     "scure",
+    "noble",
     "wordlist",
-    "noble"
-  ],
-  "funding": [
-    {
-      "type": "individual",
-      "url": "https://paulmillr.com/funding/"
-    }
+    "react-native",
+    "react-native-quick-bip39"
   ]
 }
