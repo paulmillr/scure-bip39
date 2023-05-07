@@ -4,10 +4,12 @@ Secure, [audited](#security) & minimal implementation of BIP39 mnemonic phrases.
 
 Compared to popular `bip39` package, scure-bip39:
 
+- Supports ESM and common.js
+- Supports tree-shaking: only actually used wordlists are bundled
 - Is 491KB all-bundled instead of 1.3MB
 - Uses 2 dependencies instead of 15
 - Wordlists are 157KB instead of 315KB
-- Had an external security [audit](#security) by Cure53 on Jan 5, 2022
+- Had an external security [audit](#security) by Cure53
 
 Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
 hierarchical deterministic wallets ("HD Wallets").
