@@ -7,3 +7,4 @@
 /index.d.ts
 /test/*.d.ts
 /test/*.js
+/esm
