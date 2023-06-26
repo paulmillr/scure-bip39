@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2020",
+    "lib": ["es2020"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "outDir": "esm",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "baseUrl": ".",
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "lib"]
+}

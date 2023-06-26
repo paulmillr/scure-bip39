@@ -70,15 +70,15 @@ function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
 All wordlists:
 
 ```typescript
-import { wordlist } from '@scure/bip39/wordlists/czech';
-import { wordlist } from '@scure/bip39/wordlists/english';
-import { wordlist } from '@scure/bip39/wordlists/french';
-import { wordlist } from '@scure/bip39/wordlists/italian';
-import { wordlist } from '@scure/bip39/wordlists/japanese';
-import { wordlist } from '@scure/bip39/wordlists/korean';
-import { wordlist } from '@scure/bip39/wordlists/simplified-chinese';
-import { wordlist } from '@scure/bip39/wordlists/spanish';
-import { wordlist } from '@scure/bip39/wordlists/traditional-chinese';
+import { wordlist as czech } from '@scure/bip39/wordlists/czech';
+import { wordlist as english } from '@scure/bip39/wordlists/english';
+import { wordlist as french } from '@scure/bip39/wordlists/french';
+import { wordlist as italian } from '@scure/bip39/wordlists/italian';
+import { wordlist as japanese } from '@scure/bip39/wordlists/japanese';
+import { wordlist as korean } from '@scure/bip39/wordlists/korean';
+import { wordlist as simp } from '@scure/bip39/wordlists/simplified-chinese';
+import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
+import { wordlist as trad } from '@scure/bip39/wordlists/traditional-chinese';
 ```
 
 ## Security
