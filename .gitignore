@@ -8,3 +8,5 @@
 /test/*.d.ts
 /test/*.js
 /esm
+
+node_modules
