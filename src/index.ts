@@ -1,5 +1,5 @@
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
-import assert from '@noble/hashes/_assert';
+import { bytes as assertBytes, number as assertNumber } from '@noble/hashes/_assert';
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2';
 import { sha256 } from '@noble/hashes/sha256';
 import { sha512 } from '@noble/hashes/sha512';
@@ -25,7 +25,7 @@ function normalize(str: string) {
 }
 
 function assertEntropy(entropy: Uint8Array) {
-  assert.bytes(entropy, 16, 20, 24, 28, 32);
+  assertBytes(entropy, 16, 20, 24, 28, 32);
 }
 
 /**
@@ -37,7 +37,7 @@ function assertEntropy(entropy: Uint8Array) {
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
  */
 export function generateMnemonic(wordlist: string[], strength: number = 128): string {
-  assert.number(strength);
+  assertNumber(strength);
   if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy');
   return entropyToMnemonic(randomBytes(strength / 8), wordlist);
 }
