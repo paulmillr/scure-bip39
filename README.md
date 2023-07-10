@@ -18,8 +18,8 @@ hierarchical deterministic wallets ("HD Wallets").
 
 > **scure** — secure, independently audited packages for every use case.
 
-- All releases are signed with PGP keys
-- As minimal as possible
+- Audited by a third-party
+- Releases are signed with PGP keys and built transparently with NPM provenance
 - Check out all libraries:
   [base](https://github.com/paulmillr/scure-base),
   [bip32](https://github.com/paulmillr/scure-bip32),
