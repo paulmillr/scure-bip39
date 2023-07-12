@@ -47,7 +47,7 @@ const calcChecksum = (entropy: Uint8Array) => {
   const bitsLeft = 8 - entropy.length / 4;
   // Zero rightmost "bitsLeft" bits in byte
   // For example: bitsLeft=4 val=10111101 -> 10110000
-  return new Uint8Array([(sha256(entropy)[0] >> bitsLeft) << bitsLeft]);
+  return new Uint8Array([(sha256(entropy)[0]! >> bitsLeft) << bitsLeft]);
 };
 
 function getCoder(wordlist: string[]) {
