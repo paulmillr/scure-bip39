@@ -1,20 +1,23 @@
 {
   "compilerOptions": {
     "target": "es2020",
+    "lib": ["es2020"],
     "module": "commonjs",
-    "strict": true,
     "downlevelIteration": true,
-    "rootDirs": [
-      "."
-    ],
+    "rootDirs": ["."],
     "outDir": ".",
-    "sourceMap": false,
-    "noUnusedLocals": true,
     "declaration": true,
-    "declarationMap": false
+    "declarationMap": false,
+    "strict": true,
+    "allowSyntheticDefaultImports": false,
+    "allowUnreachableCode": false,
+    "esModuleInterop": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "exclude": ["node_modules", "./*.d.ts", "./test/*.d.ts"]
 }
