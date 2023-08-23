@@ -1,6 +1,6 @@
 # scure-bip39
 
-Secure, [audited](#security) & minimal implementation of BIP39 mnemonic phrases.
+[Audited](#security) & minimal implementation of BIP39 mnemonic phrases.
 
 Compared to popular `bip39` package, scure-bip39:
 
@@ -24,7 +24,8 @@ hierarchical deterministic wallets ("HD Wallets").
   [base](https://github.com/paulmillr/scure-base),
   [bip32](https://github.com/paulmillr/scure-bip32),
   [bip39](https://github.com/paulmillr/scure-bip39),
-  [btc-signer](https://github.com/paulmillr/scure-btc-signer)
+  [btc-signer](https://github.com/paulmillr/scure-btc-signer),
+  [starknet](https://github.com/paulmillr/scure-starknet)
 
 ## Usage
 
@@ -85,10 +86,10 @@ import { wordlist as trad } from '@scure/bip39/wordlists/traditional-chinese';
 
 The library has been audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf). See [changes since audit](https://github.com/paulmillr/scure-bip39/compare/1.0.0..main).
 
-1. The library was initially developed for [js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography)
-2. At commit [ae00e6d7](https://github.com/ethereum/js-ethereum-cryptography/commit/ae00e6d7d24fb3c76a1c7fe10039f6ecd120b77e), it
-  was extracted to a separate package called `micro-bip39`
-3. After the audit we've decided to use NPM namespace for security. Since `@micro` namespace was taken, we've renamed the package to `@scure/bip39`
+The library was initially developed for [js-ethereum-cryptography](https://github.com/ethereum/js-ethereum-cryptography).
+At commit [ae00e6d7](https://github.com/ethereum/js-ethereum-cryptography/commit/ae00e6d7d24fb3c76a1c7fe10039f6ecd120b77e),
+it was extracted to a separate package called `micro-bip39`.
+After the audit we've decided to use `@scure` NPM namespace for security.
 
 ## License
 
