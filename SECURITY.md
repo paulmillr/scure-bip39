@@ -1,5 +1,7 @@
 # Security Policy
 
+See [README's Security section](./README.md#security) for detailed description of internal security practices.
+
 ## Supported Versions
 
 | Version | Supported          |
@@ -9,7 +11,7 @@
 
 ## Reporting a Vulnerability
 
-Use maintainer's email specified at https://github.com/paulmillr.
+Use maintainer's email specified at https://paulmillr.com
 
 It's preferred that you use
 PGP key from [pgp proof](https://paulmillr.com/pgp_proof.txt) (current is [697079DA6878B89B](https://paulmillr.com/pgp_proof.txt)).
