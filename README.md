@@ -3,9 +3,9 @@
 Audited & minimal JS implementation of BIP39 mnemonic phrases.
 
 - 🔒 [**Audited**](#security) by an independent security firm
-- 🔻 Tree-shaking-friendly: only actually used wordlists are bundled
+- 🔻 Tree-shaking-friendly: use only what's necessary, other code won't be included
 - 📦 ESM and common.js
-- ➰ Only 2 audited dependencies by same author:
+- ➰ Only 2 audited dependencies by the same author:
   [noble-curves](https://github.com/paulmillr/noble-curves) and [scure-base](https://github.com/paulmillr/scure-base)
 - 🪶 Just 491KB all-bundled, 157KB wordlists: much smaller than similar libraries
 
@@ -16,7 +16,9 @@ hierarchical deterministic wallets ("HD Wallets").
 
 > **scure** — secure, independently audited packages for every use case.
 
-Check out all libraries:
+- Minimal or zero dependencies
+- Releases are signed with PGP keys and built transparently with NPM provenance
+- Check out all libraries:
   [base](https://github.com/paulmillr/scure-base),
   [bip32](https://github.com/paulmillr/scure-bip32),
   [bip39](https://github.com/paulmillr/scure-bip39),
