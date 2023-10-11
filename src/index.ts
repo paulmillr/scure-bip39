@@ -52,7 +52,7 @@ const calcChecksum = (entropy: Uint8Array) => {
 
 function getCoder(wordlist: string[]) {
   if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
-    throw new Error('Worlist: expected array of 2048 strings');
+    throw new Error('Wordlist: expected array of 2048 strings');
   wordlist.forEach((i) => {
     if (typeof i !== 'string') throw new Error(`Wordlist: non-string element: ${i}`);
   });
