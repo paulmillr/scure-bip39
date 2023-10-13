@@ -14,11 +14,11 @@ hierarchical deterministic wallets ("HD Wallets").
 
 ### This library belongs to *scure*
 
-> **scure** — secure, independently audited packages for every use case.
+> **scure** — audited micro-libraries.
 
 - Zero or minimal dependencies
 - Highly readable TypeScript / JS code
-- PGP-signed releases and transparent NPM builds with provenance
+- PGP-signed releases and transparent NPM builds
 - Check out [homepage](https://paulmillr.com/noble/#scure) & all libraries:
   [base](https://github.com/paulmillr/scure-base),
   [bip32](https://github.com/paulmillr/scure-bip32),
@@ -76,6 +76,9 @@ import { wordlist as simp } from '@scure/bip39/wordlists/simplified-chinese';
 import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
 import { wordlist as trad } from '@scure/bip39/wordlists/traditional-chinese';
 ```
+
+The module implements [bip39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) standard:
+check it out for additional documentation.
 
 ## Security
 
