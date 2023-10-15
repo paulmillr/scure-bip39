@@ -9,6 +9,7 @@ import {
 import { wordlist as englishWordlist } from '../wordlists/english';
 import { wordlist as japaneseWordlist } from '../wordlists/japanese';
 import { wordlist as spanishWordlist } from '../wordlists/spanish';
+import { wordlist as portugueseWordlist } from '../wordlists/portuguese';
 import { bytesToHex as toHex } from '@noble/hashes/utils';
 import { deepStrictEqual, throws } from './assert';
 import { it, describe } from 'micro-should';
@@ -63,6 +64,14 @@ describe('BIP39', () => {
         validateMnemonic(
           'koala óxido urbe crudo momia idioma boina rostro títere dilema himno víspera',
           spanishWordlist
+        ),
+        true
+      );
+
+      deepStrictEqual(
+        validateMnemonic(
+          'grunhido nevasca turbo coeso listagem galinha baronesa refugiar teclado cumprir fragata vinco',
+          portugueseWordlist
         ),
         true
       );
