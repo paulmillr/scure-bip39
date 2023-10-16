@@ -39,9 +39,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc && tsc -p tsconfig.esm.json",
-    "lint": "prettier --check 'src/**/*.ts' 'test/*.test.ts'",
-    "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts'",
-    "test": "cd test && tsc && node bip39.test.js"
+    "lint": "prettier --check 'src/**/*.ts' 'test/*.test.ts' 'scripts/*.js'",
+    "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts' 'scripts/*.js'",
+    "test": "cd test && tsc && node bip39.test.js",
+    "fetch-wordlist": "./scripts/fetch-wordlist.js"
   },
   "exports": {
     ".": {
