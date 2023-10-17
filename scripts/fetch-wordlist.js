@@ -10,14 +10,14 @@ const writeFileAsync = util.promisify(fs.writeFile);
 // arguments
 const arg = process.argv[2];
 if (arg === undefined) {
-  console.error('Supply language (lower cased) argument.');
+  console.error('Supply language (lowercased, snakecased) argument.');
   process.exit();
 }
 
 // parse language argument
-const parts = arg.split('-');
-const filenameSnakeCased = parts.length > 1 ? `${parts[1]}_${parts[0]}` : arg;
-const filenameKebabCased = arg;
+const filenameSnakeCased = arg;
+const parts = arg.split('_');
+const filenameKebabCased = parts.length > 1 ? `${parts[1]}-${parts[0]}` : arg;
 
 // fetch, validate and save file
 (async () => {
