@@ -14,7 +14,7 @@ if (language === undefined) {
   process.exit();
 }
 
-// fetch and save file
+// fetch, validate and save file
 (async () => {
   try {
     // fetch
@@ -37,6 +37,7 @@ if (language === undefined) {
   }
 })();
 
+// assertions
 const validateTxtContent = (txtContent) => {
   const words = txtContent.split('\n');
   const emptyLines = words.filter((word) => word.trim() === '');
