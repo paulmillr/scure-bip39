@@ -73,9 +73,9 @@ import { wordlist as italian } from '@scure/bip39/wordlists/italian';
 import { wordlist as japanese } from '@scure/bip39/wordlists/japanese';
 import { wordlist as korean } from '@scure/bip39/wordlists/korean';
 import { wordlist as portuguese } from '@scure/bip39/wordlists/portuguese';
-import { wordlist as simp } from '@scure/bip39/wordlists/simplified-chinese';
+import { wordlist as simplifiedChinese } from '@scure/bip39/wordlists/simplified-chinese';
 import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
-import { wordlist as trad } from '@scure/bip39/wordlists/traditional-chinese';
+import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/traditional-chinese';
 ```
 
 The module implements [bip39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) standard:
