@@ -8,17 +8,22 @@ const assert = require('assert');
 const writeFileAsync = util.promisify(fs.writeFile);
 
 // arguments
-const language = process.argv[2];
-if (language === undefined) {
+const arg = process.argv[2];
+if (arg === undefined) {
   console.error('Supply language (lower cased) argument.');
   process.exit();
 }
+
+// parse language argument
+const parts = arg.split('-');
+const filenameSnakeCased = parts.length > 1 ? `${parts[1]}_${parts[0]}` : arg;
+const filenameKebabCased = arg;
 
 // fetch, validate and save file
 (async () => {
   try {
     // fetch
-    const url = `https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/${language}.txt`;
+    const url = `https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/${filenameSnakeCased}.txt`;
     const response = await fetch(url);
     if (response.ok === false) throw new Error(`Fetch (${url}) failed`);
     const txtContent = await response.text();
@@ -31,7 +36,10 @@ if (language === undefined) {
 
     // write .ts file
     const tsContent = `export const wordlist: string[] = \`${wordlist}\`.split('\\n');\n`;
-    await writeFileAsync(path.join(__dirname, '..', 'src/wordlists', `${language}.ts`), tsContent);
+    await writeFileAsync(
+      path.join(__dirname, '..', 'src/wordlists', `${filenameKebabCased}.ts`),
+      tsContent
+    );
   } catch (err) {
     console.error(err);
   }
