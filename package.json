@@ -17,8 +17,8 @@
   },
   "devDependencies": {
     "micro-should": "0.4.0",
-    "prettier": "2.8.4",
-    "typescript": "5.0.2"
+    "prettier": "3.1.1",
+    "typescript": "5.3.2"
   },
   "author": "Paul Miller (https://paulmillr.com)",
   "homepage": "https://paulmillr.com/",

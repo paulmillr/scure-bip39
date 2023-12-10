@@ -12,6 +12,7 @@ const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u
 // Normalization replaces equivalent sequences of characters
 // so that any two texts that are equivalent will be reduced
 // to the same sequence of code points, called the normal form of the original text.
+// https://tonsky.me/blog/unicode/#why-is-a----
 function nfkd(str: string) {
   if (typeof str !== 'string') throw new TypeError(`Invalid mnemonic type: ${typeof str}`);
   return str.normalize('NFKD');
