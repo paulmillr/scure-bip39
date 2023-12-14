@@ -5,7 +5,7 @@
     "module": "es6",
     "moduleResolution": "bundler",
     "outDir": "esm",
-    "sourceMap": true,
+    "sourceMap": false,
     "baseUrl": ".",
     "strict": true,
     "allowSyntheticDefaultImports": false,

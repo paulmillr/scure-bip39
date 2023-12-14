@@ -8,7 +8,8 @@
     "index.d.ts",
     "wordlists/*.js",
     "wordlists/*.d.ts",
-    "esm"
+    "esm",
+    "src/index.ts"
   ],
   "types": "index.d.ts",
   "dependencies": {
