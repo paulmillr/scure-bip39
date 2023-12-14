@@ -83,6 +83,8 @@ check it out for additional documentation.
 
 ## Security
 
+To audit wordlist content, run `node scripts/fetch-wordlist.js`.
+
 The library has been independently audited:
 
 - at version 1.0.0, in Jan 2022, by [cure53](https://cure53.de)
