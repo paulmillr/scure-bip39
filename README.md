@@ -1,6 +1,6 @@
 # scure-bip39
 
-Audited & minimal JS implementation of BIP39 mnemonic phrases.
+Audited & minimal JS implementation of [BIP39 mnemonic phrases](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
 
 - 🔒 [**Audited**](#security) by an independent security firm
 - 🔻 Tree-shaking-friendly: use only what's necessary, other code won't be included
@@ -77,9 +77,6 @@ import { wordlist as simplifiedChinese } from '@scure/bip39/wordlists/simplified
 import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
 import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/traditional-chinese';
 ```
-
-The module implements [bip39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) standard:
-check it out for additional documentation.
 
 ## Security
 
