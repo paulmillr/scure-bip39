@@ -37,7 +37,7 @@ const filenameKebabCased = parts.length > 1 ? `${parts[1]}-${parts[0]}` : arg;
     // write .ts file
     const tsContent = `export const wordlist: string[] = \`${wordlist}\`.split('\\n');\n`;
     await writeFileAsync(
-      path.join(__dirname, '..', 'src/wordlists', `${filenameKebabCased}.ts`),
+      path.join(__dirname, '..', 'src', 'wordlists', `${filenameKebabCased}.ts`),
       tsContent
     );
   } catch (err) {
