@@ -25,7 +25,7 @@
   "homepage": "https://paulmillr.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/paulmillr/scure-bip39.git"
+    "url": "git+https://github.com/paulmillr/scure-bip39.git"
   },
   "contributors": [
     {

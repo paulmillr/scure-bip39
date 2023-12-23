@@ -2,12 +2,8 @@
   "compilerOptions": {
     "target": "es2020",
     "lib": ["es2020"],
-    "module": "es6",
-    "moduleResolution": "bundler",
-    "outDir": "esm",
-    "sourceMap": false,
-    "baseUrl": ".",
     "strict": true,
+    "sourceMap": false,
     "allowSyntheticDefaultImports": false,
     "allowUnreachableCode": false,
     "esModuleInterop": false,
@@ -16,6 +12,11 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "baseUrl": ".",
+
+    "module": "es2020",
+    "outDir": "esm",
+    "moduleResolution": "bundler"
   },
   "include": ["src"],
   "exclude": ["node_modules", "lib"]
