@@ -10,6 +10,7 @@ import { wordlist as englishWordlist } from '../wordlists/english';
 import { wordlist as japaneseWordlist } from '../wordlists/japanese';
 import { wordlist as spanishWordlist } from '../wordlists/spanish';
 import { wordlist as portugueseWordlist } from '../wordlists/portuguese';
+import { wordlist as turkishWordlist } from '../wordlists/turkish';
 import { bytesToHex as toHex } from '@noble/hashes/utils';
 import { deepStrictEqual, throws } from './assert';
 import { it, describe } from 'micro-should';
@@ -49,7 +50,12 @@ describe('BIP39', () => {
       deepStrictEqual(validateMnemonic(mnemonic, englishWordlist), true);
     });
   });
-
+  describe('Mnemonic generation turkish', () => {
+    it('should create a valid menomic', () => {
+      const mnemonic = generateMnemonic(turkishWordlist, 128);
+      deepStrictEqual(validateMnemonic(mnemonic, turkishWordlist), true);
+    });
+  });
   describe('Mnemonic validation', () => {
     it('should accept valid menomics', () => {
       deepStrictEqual(
@@ -73,10 +79,19 @@ describe('BIP39', () => {
           'grunhido nevasca turbo coeso listagem galinha baronesa refugiar teclado cumprir fragata vinco',
           portugueseWordlist
         ),
-        true
+        true 
       );
+ /*       deepStrictEqual(
+        validateMnemonic(
+          'abluka ahtapot akrep aldanma baklava zambak baca avokado zabita zigon balta ziynet',
+          turkishWordlist
+        ),
+        true
+      );    */ 
     });
-
+    
+ 
+ 
     it('should reject invalid menomics', () => {
       deepStrictEqual(validateMnemonic('asd', englishWordlist), false);
       deepStrictEqual(
@@ -92,6 +107,11 @@ describe('BIP39', () => {
         const mnemonic = generateMnemonic(englishWordlist, 128);
         const entropy = mnemonicToEntropy(mnemonic, englishWordlist);
         deepStrictEqual(entropyToMnemonic(entropy, englishWordlist), mnemonic);
+      });
+      it('should work with the turkish wodlist', () => {
+        const mnemonic = generateMnemonic(turkishWordlist, 128);
+        const entropy = mnemonicToEntropy(mnemonic, turkishWordlist);
+        deepStrictEqual(entropyToMnemonic(entropy, turkishWordlist), mnemonic);
       });
 
       it('should work with the Spanish wodlist', () => {
