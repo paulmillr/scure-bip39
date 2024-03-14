@@ -9,5 +9,5 @@
 /test/*.d.ts
 /test/*.js
 /esm
-
+/build/scure-bip39.js
 node_modules
