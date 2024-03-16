@@ -5,6 +5,7 @@ import {
   mnemonicToSeed,
   mnemonicToSeedSync,
   validateMnemonic,
+  wordsWithSameFirstFourLetters,
 } from '..';
 import { wordlist as englishWordlist } from '../wordlists/english';
 import { wordlist as japaneseWordlist } from '../wordlists/japanese';
@@ -46,6 +47,7 @@ export function hexToBytes(hex: string): Uint8Array {
 describe('BIP39', () => {
   describe('Mnemonic generation', () => {
     it('should create a valid menomic', () => {
+  
       const mnemonic = generateMnemonic(englishWordlist, 128);
       deepStrictEqual(validateMnemonic(mnemonic, englishWordlist), true);
     });
@@ -53,6 +55,8 @@ describe('BIP39', () => {
   describe('Mnemonic generation turkish', () => {
     it('should create a valid menomic', () => {
       const mnemonic = generateMnemonic(turkishWordlist, 128);
+      const wordsWithSameFirstFour=wordsWithSameFirstFourLetters(turkishWordlist);
+      console.log("ilk dört harfi aynı olan varmı",wordsWithSameFirstFour);
       deepStrictEqual(validateMnemonic(mnemonic, turkishWordlist), true);
     });
   });

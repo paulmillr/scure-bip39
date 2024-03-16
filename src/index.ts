@@ -144,3 +144,24 @@ export function mnemonicToSeed(mnemonic: string, passphrase = '') {
 export function mnemonicToSeedSync(mnemonic: string, passphrase = '') {
   return pbkdf2(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
 }
+
+
+export function wordsWithSameFirstFourLetters (wordlist: string[]) {
+// dizideki kelimelerin ilk 4 harfi aynı olanları döndürür
+  let words = wordlist;
+  let result = [];
+  for (let i = 0; i < words.length; i++) {
+    let word = words[i];
+    if (typeof word !== 'undefined') {
+      let firstFourLetters = word.substring(0, 4) as string;
+      let sameFirstFourLetters = words.filter((word) => word.substring(0, 4) === firstFourLetters);
+      if (sameFirstFourLetters.length > 1) {
+        result.push(sameFirstFourLetters);
+      }
+    }
+  }
+  return result;
+  
+   
+}
+ 
