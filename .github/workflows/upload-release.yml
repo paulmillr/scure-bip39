@@ -15,11 +15,14 @@ jobs:
           node-version: 20
           registry-url: 'https://registry.npmjs.org'
           cache: npm
+      - run: npm install -g npm
+      - run: npm ci
+      - run: npm run build
       - run: |
-          npm install -g npm
+          cd build
           npm ci
-          npm run build
           npm run build:release
-          gh release upload ${{ github.event.release.tag_name }} scure-bip39.js
+          cd ..
+      - run: gh release upload ${{ github.event.release.tag_name }} build/`npx jsbt outfile`
         env:
           GH_TOKEN: ${{ github.token }}

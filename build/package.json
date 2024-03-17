@@ -2,17 +2,13 @@
   "name": "build",
   "private": true,
   "version": "1.0.0",
-  "description": "Used to build a single file",
   "main": "input.js",
-  "keywords": [],
   "type": "module",
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "@scure/bip39": "..",
+    "lib": "file:..",
     "esbuild": "0.20.1"
   },
   "scripts": {
-    "build": "npx esbuild --bundle input.js --outfile=scure-bip39.js --global-name=scureBip39"
+    "build:release": "npx esbuild --bundle input.js --outfile=`npx jsbt outfile` --global-name=`npx jsbt global`"
   }
 }

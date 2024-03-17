@@ -1,23 +1,10 @@
 {
+  "extends": "@paulmillr/jsbt/tsconfigs/esm.json",
   "compilerOptions": {
-    "target": "es2020",
-    "lib": ["es2020"],
-    "strict": true,
-    "sourceMap": false,
-    "allowSyntheticDefaultImports": false,
-    "allowUnreachableCode": false,
-    "esModuleInterop": false,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "baseUrl": ".",
-
     "module": "es2020",
-    "outDir": "esm",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "outDir": "lib/esm"
   },
-  "include": ["src"],
+  "include": ["index.ts", "src"],
   "exclude": ["node_modules", "lib"]
 }
