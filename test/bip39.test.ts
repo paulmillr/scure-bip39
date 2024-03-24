@@ -10,9 +10,9 @@ import { wordlist as englishWordlist } from '../wordlists/english';
 import { wordlist as japaneseWordlist } from '../wordlists/japanese';
 import { wordlist as spanishWordlist } from '../wordlists/spanish';
 import { wordlist as portugueseWordlist } from '../wordlists/portuguese';
-import { bytesToHex as toHex } from '@noble/hashes/utils';
+import { bytesToHex as toHex, hexToBytes } from '@noble/hashes/utils';
 import { deepStrictEqual, throws } from './assert';
-import { it, describe } from 'micro-should';
+import { should, describe } from 'micro-should';
 
 export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) {
@@ -25,33 +25,17 @@ export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
   }
   return true;
 }
-export function hexToBytes(hex: string): Uint8Array {
-  if (typeof hex !== 'string') {
-    throw new TypeError(`hexToBytes: expected string, got ${typeof hex}`);
-  }
-  if (hex.length % 2) {
-    throw new Error('hexToBytes: received invalid unpadded hex');
-  }
-  const array = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < array.length; i++) {
-    const j = i * 2;
-    const byte = Number.parseInt(hex.slice(j, j + 2), 16);
-    if (Number.isNaN(byte) || byte < 0) throw new Error('Invalid byte sequence');
-    array[i] = byte;
-  }
-  return array;
-}
 
 describe('BIP39', () => {
   describe('Mnemonic generation', () => {
-    it('should create a valid menomic', () => {
+    should('create a valid menomic', () => {
       const mnemonic = generateMnemonic(englishWordlist, 128);
       deepStrictEqual(validateMnemonic(mnemonic, englishWordlist), true);
     });
   });
 
   describe('Mnemonic validation', () => {
-    it('should accept valid menomics', () => {
+    should('accept valid menomics', () => {
       deepStrictEqual(
         validateMnemonic(
           'jump police vessel depth mutual idea cable soap trophy dust hold wink',
@@ -77,7 +61,7 @@ describe('BIP39', () => {
       );
     });
 
-    it('should reject invalid menomics', () => {
+    should('reject invalid menomics', () => {
       deepStrictEqual(validateMnemonic('asd', englishWordlist), false);
       deepStrictEqual(
         validateMnemonic(generateMnemonic(englishWordlist, 128), spanishWordlist),
@@ -88,13 +72,13 @@ describe('BIP39', () => {
 
   describe('Entropy-mnemonic convertions', () => {
     describe('Should convert from mnemonic to entropy and back', () => {
-      it('should work with the English wodlist', () => {
+      should('work with the English wodlist', () => {
         const mnemonic = generateMnemonic(englishWordlist, 128);
         const entropy = mnemonicToEntropy(mnemonic, englishWordlist);
         deepStrictEqual(entropyToMnemonic(entropy, englishWordlist), mnemonic);
       });
 
-      it('should work with the Spanish wodlist', () => {
+      should('work with the Spanish wodlist', () => {
         const mnemonic = generateMnemonic(spanishWordlist, 128);
         const entropy = mnemonicToEntropy(mnemonic, spanishWordlist);
         deepStrictEqual(entropyToMnemonic(entropy, spanishWordlist), mnemonic);
@@ -112,14 +96,14 @@ describe('BIP39', () => {
       );
 
       describe('Sync', () => {
-        it('recover the right seed', () => {
+        should('recover the right seed', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
         });
       });
 
       describe('Async', () => {
-        it('recover the right seed', async () => {
+        should('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
         });
@@ -137,14 +121,14 @@ describe('BIP39', () => {
       );
 
       describe('Sync', () => {
-        it('recover the right seed', () => {
+        should('recover the right seed', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
         });
       });
 
       describe('Async', () => {
-        it('recover the right seed', async () => {
+        should('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
         });
@@ -407,7 +391,7 @@ describe('BIP39', () => {
       i: number
     ) {
       const [entropy, mnemonic, seed] = v;
-      describe(`for ${description} (${i}), ${entropy}`, async () => {
+      should(`for ${description} (${i}), ${entropy}`, async () => {
         deepStrictEqual(toHex(mnemonicToEntropy(mnemonic, wordlist)), entropy, 'mnemonicToEntropy');
         deepStrictEqual(toHex(mnemonicToSeedSync(mnemonic, password)), seed, 'mnemonicToSeedSync');
         const res = await mnemonicToSeed(mnemonic, password);
@@ -432,12 +416,12 @@ describe('BIP39', () => {
         i
       );
     }
-    describe('Invalid entropy', () => {
+    should('Invalid entropy', () => {
       throws(() => entropyToMnemonic(new Uint8Array([]), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array([0, 0, 0]), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array(1028), englishWordlist));
     });
-    describe('UTF8 passwords', () => {
+    should('UTF8 passwords', () => {
       for (const [_, mnemonic, seed] of VECTORS.japanese) {
         const password = '㍍ガバヴァぱばぐゞちぢ十人十色';
         const normalizedPassword = 'メートルガバヴァぱばぐゞちぢ十人十色';
@@ -453,14 +437,14 @@ describe('BIP39', () => {
         );
       }
     });
-    describe('generateMnemonic can vary entropy length', () => {
+    should('generateMnemonic can vary entropy length', () => {
       deepStrictEqual(
         generateMnemonic(englishWordlist, 160).split(' ').length,
         15,
         'can vary generated entropy bit length'
       );
     });
-    describe('validateMnemonic', () => {
+    should('validateMnemonic', () => {
       deepStrictEqual(
         validateMnemonic('sleep kitten', englishWordlist),
         false,
@@ -499,4 +483,4 @@ describe('BIP39', () => {
   });
 });
 
-it.run();
+should.run();
