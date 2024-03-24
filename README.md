@@ -6,7 +6,7 @@ Audited & minimal JS implementation of [BIP39 mnemonic phrases](https://github.c
 - 🔻 Tree-shaking-friendly: use only what's necessary, other code won't be included
 - 📦 ESM and common.js
 - ➰ Only 2 audited dependencies by the same author:
-  [noble-curves](https://github.com/paulmillr/noble-curves) and [scure-base](https://github.com/paulmillr/scure-base)
+  [noble-hashes](https://github.com/paulmillr/noble-hashes) and [scure-base](https://github.com/paulmillr/scure-base)
 - 🪶 37KB with all deps bundled and 279KB with wordlists: much smaller than similar libraries
 
 Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
