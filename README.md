@@ -3,7 +3,7 @@
 Audited & minimal JS implementation of [BIP39 mnemonic phrases](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
 
 - 🔒 [**Audited**](#security) by an independent security firm
-- 🔻 Tree-shaking-friendly: use only what's necessary, other code won't be included
+- 🔻 Tree-shakeable: unused code is excluded from your builds
 - 📦 ESM and common.js
 - ➰ Only 2 audited dependencies by the same author:
   [noble-hashes](https://github.com/paulmillr/noble-hashes) and [scure-base](https://github.com/paulmillr/scure-base)

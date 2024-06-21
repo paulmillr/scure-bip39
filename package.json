@@ -20,8 +20,8 @@
   "devDependencies": {
     "@paulmillr/jsbt": "0.1.0",
     "micro-should": "0.4.0",
-    "prettier": "3.1.1",
-    "typescript": "5.3.2"
+    "prettier": "3.3.2",
+    "typescript": "5.5.2"
   },
   "author": "Paul Miller (https://paulmillr.com)",
   "homepage": "https://paulmillr.com/",
@@ -47,6 +47,7 @@
     "test": "cd test && tsc && node bip39.test.js",
     "fetch-wordlist": "./scripts/fetch-wordlist.js"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./index.d.ts",
