@@ -104,8 +104,8 @@
     "code",
     "bip0039",
     "bip-39",
-    "scure",
     "wordlist",
+    "scure",
     "noble"
   ],
   "funding": "https://paulmillr.com/funding/"
