@@ -30,6 +30,9 @@ hierarchical deterministic wallets ("HD Wallets").
 
 > npm install @scure/bip39
 
+We don't provide source maps.
+Wordlists are large, including source maps would double package size.
+
 ```js
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
