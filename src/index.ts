@@ -1,5 +1,5 @@
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
-import { bytes as assertBytes, number as assertNumber } from '@noble/hashes/_assert';
+import { bytes as abytes, number as anumber } from '@noble/hashes/_assert';
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2';
 import { sha256 } from '@noble/hashes/sha256';
 import { sha512 } from '@noble/hashes/sha512';
@@ -14,7 +14,7 @@ const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u
 // to the same sequence of code points, called the normal form of the original text.
 // https://tonsky.me/blog/unicode/#why-is-a----
 function nfkd(str: string) {
-  if (typeof str !== 'string') throw new TypeError(`Invalid mnemonic type: ${typeof str}`);
+  if (typeof str !== 'string') throw new TypeError('invalid mnemonic type: ' + typeof str);
   return str.normalize('NFKD');
 }
 
@@ -26,7 +26,7 @@ function normalize(str: string) {
 }
 
 function assertEntropy(entropy: Uint8Array) {
-  assertBytes(entropy, 16, 20, 24, 28, 32);
+  abytes(entropy, 16, 20, 24, 28, 32);
 }
 
 /**
@@ -38,7 +38,7 @@ function assertEntropy(entropy: Uint8Array) {
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
  */
 export function generateMnemonic(wordlist: string[], strength: number = 128): string {
-  assertNumber(strength);
+  anumber(strength);
   if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy');
   return entropyToMnemonic(randomBytes(strength / 8), wordlist);
 }
@@ -55,7 +55,7 @@ function getCoder(wordlist: string[]) {
   if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
     throw new Error('Wordlist: expected array of 2048 strings');
   wordlist.forEach((i) => {
-    if (typeof i !== 'string') throw new Error(`Wordlist: non-string element: ${i}`);
+    if (typeof i !== 'string') throw new Error('wordlist: non-string element: ' + i);
   });
   return baseUtils.chain(
     baseUtils.checksum(1, calcChecksum),
@@ -115,7 +115,7 @@ export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean 
   return true;
 }
 
-const salt = (passphrase: string) => nfkd(`mnemonic${passphrase}`);
+const salt = (passphrase: string) => nfkd('mnemonic' + passphrase);
 
 /**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
