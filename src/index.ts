@@ -1,5 +1,5 @@
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
-import { bytes as abytes, number as anumber } from '@noble/hashes/_assert';
+import { abytes, anumber } from '@noble/hashes/_assert';
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2';
 import { sha256 } from '@noble/hashes/sha256';
 import { sha512 } from '@noble/hashes/sha512';
