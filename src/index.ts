@@ -1,7 +1,8 @@
 /**
- * Audited & minimal JS implementation of
+ * @module Audited & minimal JS implementation of
  * [BIP39 mnemonic phrases](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
  * @example
+```js
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
 const mn = bip39.generateMnemonic(wordlist);
@@ -23,8 +24,7 @@ import { wordlist as portuguese } from '@scure/bip39/wordlists/portuguese';
 import { wordlist as simplifiedChinese } from '@scure/bip39/wordlists/simplified-chinese';
 import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
 import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/traditional-chinese';
-
- * @module
+```
  */
 
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
