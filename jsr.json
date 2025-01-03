@@ -1,0 +1,31 @@
+{
+  "name": "@scure/bip39",
+  "version": "1.5.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./wordlists/czech": "./src/wordlists/czech.ts",
+    "./wordlists/english": "./src/wordlists/english.ts",
+    "./wordlists/french": "./src/wordlists/french.ts",
+    "./wordlists/italian": "./src/wordlists/italian.ts",
+    "./wordlists/japanese": "./src/wordlists/japanese.ts",
+    "./wordlists/korean": "./src/wordlists/korean.ts",
+    "./wordlists/portuguese": "./src/wordlists/portuguese.ts",
+    "./wordlists/simplified-chinese": "./src/wordlists/simplified-chinese.ts",
+    "./wordlists/spanish": "./src/wordlists/spanish.ts",
+    "./wordlists/traditional-chinese": "./src/wordlists/traditional-chinese.ts"
+  },
+  "imports": {
+    "@noble/curves": "jsr:@noble/curves@1.8.0",
+    "@noble/hashes": "jsr:@noble/hashes@1.7.0",
+    "@scure/base": "jsr:@scure/base@1.2.1"
+  },
+  "publish": {
+    "include": [
+      "src",
+      "jsr.json",
+      "LICENSE",
+      "README.md"
+    ]
+  },
+  "license": "MIT"
+}
