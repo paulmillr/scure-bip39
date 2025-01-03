@@ -3,7 +3,8 @@
   "compilerOptions": {
     "sourceMap": false,
     "declarationMap": false,
-    "outDir": "./esm"
+    "outDir": "./esm",
+    "isolatedDeclarations": true
   },
   "include": ["index.ts", "src"],
   "exclude": ["node_modules", "lib"]

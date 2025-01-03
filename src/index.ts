@@ -25,8 +25,8 @@ function normalize(str: string) {
   return { nfkd: norm, words };
 }
 
-function assertEntropy(entropy: Uint8Array) {
-  abytes(entropy, 16, 20, 24, 28, 32);
+function aentropy(ent: Uint8Array) {
+  abytes(ent, 16, 20, 24, 28, 32);
 }
 
 /**
@@ -80,7 +80,7 @@ function getCoder(wordlist: string[]) {
 export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Array {
   const { words } = normalize(mnemonic);
   const entropy = getCoder(wordlist).decode(words);
-  assertEntropy(entropy);
+  aentropy(entropy);
   return entropy;
 }
 
@@ -98,7 +98,7 @@ export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Ar
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
  */
 export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string {
-  assertEntropy(entropy);
+  aentropy(entropy);
   const words = getCoder(wordlist).encode(entropy);
   return words.join(isJapanese(wordlist) ? '\u3000' : ' ');
 }
@@ -115,7 +115,7 @@ export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean 
   return true;
 }
 
-const salt = (passphrase: string) => nfkd('mnemonic' + passphrase);
+const psalt = (passphrase: string) => nfkd('mnemonic' + passphrase);
 
 /**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
@@ -127,8 +127,8 @@ const salt = (passphrase: string) => nfkd('mnemonic' + passphrase);
  * await mnemonicToSeed(mnem, 'password');
  * // new Uint8Array([...64 bytes])
  */
-export function mnemonicToSeed(mnemonic: string, passphrase = '') {
-  return pbkdf2Async(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
+export function mnemonicToSeed(mnemonic: string, passphrase = ''): Promise<Uint8Array> {
+  return pbkdf2Async(sha512, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
 }
 
 /**
@@ -141,6 +141,6 @@ export function mnemonicToSeed(mnemonic: string, passphrase = '') {
  * mnemonicToSeedSync(mnem, 'password');
  * // new Uint8Array([...64 bytes])
  */
-export function mnemonicToSeedSync(mnemonic: string, passphrase = '') {
-  return pbkdf2(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
+export function mnemonicToSeedSync(mnemonic: string, passphrase = ''): Uint8Array {
+  return pbkdf2(sha512, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
 }
