@@ -1,6 +1,7 @@
 /**
- * @module Audited & minimal JS implementation of
+ * Audited & minimal JS implementation of
  * [BIP39 mnemonic phrases](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
+ * @module
  * @example
 ```js
 import * as bip39 from '@scure/bip39';
