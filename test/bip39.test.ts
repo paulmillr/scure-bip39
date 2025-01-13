@@ -5,13 +5,13 @@ import {
   mnemonicToSeed,
   mnemonicToSeedSync,
   validateMnemonic,
-} from '..';
-import { wordlist as englishWordlist } from '../wordlists/english';
-import { wordlist as japaneseWordlist } from '../wordlists/japanese';
-import { wordlist as spanishWordlist } from '../wordlists/spanish';
-import { wordlist as portugueseWordlist } from '../wordlists/portuguese';
+} from '../esm/index.js';
+import { wordlist as englishWordlist } from '../esm/wordlists/english.js';
+import { wordlist as japaneseWordlist } from '../esm/wordlists/japanese.js';
+import { wordlist as spanishWordlist } from '../esm/wordlists/spanish.js';
+import { wordlist as portugueseWordlist } from '../esm/wordlists/portuguese.js';
 import { bytesToHex as toHex, hexToBytes } from '@noble/hashes/utils';
-import { deepStrictEqual, throws } from './assert';
+import { deepStrictEqual, throws } from './assert.js';
 import { should, describe } from 'micro-should';
 
 export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
