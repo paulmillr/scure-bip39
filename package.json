@@ -42,6 +42,8 @@
     "lint": "prettier --check 'src/**/*.ts' 'test/*.test.ts' 'scripts/*.js'",
     "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts' 'scripts/*.js'",
     "test": "node test/index.js",
+    "test:bun": "bun test/index.js",
+    "test:deno": "deno --allow-env --allow-read test/index.js",
     "fetch-wordlist": "./scripts/fetch-wordlist.js"
   },
   "sideEffects": false,

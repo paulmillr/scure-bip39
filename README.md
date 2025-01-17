@@ -28,11 +28,11 @@ hierarchical deterministic wallets ("HD Wallets").
 
 ## Usage
 
-> npm install @scure/bip39
+> `npm install @scure/bip39`
 
-> deno add jsr:@scure/bip39
+> `deno add jsr:@scure/bip39`
 
-> deno doc jsr:@scure/bip39  # command-line documentation
+> `deno doc jsr:@scure/bip39`  # command-line documentation
 
 We don't provide source maps.
 Wordlists are large, including source maps would double package size.
