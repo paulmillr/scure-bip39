@@ -1,6 +1,6 @@
 {
   "name": "@scure/bip39",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Secure, audited & minimal implementation of BIP39 mnemonic phrases",
   "files": [
     "index.js",
