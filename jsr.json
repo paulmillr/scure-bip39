@@ -1,6 +1,6 @@
 {
   "name": "@scure/bip39",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "exports": {
     ".": "./src/index.ts",
     "./wordlists/czech": "./src/wordlists/czech.ts",
@@ -16,7 +16,7 @@
   },
   "imports": {
     "@noble/hashes": "jsr:@noble/hashes@~1.7.1",
-    "@scure/base": "jsr:@scure/base@~1.2.3"
+    "@scure/base": "jsr:@scure/base@~1.2.4"
   },
   "publish": {
     "include": [
