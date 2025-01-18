@@ -16,7 +16,7 @@
   },
   "imports": {
     "@noble/hashes": "jsr:@noble/hashes@~1.7.1",
-    "@scure/base": "jsr:@scure/base@~1.2.2"
+    "@scure/base": "jsr:@scure/base@~1.2.3"
   },
   "publish": {
     "include": [
