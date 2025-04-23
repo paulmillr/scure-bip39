@@ -29,11 +29,9 @@ import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/tradition
  */
 
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
-import { abytes, anumber } from '@noble/hashes/_assert';
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2';
-import { sha256 } from '@noble/hashes/sha256';
-import { sha512 } from '@noble/hashes/sha512';
-import { randomBytes } from '@noble/hashes/utils';
+import { sha256, sha512 } from '@noble/hashes/sha2';
+import { abytes, anumber, randomBytes } from '@noble/hashes/utils';
 import { utils as baseUtils } from '@scure/base';
 
 // Japanese wordlist
