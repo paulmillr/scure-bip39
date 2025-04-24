@@ -7,7 +7,7 @@ Audited & minimal JS implementation of [BIP39 mnemonic phrases](https://github.c
 - 📦 ESM and common.js
 - ➰ Only 2 audited dependencies by the same author:
   [noble-hashes](https://github.com/paulmillr/noble-hashes) and [scure-base](https://github.com/paulmillr/scure-base)
-- 🪶 37KB with all deps bundled and 279KB with wordlists: much smaller than similar libraries
+- 🪶 14KB gzipped with one wordlist, 79KB with all of them: much smaller than similar libraries
 
 Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
 hierarchical deterministic wallets ("HD Wallets").
@@ -105,6 +105,8 @@ After the audit we've decided to use `@scure` NPM namespace for security.
 
 - **Commits** are signed with PGP keys, to prevent forgery. Make sure to verify commit signatures
 - **Releases** are transparent and built on GitHub CI. Make sure to verify [provenance](https://docs.npmjs.com/generating-provenance-statements) logs
+  - Use GitHub CLI to verify single-file builds:
+    `gh attestation verify --owner paulmillr scure-bip39.js`
 - **Rare releasing** is followed to ensure less re-audit need for end-users
 - **Dependencies** are minimized and locked-down: any dependency could get hacked and users will be downloading malware with every install.
   - We make sure to use as few dependencies as possible
