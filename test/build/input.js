@@ -1,5 +1,7 @@
 export * as bip39 from 'lib';
-export { english } from 'lib/wordlists/english.js';
+import { wordlist as wordlist_ } from 'lib/wordlists/english.js';
+export const wordlist = wordlist_;
+export const english = wordlist_;
 // NOT exported by default
 // export { czech } from 'lib/wordlists/czech.js';
 // export { french } from 'lib/wordlists/french.js';
