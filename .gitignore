@@ -8,6 +8,7 @@
 /index.d.ts.map
 /test/*.d.ts
 /test/*.js
+/lib
 /esm
 /test/build
 node_modules

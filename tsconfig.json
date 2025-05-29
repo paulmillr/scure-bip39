@@ -1,11 +1,10 @@
 {
-  "extends": "@paulmillr/jsbt/tsconfig.esm.json",
+  "extends": "@paulmillr/jsbt/tsconfig.json",
   "compilerOptions": {
+    "outDir": ".",
     "sourceMap": false,
-    "declarationMap": false,
-    "outDir": "./esm",
-    "isolatedDeclarations": true
+    "declarationMap": false
   },
-  "include": ["index.ts", "src"],
-  "exclude": ["node_modules", "lib"]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

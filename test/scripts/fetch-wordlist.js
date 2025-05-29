@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
 // dependencies
-const path = require('path');
-const fs = require('fs');
-const util = require('util');
-const assert = require('assert');
-const writeFileAsync = util.promisify(fs.writeFile);
+import { equal } from 'node:assert';
+import { writeFile } from 'node:fs/promises';
+import { join as pjoin } from 'node:path';
 
 // arguments
 const arg = process.argv[2];
@@ -17,7 +15,7 @@ if (arg === undefined) {
 // parse language argument
 const filenameSnakeCased = arg;
 const parts = arg.split('_');
-const filenameKebabCased = parts.length > 1 ? `${parts[1]}-${parts[0]}` : arg;
+let filenameKebabCased = parts.length > 1 ? `${parts[1]}-${parts[0]}` : arg;
 
 // fetch, validate and save file
 (async () => {
@@ -34,10 +32,25 @@ const filenameKebabCased = parts.length > 1 ? `${parts[1]}-${parts[0]}` : arg;
     // validate .txt file content
     validateTxtContent(wordlist);
 
+    // chinese_simplified => simplified-chinese.js
+    // chinese_traditional => traditional-chinese.js
+    let varName = filenameSnakeCased;
+    if (filenameSnakeCased === 'chinese_simplified') {
+      filenameKebabCased = 'simplified-chinese';
+      varName = 'simplifiedChinese';
+    }
+    if (filenameSnakeCased === 'chinese_traditional') {
+      filenameKebabCased = 'traditional-chinese';
+      varName = 'traditionalChinese';
+    }
+
+    // Force this for now
+    varName = 'wordlist';
+
     // write .ts file
-    const tsContent = `export const wordlist: string[] = \`${wordlist}\`.split('\\n');\n`;
-    await writeFileAsync(
-      path.join(__dirname, '..', 'src', 'wordlists', `${filenameKebabCased}.ts`),
+    const tsContent = `export const ${varName}: string[] = \`${wordlist}\`.split('\\n');\n`;
+    await writeFile(
+      pjoin(import.meta.dirname, '..', '..', 'src', 'wordlists', `${filenameKebabCased}.ts`),
       tsContent
     );
   } catch (err) {
@@ -49,6 +62,6 @@ const filenameKebabCased = parts.length > 1 ? `${parts[1]}-${parts[0]}` : arg;
 const validateTxtContent = (txtContent) => {
   const words = txtContent.split('\n');
   const emptyLines = words.filter((word) => word.trim() === '');
-  assert.equal(emptyLines.length, 0);
-  assert.equal(words.length, 2048);
+  equal(emptyLines.length, 0);
+  equal(words.length, 2048);
 };

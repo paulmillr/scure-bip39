@@ -1,11 +1,12 @@
 export * as bip39 from 'lib';
-export { wordlist as czech } from 'lib/wordlists/czech';
-export { wordlist as english } from 'lib/wordlists/english';
-export { wordlist as french } from 'lib/wordlists/french';
-export { wordlist as italian } from 'lib/wordlists/italian';
-export { wordlist as japanese } from 'lib/wordlists/japanese';
-export { wordlist as korean } from 'lib/wordlists/korean';
-export { wordlist as portuguese } from 'lib/wordlists/portuguese';
-export { wordlist as simplifiedChinese } from 'lib/wordlists/simplified-chinese';
-export { wordlist as spanish } from 'lib/wordlists/spanish';
-export { wordlist as traditionalChinese } from 'lib/wordlists/traditional-chinese';
+export { english } from 'lib/wordlists/english.js';
+// NOT exported by default
+// export { czech } from 'lib/wordlists/czech.js';
+// export { french } from 'lib/wordlists/french.js';
+// export { italian } from 'lib/wordlists/italian.js';
+// export { japanese } from 'lib/wordlists/japanese.js';
+// export { korean } from 'lib/wordlists/korean.js';
+// export { portuguese } from 'lib/wordlists/portuguese.js';
+// export { simplifiedChinese } from 'lib/wordlists/simplified-chinese.js';
+// export { spanish } from 'lib/wordlists/spanish.js';
+// export { traditionalChinese } from 'lib/wordlists/traditional-chinese.js';

@@ -3,16 +3,16 @@
   "version": "1.6.0",
   "exports": {
     ".": "./src/index.ts",
-    "./wordlists/czech": "./src/wordlists/czech.ts",
-    "./wordlists/english": "./src/wordlists/english.ts",
-    "./wordlists/french": "./src/wordlists/french.ts",
-    "./wordlists/italian": "./src/wordlists/italian.ts",
-    "./wordlists/japanese": "./src/wordlists/japanese.ts",
-    "./wordlists/korean": "./src/wordlists/korean.ts",
-    "./wordlists/portuguese": "./src/wordlists/portuguese.ts",
-    "./wordlists/simplified-chinese": "./src/wordlists/simplified-chinese.ts",
-    "./wordlists/spanish": "./src/wordlists/spanish.ts",
-    "./wordlists/traditional-chinese": "./src/wordlists/traditional-chinese.ts"
+    "./wordlists/czech.js": "./src/wordlists/czech.ts",
+    "./wordlists/english.js": "./src/wordlists/english.ts",
+    "./wordlists/french.js": "./src/wordlists/french.ts",
+    "./wordlists/italian.js": "./src/wordlists/italian.ts",
+    "./wordlists/japanese.js": "./src/wordlists/japanese.ts",
+    "./wordlists/korean.js": "./src/wordlists/korean.ts",
+    "./wordlists/portuguese.js": "./src/wordlists/portuguese.ts",
+    "./wordlists/simplified-chinese.js": "./src/wordlists/simplified-chinese.ts",
+    "./wordlists/spanish.js": "./src/wordlists/spanish.ts",
+    "./wordlists/traditional-chinese.js": "./src/wordlists/traditional-chinese.ts"
   },
   "imports": {
     "@noble/hashes": "jsr:@noble/hashes@~1.8.0",

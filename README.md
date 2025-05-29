@@ -4,10 +4,10 @@ Audited & minimal JS implementation of [BIP39 mnemonic phrases](https://github.c
 
 - 🔒 [**Audited**](#security) by an independent security firm
 - 🔻 Tree-shakeable: unused code is excluded from your builds
-- 📦 ESM and common.js
+- 📦 ESM
 - ➰ Only 2 audited dependencies by the same author:
   [noble-hashes](https://github.com/paulmillr/noble-hashes) and [scure-base](https://github.com/paulmillr/scure-base)
-- 🪶 14KB gzipped with one wordlist, 79KB with all of them: much smaller than similar libraries
+- 🪶 14KB (gzipped) with one wordlist, 79KB with all of them: much smaller than similar libraries
 
 Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
 hierarchical deterministic wallets ("HD Wallets").
@@ -39,7 +39,7 @@ Wordlists are large, including source maps would double package size.
 
 ```js
 import * as bip39 from '@scure/bip39';
-import { wordlist } from '@scure/bip39/wordlists/english';
+import { wordlist } from '@scure/bip39/wordlists/english.js';
 
 // Generate x random words. Uses Cryptographically-Secure Random Number Generator.
 const mn = bip39.generateMnemonic(wordlist);
@@ -70,19 +70,19 @@ function mnemonicToSeed(mnemonic: string, passphrase?: string): Promise<Uint8Arr
 function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
 ```
 
-All wordlists:
+All wordlists (**warning: non-english wordlists are officially discouraged by bip39**):
 
 ```typescript
-import { wordlist as czech } from '@scure/bip39/wordlists/czech';
-import { wordlist as english } from '@scure/bip39/wordlists/english';
-import { wordlist as french } from '@scure/bip39/wordlists/french';
-import { wordlist as italian } from '@scure/bip39/wordlists/italian';
-import { wordlist as japanese } from '@scure/bip39/wordlists/japanese';
-import { wordlist as korean } from '@scure/bip39/wordlists/korean';
-import { wordlist as portuguese } from '@scure/bip39/wordlists/portuguese';
-import { wordlist as simplifiedChinese } from '@scure/bip39/wordlists/simplified-chinese';
-import { wordlist as spanish } from '@scure/bip39/wordlists/spanish';
-import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/traditional-chinese';
+import { wordlist as czech } from '@scure/bip39/wordlists/czech.js';
+import { wordlist as english } from '@scure/bip39/wordlists/english.js';
+import { wordlist as french } from '@scure/bip39/wordlists/french.js';
+import { wordlist as italian } from '@scure/bip39/wordlists/italian.js';
+import { wordlist as japanese } from '@scure/bip39/wordlists/japanese.js';
+import { wordlist as korean } from '@scure/bip39/wordlists/korean.js';
+import { wordlist as portuguese } from '@scure/bip39/wordlists/portuguese.js';
+import { wordlist as simplifiedChinese } from '@scure/bip39/wordlists/simplified-chinese.js';
+import { wordlist as spanish } from '@scure/bip39/wordlists/spanish.js';
+import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/traditional-chinese.js';
 ```
 
 ## Security

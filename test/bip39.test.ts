@@ -1,3 +1,5 @@
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils.js';
+import { describe, should } from 'micro-should';
 import {
   entropyToMnemonic,
   generateMnemonic,
@@ -5,14 +7,12 @@ import {
   mnemonicToSeed,
   mnemonicToSeedSync,
   validateMnemonic,
-} from '../esm/index.js';
-import { wordlist as englishWordlist } from '../esm/wordlists/english.js';
-import { wordlist as japaneseWordlist } from '../esm/wordlists/japanese.js';
-import { wordlist as spanishWordlist } from '../esm/wordlists/spanish.js';
-import { wordlist as portugueseWordlist } from '../esm/wordlists/portuguese.js';
-import { bytesToHex as toHex, hexToBytes } from '@noble/hashes/utils';
-import { deepStrictEqual, throws } from './assert.js';
-import { should, describe } from 'micro-should';
+} from '../index.js';
+import { wordlist as englishWordlist } from '../wordlists/english.js';
+import { wordlist as japaneseWordlist } from '../wordlists/japanese.js';
+import { wordlist as portugueseWordlist } from '../wordlists/portuguese.js';
+import { wordlist as spanishWordlist } from '../wordlists/spanish.js';
+import { deepStrictEqual, throws } from './assert.ts';
 
 export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) {
@@ -392,10 +392,18 @@ describe('BIP39', () => {
     ) {
       const [entropy, mnemonic, seed] = v;
       should(`for ${description} (${i}), ${entropy}`, async () => {
-        deepStrictEqual(toHex(mnemonicToEntropy(mnemonic, wordlist)), entropy, 'mnemonicToEntropy');
-        deepStrictEqual(toHex(mnemonicToSeedSync(mnemonic, password)), seed, 'mnemonicToSeedSync');
+        deepStrictEqual(
+          bytesToHex(mnemonicToEntropy(mnemonic, wordlist)),
+          entropy,
+          'mnemonicToEntropy'
+        );
+        deepStrictEqual(
+          bytesToHex(mnemonicToSeedSync(mnemonic, password)),
+          seed,
+          'mnemonicToSeedSync'
+        );
         const res = await mnemonicToSeed(mnemonic, password);
-        deepStrictEqual(toHex(res), seed, 'mnemonicToSeed');
+        deepStrictEqual(bytesToHex(res), seed, 'mnemonicToSeed');
         deepStrictEqual(
           entropyToMnemonic(hexToBytes(entropy), wordlist),
           mnemonic,
@@ -426,12 +434,12 @@ describe('BIP39', () => {
         const password = '㍍ガバヴァぱばぐゞちぢ十人十色';
         const normalizedPassword = 'メートルガバヴァぱばぐゞちぢ十人十色';
         deepStrictEqual(
-          toHex(mnemonicToSeedSync(mnemonic, password)),
+          bytesToHex(mnemonicToSeedSync(mnemonic, password)),
           seed,
           'mnemonicToSeedSync normalizes passwords'
         );
         deepStrictEqual(
-          toHex(mnemonicToSeedSync(mnemonic, normalizedPassword)),
+          bytesToHex(mnemonicToSeedSync(mnemonic, normalizedPassword)),
           seed,
           'mnemonicToSeedSync leaves normalizes passwords as-is'
         );
