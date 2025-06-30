@@ -32,6 +32,7 @@
     "build:release": "npx jsbt esbuild test/build",
     "lint": "prettier --check 'src/**/*.ts' 'test/*.test.ts' 'test/scripts/*.js'",
     "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts' 'test/scripts/*.js'",
+    "pretest": "npm run build",
     "test": "node --experimental-strip-types --no-warnings test/index.ts",
     "test:bun": "bun test/index.ts",
     "test:deno": "deno --allow-env --allow-read test/index.js",
