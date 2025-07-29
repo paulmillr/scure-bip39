@@ -32,6 +32,7 @@ import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/tradition
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2.js';
 import { sha256, sha512 } from '@noble/hashes/sha2.js';
 import { abytes, anumber, randomBytes } from '@noble/hashes/utils.js';
+import { pbkdf2 as pbkdf2web, sha512 as sha512web } from '@noble/hashes/webcrypto.js';
 import { utils as baseUtils } from '@scure/base';
 
 // Japanese wordlist
@@ -171,4 +172,19 @@ export function mnemonicToSeed(mnemonic: string, passphrase = ''): Promise<Uint8
  */
 export function mnemonicToSeedSync(mnemonic: string, passphrase = ''): Uint8Array {
   return pbkdf2(sha512, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
+}
+
+/**
+ * Uses native, built-in functionality, provided by globalThis.crypto.
+ * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
+ * @param mnemonic 12-24 words
+ * @param passphrase string that will additionally protect the key
+ * @returns 64 bytes of key data
+ * @example
+ * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+ * mnemonicToSeedWebcrypto(mnem, 'password');
+ * // new Uint8Array([...64 bytes])
+ */
+export function mnemonicToSeedWebcrypto(mnemonic: string, passphrase = ''): Promise<Uint8Array> {
+  return pbkdf2web(sha512web, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
 }

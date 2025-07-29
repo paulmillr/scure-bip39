@@ -4,7 +4,7 @@ Audited & minimal JS implementation of [BIP39 mnemonic phrases](https://github.c
 
 - 🔒 [**Audited**](#security) by an independent security firm
 - 🔻 Tree-shakeable: unused code is excluded from your builds
-- 📦 ESM
+- 🥈 Two implementations: pure JS or friendly WebCrypto wrapper
 - ➰ Only 2 audited dependencies by the same author:
   [noble-hashes](https://github.com/paulmillr/noble-hashes) and [scure-base](https://github.com/paulmillr/scure-base)
 - 🪶 14KB (gzipped) with one wordlist, 79KB with all of them: much smaller than similar libraries
@@ -56,8 +56,9 @@ bip39.entropyToMnemonic(ent, wordlist);
 bip39.validateMnemonic(mn, wordlist);
 
 // Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
-await bip39.mnemonicToSeed(mn, 'password');
-bip39.mnemonicToSeedSync(mn, 'password');
+const seed1 = await bip39.mnemonicToSeed(mn, 'password');
+const seed2 = bip39.mnemonicToSeedSync(mn, 'password');
+const seed3 = await bip39.mnemonicToSeedWebcrypto(mn, 'password'); // Native, WebCrypto version.
 ```
 
 This submodule contains the word lists defined by BIP39 for Czech, English, French, Italian, Japanese, Korean, Portuguese, Simplified and Traditional Chinese, and Spanish. These are not imported by default, as that would increase bundle sizes too much. Instead, you should import and use them explicitly.
@@ -69,6 +70,7 @@ function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string;
 function validateMnemonic(mnemonic: string, wordlist: string[]): boolean;
 function mnemonicToSeed(mnemonic: string, passphrase?: string): Promise<Uint8Array>;
 function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
+function mnemonicToSeedWebcrypto(mnemonic: string, passphrase?: string): Promise<Uint8Array>;
 ```
 
 All wordlists (**warning: non-english wordlists are officially discouraged by bip39**):

@@ -6,6 +6,7 @@ import {
   mnemonicToEntropy,
   mnemonicToSeed,
   mnemonicToSeedSync,
+  mnemonicToSeedWebcrypto,
   validateMnemonic,
 } from '../index.js';
 import { wordlist as englishWordlist } from '../wordlists/english.js';
@@ -106,6 +107,8 @@ describe('BIP39', () => {
         should('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
+          const recoveredSeedWeb = await mnemonicToSeedWebcrypto(MENMONIC);
+          deepStrictEqual(equalsBytes(SEED, recoveredSeedWeb), true);
         });
       });
     });
@@ -131,6 +134,8 @@ describe('BIP39', () => {
         should('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
+          const recoveredSeedWeb = await mnemonicToSeedWebcrypto(MENMONIC, PASSPHRASE);
+          deepStrictEqual(equalsBytes(SEED, recoveredSeedWeb), true);
         });
       });
     });
@@ -404,6 +409,9 @@ describe('BIP39', () => {
         );
         const res = await mnemonicToSeed(mnemonic, password);
         deepStrictEqual(bytesToHex(res), seed, 'mnemonicToSeed');
+        const res2 = await mnemonicToSeedWebcrypto(mnemonic, password);
+        deepStrictEqual(bytesToHex(res2), seed, 'mnemonicToSeedWeb');
+
         deepStrictEqual(
           entropyToMnemonic(hexToBytes(entropy), wordlist),
           mnemonic,
