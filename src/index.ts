@@ -55,7 +55,8 @@ function normalize(str: string) {
 }
 
 function aentropy(ent: Uint8Array) {
-  abytes(ent, 16, 20, 24, 28, 32);
+  abytes(ent);
+  if (![16, 20, 24, 28, 32].includes(ent.length)) throw new Error('invalid entropy length');
 }
 
 /**
