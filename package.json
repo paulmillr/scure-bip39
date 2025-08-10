@@ -10,15 +10,15 @@
     "src/index.ts"
   ],
   "dependencies": {
-    "@noble/hashes": "2.0.0-beta.3",
+    "@noble/hashes": "2.0.0-beta.4",
     "@scure/base": "~1.2.5"
   },
   "devDependencies": {
     "@paulmillr/jsbt": "0.4.1",
     "micro-bmark": "0.4.2",
     "micro-should": "0.5.3",
-    "prettier": "3.5.3",
-    "typescript": "5.8.3"
+    "prettier": "3.6.2",
+    "typescript": "5.9.2"
   },
   "author": "Paul Miller (https://paulmillr.com)",
   "homepage": "https://paulmillr.com/",
