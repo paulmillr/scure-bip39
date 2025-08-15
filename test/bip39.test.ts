@@ -433,7 +433,7 @@ describe('BIP39', () => {
       );
     }
     should('Invalid entropy', () => {
-      throws(() => entropyToMnemonic(new Uint8Array([]), englishWordlist));
+      throws(() => entropyToMnemonic(Uint8Array.of(), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array([0, 0, 0]), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array(1028), englishWordlist));
     });

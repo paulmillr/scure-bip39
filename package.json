@@ -20,13 +20,6 @@
     "prettier": "3.6.2",
     "typescript": "5.9.2"
   },
-  "author": "Paul Miller (https://paulmillr.com)",
-  "homepage": "https://paulmillr.com/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/paulmillr/scure-bip39.git"
-  },
-  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "build:release": "npx --no @paulmillr/jsbt esbuild test/build",
@@ -38,11 +31,6 @@
     "test:deno": "deno --allow-env --allow-read test/index.js",
     "fetch-wordlist": "./test/scripts/fetch-wordlist.js"
   },
-  "sideEffects": false,
-  "type": "module",
-  "main": "index.js",
-  "module": "index.js",
-  "types": "./index.d.ts",
   "keywords": [
     "bip39",
     "mnemonic",
@@ -54,5 +42,17 @@
     "scure",
     "noble"
   ],
-  "funding": "https://paulmillr.com/funding/"
+  "homepage": "https://paulmillr.com/noble/#scure",
+  "funding": "https://paulmillr.com/funding/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulmillr/scure-bip39.git"
+  },
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "author": "Paul Miller (https://paulmillr.com)",
+  "license": "MIT"
 }
