@@ -1,33 +1,3 @@
-/**
- * Audited & minimal JS implementation of
- * [BIP39 mnemonic phrases](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
- * @module
- * @example
-```js
-import * as bip39 from '@scure/bip39';
-import { wordlist } from '@scure/bip39/wordlists/english.js';
-const mn = bip39.generateMnemonic(wordlist);
-console.log(mn);
-const ent = bip39.mnemonicToEntropy(mn, wordlist)
-bip39.entropyToMnemonic(ent, wordlist);
-bip39.validateMnemonic(mn, wordlist);
-await bip39.mnemonicToSeed(mn, 'password');
-bip39.mnemonicToSeedSync(mn, 'password');
-
-// Wordlists
-import { wordlist as czech } from '@scure/bip39/wordlists/czech.js';
-import { wordlist as english } from '@scure/bip39/wordlists/english.js';
-import { wordlist as french } from '@scure/bip39/wordlists/french.js';
-import { wordlist as italian } from '@scure/bip39/wordlists/italian.js';
-import { wordlist as japanese } from '@scure/bip39/wordlists/japanese.js';
-import { wordlist as korean } from '@scure/bip39/wordlists/korean.js';
-import { wordlist as portuguese } from '@scure/bip39/wordlists/portuguese.js';
-import { wordlist as simplifiedChinese } from '@scure/bip39/wordlists/simplified-chinese.js';
-import { wordlist as spanish } from '@scure/bip39/wordlists/spanish.js';
-import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/traditional-chinese.js';
-```
- */
-
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2.js';
 import { sha256, sha512 } from '@noble/hashes/sha2.js';
