@@ -39,7 +39,8 @@
     "bip-39",
     "wordlist",
     "scure",
-    "noble"
+    "noble",
+    "bitcoin"
   ],
   "homepage": "https://paulmillr.com/noble/#scure",
   "funding": "https://paulmillr.com/funding/",
