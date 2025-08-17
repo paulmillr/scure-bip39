@@ -33,8 +33,6 @@ hierarchical deterministic wallets ("HD Wallets").
 
 > `deno add jsr:@scure/bip39`
 
-> `deno doc jsr:@scure/bip39` # command-line documentation
-
 We don't provide source maps.
 Wordlists are large, including source maps would double package size.
 

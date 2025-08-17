@@ -1,6 +1,6 @@
 {
   "name": "@scure/bip39",
-  "version": "1.6.0",
+  "version": "2.0.0-beta.1",
   "description": "Secure, audited & minimal implementation of BIP39 mnemonic phrases",
   "files": [
     "index.js",
@@ -10,11 +10,11 @@
     "src/index.ts"
   ],
   "dependencies": {
-    "@noble/hashes": "2.0.0-beta.4",
-    "@scure/base": "~1.2.5"
+    "@noble/hashes": "2.0.0-beta.5",
+    "@scure/base": "2.0.0-beta.1"
   },
   "devDependencies": {
-    "@paulmillr/jsbt": "0.4.1",
+    "@paulmillr/jsbt": "0.4.2",
     "micro-bmark": "0.4.2",
     "micro-should": "0.5.3",
     "prettier": "3.6.2",
@@ -23,7 +23,6 @@
   "scripts": {
     "build": "tsc",
     "build:release": "npx --no @paulmillr/jsbt esbuild test/build",
-    "lint": "prettier --check 'src/**/*.ts' 'test/*.test.ts' 'test/scripts/*.js'",
     "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts' 'test/scripts/*.js'",
     "bench": "node test/benchmark.js",
     "test": "node --experimental-strip-types --no-warnings test/index.ts",
