@@ -14,9 +14,7 @@
     "@scure/base": "2.0.0-beta.1"
   },
   "devDependencies": {
-    "@paulmillr/jsbt": "0.4.2",
-    "micro-bmark": "0.4.2",
-    "micro-should": "0.5.3",
+    "@paulmillr/jsbt": "0.4.3",
     "prettier": "3.6.2",
     "typescript": "5.9.2"
   },
@@ -28,6 +26,7 @@
     "test": "node --experimental-strip-types --no-warnings test/index.ts",
     "test:bun": "bun test/index.ts",
     "test:deno": "deno --allow-env --allow-read test/index.js",
+    "test:node20": "cd test; npx tsc; node compiled/test/index.js",
     "fetch-wordlist": "./test/scripts/fetch-wordlist.js"
   },
   "keywords": [

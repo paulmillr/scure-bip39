@@ -1,22 +1,13 @@
 {
+  "extends": "@paulmillr/jsbt/tsconfig.test.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "rootDirs": [
-      "."
-    ],
-    "outDir": ".",
-    "sourceMap": false,
-    "noUnusedLocals": true,
-    "declaration": true,
-    "declarationMap": false
+    "baseUrl": ".",
+    "outDir": "compiled",
   },
   "include": [
-    "."
+    "*.ts"
   ],
-  "exclude": ["node_modules", "./*.d.ts", "./test/*.d.ts"]
+  "exclude": [
+    "node_modules"
+  ]
 }

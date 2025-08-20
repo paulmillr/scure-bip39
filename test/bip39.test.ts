@@ -1,5 +1,5 @@
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils.js';
-import { describe, should } from 'micro-should';
+import { describe, should } from '@paulmillr/jsbt/test.js';
 import {
   entropyToMnemonic,
   generateMnemonic,
@@ -8,11 +8,11 @@ import {
   mnemonicToSeedSync,
   mnemonicToSeedWebcrypto,
   validateMnemonic,
-} from '../index.js';
-import { wordlist as englishWordlist } from '../wordlists/english.js';
-import { wordlist as japaneseWordlist } from '../wordlists/japanese.js';
-import { wordlist as portugueseWordlist } from '../wordlists/portuguese.js';
-import { wordlist as spanishWordlist } from '../wordlists/spanish.js';
+} from '../src/index.ts';
+import { wordlist as englishWordlist } from '../src/wordlists/english.js';
+import { wordlist as japaneseWordlist } from '../src/wordlists/japanese.js';
+import { wordlist as portugueseWordlist } from '../src/wordlists/portuguese.js';
+import { wordlist as spanishWordlist } from '../src/wordlists/spanish.js';
 import { deepStrictEqual, throws } from './assert.ts';
 
 export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
