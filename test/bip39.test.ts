@@ -9,10 +9,10 @@ import {
   mnemonicToSeedWebcrypto,
   validateMnemonic,
 } from '../src/index.ts';
-import { wordlist as englishWordlist } from '../src/wordlists/english.js';
-import { wordlist as japaneseWordlist } from '../src/wordlists/japanese.js';
-import { wordlist as portugueseWordlist } from '../src/wordlists/portuguese.js';
-import { wordlist as spanishWordlist } from '../src/wordlists/spanish.js';
+import { wordlist as englishWordlist } from '../src/wordlists/english.ts';
+import { wordlist as japaneseWordlist } from '../src/wordlists/japanese.ts';
+import { wordlist as portugueseWordlist } from '../src/wordlists/portuguese.ts';
+import { wordlist as spanishWordlist } from '../src/wordlists/spanish.ts';
 import { deepStrictEqual, throws } from './assert.ts';
 
 export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
