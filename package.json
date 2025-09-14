@@ -29,6 +29,19 @@
     "test:node20": "cd test; npx tsc; node compiled/test/index.js",
     "fetch-wordlist": "./test/scripts/fetch-wordlist.js"
   },
+  "exports": {
+    ".": "./index.js",
+    "./wordlists/czech.js": "./wordlists/czech.js",
+    "./wordlists/english.js": "./wordlists/english.js",
+    "./wordlists/french.js": "./wordlists/french.js",
+    "./wordlists/italian.js": "./wordlists/italian.js",
+    "./wordlists/japanese.js": "./wordlists/japanese.js",
+    "./wordlists/korean.js": "./wordlists/korean.js",
+    "./wordlists/portuguese.js": "./wordlists/portuguese.js",
+    "./wordlists/simplified-chinese.js": "./wordlists/simplified-chinese.js",
+    "./wordlists/spanish.js": "./wordlists/spanish.js",
+    "./wordlists/traditional-chinese.js": "./wordlists/traditional-chinesejss"
+  },
   "keywords": [
     "bip39",
     "mnemonic",
