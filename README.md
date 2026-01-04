@@ -44,6 +44,11 @@ import { wordlist } from '@scure/bip39/wordlists/english.js';
 const mn = bip39.generateMnemonic(wordlist);
 console.log(mn);
 
+// You can customize the strength of the generated mnemonic by passing a value between 128 and 256 as the second argument to the generateMnemonic function.
+// This value must be a multiple of 32. Default is 128.
+const mn256 = bip39.generateMnemonic(wordlist, 256);
+console.log(mn256);
+
 // Reversible: Converts mnemonic string to raw entropy in form of byte array.
 const ent = bip39.mnemonicToEntropy(mn, wordlist);
 
@@ -52,6 +57,7 @@ bip39.entropyToMnemonic(ent, wordlist);
 
 // Validates mnemonic for being 12-24 words contained in `wordlist`.
 bip39.validateMnemonic(mn, wordlist);
+bip39.validateMnemonic(mn256, wordlist);
 
 // Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
 const seed1 = await bip39.mnemonicToSeed(mn, 'password');
