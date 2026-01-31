@@ -40,7 +40,7 @@
     "./wordlists/portuguese.js": "./wordlists/portuguese.js",
     "./wordlists/simplified-chinese.js": "./wordlists/simplified-chinese.js",
     "./wordlists/spanish.js": "./wordlists/spanish.js",
-    "./wordlists/traditional-chinese.js": "./wordlists/traditional-chinesejss"
+    "./wordlists/traditional-chinese.js": "./wordlists/traditional-chinese.js"
   },
   "keywords": [
     "bip39",
