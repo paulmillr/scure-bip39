@@ -437,6 +437,15 @@ describe('BIP39', () => {
       throws(() => entropyToMnemonic(new Uint8Array([0, 0, 0]), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array(1028), englishWordlist));
     });
+    should('validator constructors', () => {
+      const badWordlist = englishWordlist.slice() as unknown[];
+      badWordlist[0] = 1;
+      throws(() => entropyToMnemonic(Uint8Array.of(), englishWordlist), RangeError);
+      throws(() => entropyToMnemonic(new Uint8Array(16), [] as any), TypeError);
+      throws(() => entropyToMnemonic(new Uint8Array(16), badWordlist as any), TypeError);
+      throws(() => generateMnemonic(englishWordlist, 129), RangeError);
+      throws(() => generateMnemonic(englishWordlist, 288), RangeError);
+    });
     should('UTF8 passwords', () => {
       for (const [_, mnemonic, seed] of VECTORS.japanese) {
         const password = '㍍ガバヴァぱばぐゞちぢ十人十色';
