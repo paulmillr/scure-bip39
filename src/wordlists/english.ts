@@ -1,3 +1,4 @@
+/** English BIP39 wordlist. */
 export const wordlist: string[] = `abandon
 ability
 able

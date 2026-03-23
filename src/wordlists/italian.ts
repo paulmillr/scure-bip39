@@ -1,3 +1,4 @@
+/** Italian BIP39 wordlist. */
 export const wordlist: string[] = `abaco
 abbaglio
 abbinato

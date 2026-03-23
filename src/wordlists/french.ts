@@ -1,3 +1,4 @@
+/** French BIP39 wordlist. */
 export const wordlist: string[] = `abaisser
 abandon
 abdiquer

@@ -26,20 +26,28 @@ function normalize(str: string) {
 
 function aentropy(ent: Uint8Array) {
   abytes(ent);
-  if (![16, 20, 24, 28, 32].includes(ent.length)) throw new Error('invalid entropy length');
+  if (![16, 20, 24, 28, 32].includes(ent.length)) throw new RangeError('invalid entropy length');
 }
 
 /**
  * Generate x random words. Uses Cryptographically-Secure Random Number Generator.
- * @param wordlist imported wordlist for specific language
- * @param strength mnemonic strength 128-256 bits
+ * @param wordlist - Imported wordlist for a specific language.
+ * @param strength - Mnemonic strength, from 128 to 256 bits.
+ * @returns 12-24 word mnemonic phrase.
+ * @throws On wrong argument types. {@link TypeError}
+ * @throws On wrong argument ranges or values. {@link RangeError}
  * @example
- * generateMnemonic(wordlist, 128)
+ * Generate a new English mnemonic.
+ * ```ts
+ * import { generateMnemonic } from '@scure/bip39';
+ * import { wordlist } from '@scure/bip39/wordlists/english.js';
+ * const mnemonic = generateMnemonic(wordlist, 128);
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
+ * ```
  */
 export function generateMnemonic(wordlist: string[], strength: number = 128): string {
   anumber(strength);
-  if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy');
+  if (strength % 32 !== 0 || strength > 256) throw new RangeError('Invalid entropy');
   return entropyToMnemonic(randomBytes(strength / 8), wordlist);
 }
 
@@ -53,9 +61,9 @@ const calcChecksum = (entropy: Uint8Array) => {
 
 function getCoder(wordlist: string[]) {
   if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
-    throw new Error('Wordlist: expected array of 2048 strings');
+    throw new TypeError('Wordlist: expected array of 2048 strings');
   wordlist.forEach((i) => {
-    if (typeof i !== 'string') throw new Error('wordlist: non-string element: ' + i);
+    if (typeof i !== 'string') throw new TypeError('wordlist: non-string element: ' + i);
   });
   return baseUtils.chain(
     baseUtils.checksum(1, calcChecksum),
@@ -66,16 +74,25 @@ function getCoder(wordlist: string[]) {
 
 /**
  * Reversible: Converts mnemonic string to raw entropy in form of byte array.
- * @param mnemonic 12-24 words
- * @param wordlist imported wordlist for specific language
+ * @param mnemonic - 12-24 words.
+ * @param wordlist - Imported wordlist for a specific language.
+ * @returns Raw entropy bytes.
+ * @throws If the mnemonic shape or checksum is invalid. {@link Error}
+ * @throws On wrong argument types. {@link TypeError}
+ * @throws On wrong argument ranges or values. {@link RangeError}
  * @example
+ * Decode a mnemonic back into its original entropy bytes.
+ * ```ts
+ * import { mnemonicToEntropy } from '@scure/bip39';
+ * import { wordlist } from '@scure/bip39/wordlists/english.js';
  * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
- * mnemonicToEntropy(mnem, wordlist)
- * // Produces
+ * const entropy = mnemonicToEntropy(mnem, wordlist);
+ * // Produces the original 16-byte entropy payload.
  * new Uint8Array([
  *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
  *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
  * ])
+ * ```
  */
 export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Array {
   const { words } = normalize(mnemonic);
@@ -86,16 +103,23 @@ export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Ar
 
 /**
  * Reversible: Converts raw entropy in form of byte array to mnemonic string.
- * @param entropy byte array
- * @param wordlist imported wordlist for specific language
- * @returns 12-24 words
+ * @param entropy - Byte array.
+ * @param wordlist - Imported wordlist for a specific language.
+ * @returns 12-24 words.
+ * @throws On wrong argument types. {@link TypeError}
+ * @throws On wrong argument ranges or values. {@link RangeError}
  * @example
+ * Convert raw entropy into an English mnemonic.
+ * ```ts
+ * import { entropyToMnemonic } from '@scure/bip39';
+ * import { wordlist } from '@scure/bip39/wordlists/english.js';
  * const ent = new Uint8Array([
  *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
  *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
  * ]);
- * entropyToMnemonic(ent, wordlist);
+ * const mnemonic = entropyToMnemonic(ent, wordlist);
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
+ * ```
  */
 export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string {
   aentropy(entropy);
@@ -105,6 +129,20 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): stri
 
 /**
  * Validates mnemonic for being 12-24 words contained in `wordlist`.
+ * @param mnemonic - 12-24 words.
+ * @param wordlist - Imported wordlist for a specific language.
+ * @returns `true` when mnemonic checksum and words are valid.
+ * @example
+ * Validate one English mnemonic.
+ * ```ts
+ * import { validateMnemonic } from '@scure/bip39';
+ * import { wordlist } from '@scure/bip39/wordlists/english.js';
+ * const ok = validateMnemonic(
+ *   'legal winner thank year wave sausage worth useful legal winner thank yellow',
+ *   wordlist
+ * );
+ * // => true
+ * ```
  */
 export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean {
   try {
@@ -119,13 +157,18 @@ const psalt = (passphrase: string) => nfkd('mnemonic' + passphrase);
 
 /**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
- * @param mnemonic 12-24 words
- * @param passphrase string that will additionally protect the key
- * @returns 64 bytes of key data
+ * @param mnemonic - 12-24 words.
+ * @param passphrase - String that will additionally protect the key.
+ * @returns 64 bytes of key data.
+ * @throws If the mnemonic shape is invalid. {@link Error}
+ * @throws On wrong argument types. {@link TypeError}
  * @example
+ * Derive a seed from a mnemonic with the async PBKDF2 helper.
+ * ```ts
  * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
- * await mnemonicToSeed(mnem, 'password');
- * // new Uint8Array([...64 bytes])
+ * const seed = await mnemonicToSeed(mnem, 'password');
+ * // => new Uint8Array([...64 bytes])
+ * ```
  */
 export function mnemonicToSeed(mnemonic: string, passphrase = ''): Promise<Uint8Array> {
   return pbkdf2Async(sha512, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
@@ -133,13 +176,18 @@ export function mnemonicToSeed(mnemonic: string, passphrase = ''): Promise<Uint8
 
 /**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
- * @param mnemonic 12-24 words
- * @param passphrase string that will additionally protect the key
- * @returns 64 bytes of key data
+ * @param mnemonic - 12-24 words.
+ * @param passphrase - String that will additionally protect the key.
+ * @returns 64 bytes of key data.
+ * @throws If the mnemonic shape is invalid. {@link Error}
+ * @throws On wrong argument types. {@link TypeError}
  * @example
+ * Derive a seed from a mnemonic with the sync PBKDF2 helper.
+ * ```ts
  * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
- * mnemonicToSeedSync(mnem, 'password');
- * // new Uint8Array([...64 bytes])
+ * const seed = mnemonicToSeedSync(mnem, 'password');
+ * // => new Uint8Array([...64 bytes])
+ * ```
  */
 export function mnemonicToSeedSync(mnemonic: string, passphrase = ''): Uint8Array {
   return pbkdf2(sha512, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
@@ -148,13 +196,18 @@ export function mnemonicToSeedSync(mnemonic: string, passphrase = ''): Uint8Arra
 /**
  * Uses native, built-in functionality, provided by globalThis.crypto.
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
- * @param mnemonic 12-24 words
- * @param passphrase string that will additionally protect the key
- * @returns 64 bytes of key data
+ * @param mnemonic - 12-24 words.
+ * @param passphrase - String that will additionally protect the key.
+ * @returns 64 bytes of key data.
+ * @throws If the mnemonic shape is invalid. {@link Error}
+ * @throws On wrong argument types. {@link TypeError}
  * @example
+ * Derive a seed with the native WebCrypto PBKDF2 helper.
+ * ```ts
  * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
- * mnemonicToSeedWebcrypto(mnem, 'password');
- * // new Uint8Array([...64 bytes])
+ * const seed = await mnemonicToSeedWebcrypto(mnem, 'password');
+ * // => new Uint8Array([...64 bytes])
+ * ```
  */
 export function mnemonicToSeedWebcrypto(mnemonic: string, passphrase = ''): Promise<Uint8Array> {
   return pbkdf2web(sha512web, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });

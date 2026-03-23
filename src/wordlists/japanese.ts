@@ -1,3 +1,4 @@
+/** Japanese BIP39 wordlist. */
 export const wordlist: string[] = `あいこくしん
 あいさつ
 あいだ

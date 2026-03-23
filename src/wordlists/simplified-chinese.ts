@@ -1,3 +1,4 @@
+/** Simplified Chinese BIP39 wordlist. */
 export const wordlist: string[] = `的
 一
 是

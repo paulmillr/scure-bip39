@@ -1,3 +1,4 @@
+/** Czech BIP39 wordlist. */
 export const wordlist: string[] = `abdikace
 abeceda
 adresa

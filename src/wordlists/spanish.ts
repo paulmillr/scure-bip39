@@ -1,3 +1,4 @@
+/** Spanish BIP39 wordlist. */
 export const wordlist: string[] = `ábaco
 abdomen
 abeja

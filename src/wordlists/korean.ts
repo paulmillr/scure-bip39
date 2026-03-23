@@ -1,3 +1,4 @@
+/** Korean BIP39 wordlist. */
 export const wordlist: string[] = `가격
 가끔
 가난
