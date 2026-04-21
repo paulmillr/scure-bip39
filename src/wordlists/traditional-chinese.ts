@@ -1,5 +1,6 @@
 /** Traditional Chinese BIP39 wordlist. */
-export const wordlist: string[] = `的
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `的
 一
 是
 在
@@ -2046,4 +2047,5 @@ export const wordlist: string[] = `的
 韋
 怨
 矮
-歇`.split('\n');
+歇`.split('\n')
+) as string[];

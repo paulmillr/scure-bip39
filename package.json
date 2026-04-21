@@ -10,7 +10,7 @@
     "src/index.ts"
   ],
   "dependencies": {
-    "@noble/hashes": "2.0.1",
+    "@noble/hashes": "2.2.0",
     "@scure/base": "2.0.0"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
   "scripts": {
     "build": "tsc",
     "build:release": "npx --no @paulmillr/jsbt esbuild test/build",
-    "check": "npm run check:readme && npm run check:treeshake && npm run check:jsdoc",
+    "check": "npx --no @paulmillr/jsbt check package.json",
     "check:readme": "npx --no @paulmillr/jsbt readme package.json",
     "check:treeshake": "npx --no @paulmillr/jsbt treeshake package.json test/build/out-treeshake",
     "check:jsdoc": "npx --no @paulmillr/jsbt tsdoc package.json",

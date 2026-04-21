@@ -1,5 +1,6 @@
 /** Portuguese BIP39 wordlist. */
-export const wordlist: string[] = `abacate
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `abacate
 abaixo
 abalar
 abater
@@ -2046,4 +2047,5 @@ zebu
 zelador
 zombar
 zoologia
-zumbido`.split('\n');
+zumbido`.split('\n')
+) as string[];

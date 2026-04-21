@@ -1,5 +1,6 @@
 /** Spanish BIP39 wordlist. */
-export const wordlist: string[] = `ábaco
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `ábaco
 abdomen
 abeja
 abierto
@@ -2046,4 +2047,5 @@ zarza
 zona
 zorro
 zumo
-zurdo`.split('\n');
+zurdo`.split('\n')
+) as string[];

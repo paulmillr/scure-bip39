@@ -1,5 +1,6 @@
 /** English BIP39 wordlist. */
-export const wordlist: string[] = `abandon
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `abandon
 ability
 able
 about
@@ -2046,4 +2047,5 @@ youth
 zebra
 zero
 zone
-zoo`.split('\n');
+zoo`.split('\n')
+) as string[];

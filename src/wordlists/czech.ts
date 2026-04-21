@@ -1,5 +1,6 @@
 /** Czech BIP39 wordlist. */
-export const wordlist: string[] = `abdikace
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `abdikace
 abeceda
 adresa
 agrese
@@ -2046,4 +2047,5 @@ zvesela
 zvon
 zvrat
 zvukovod
-zvyk`.split('\n');
+zvyk`.split('\n')
+) as string[];

@@ -48,7 +48,9 @@ let filenameKebabCased = parts.length > 1 ? `${parts[1]}-${parts[0]}` : arg;
     varName = 'wordlist';
 
     // write .ts file
-    const tsContent = `export const ${varName}: string[] = \`${wordlist}\`.split('\\n');\n`;
+    const tsContent =
+      `export const ${varName}: string[] = /* @__PURE__ */ ` +
+      `Object.freeze(\`${wordlist}\`.split('\\n')) as string[];\n`;
     await writeFile(
       pjoin(import.meta.dirname, '..', '..', 'src', 'wordlists', `${filenameKebabCased}.ts`),
       tsContent

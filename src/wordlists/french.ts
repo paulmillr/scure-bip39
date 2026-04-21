@@ -1,5 +1,6 @@
 /** French BIP39 wordlist. */
-export const wordlist: string[] = `abaisser
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `abaisser
 abandon
 abdiquer
 abeille
@@ -2046,4 +2047,5 @@ yacht
 zèbre
 zénith
 zeste
-zoologie`.split('\n');
+zoologie`.split('\n')
+) as string[];

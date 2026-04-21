@@ -1,5 +1,6 @@
 /** Japanese BIP39 wordlist. */
-export const wordlist: string[] = `あいこくしん
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `あいこくしん
 あいさつ
 あいだ
 あおぞら
@@ -2046,4 +2047,5 @@ export const wordlist: string[] = `あいこくしん
 わじまし
 わすれもの
 わらう
-われる`.split('\n');
+われる`.split('\n')
+) as string[];

@@ -1,5 +1,6 @@
 /** Italian BIP39 wordlist. */
-export const wordlist: string[] = `abaco
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `abaco
 abbaglio
 abbinato
 abete
@@ -2046,4 +2047,5 @@ zotico
 zucchero
 zufolo
 zulu
-zuppa`.split('\n');
+zuppa`.split('\n')
+) as string[];

@@ -1,5 +1,6 @@
 /** Korean BIP39 wordlist. */
-export const wordlist: string[] = `가격
+export const wordlist: string[] = /* @__PURE__ */ Object.freeze(
+  `가격
 가끔
 가난
 가능
@@ -2046,4 +2047,5 @@ export const wordlist: string[] = `가격
 희망
 희생
 흰색
-힘껏`.split('\n');
+힘껏`.split('\n')
+) as string[];
