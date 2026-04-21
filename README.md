@@ -94,10 +94,11 @@ import { wordlist as traditionalChinese } from '@scure/bip39/wordlists/tradition
 
 ## Security
 
-To audit wordlist content, run `node scripts/fetch-wordlist.js`.
+The library has been audited:
 
-The library has been independently audited:
-
+- at version 2.2.0, in Apr 2026, by ourselves (self-audited)
+  - Scope: everything
+  - [Changes since audit](https://github.com/paulmillr/scure-bip39/compare/2.2.0..main)
 - at version 1.0.0, in Jan 2022, by [cure53](https://cure53.de)
   - PDFs: [online](https://cure53.de/pentest-report_hashing-libs.pdf), [offline](./audit/2022-01-05-cure53-audit-nbl2.pdf)
   - [Changes since audit](https://github.com/paulmillr/scure-bip39/compare/1.0.0..main).
@@ -107,6 +108,8 @@ The library was initially developed for [js-ethereum-cryptography](https://githu
 At commit [ae00e6d7](https://github.com/ethereum/js-ethereum-cryptography/commit/ae00e6d7d24fb3c76a1c7fe10039f6ecd120b77e),
 it was extracted to a separate package called `micro-bip39`.
 After the audit we've decided to use `@scure` NPM namespace for security.
+
+To audit wordlist content, run `node scripts/fetch-wordlist.js`.
 
 ### Supply chain security
 
