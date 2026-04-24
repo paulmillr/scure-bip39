@@ -27,7 +27,7 @@ import { wordlist as spanishWordlist } from '../src/wordlists/spanish.ts';
 import { wordlist as traditionalChineseWordlist } from '../src/wordlists/traditional-chinese.ts';
 import { deepStrictEqual, throws } from './assert.ts';
 
-const BYTE_PARITY_PASSPHRASE = '㍍ガバヴァぱばぐゞちぢ十人十色';
+const BYTE_PARITY_PASSPHRASE = '七転び八起き、がんばりましょう';
 const BYTE_PARITY_PASSPHRASE_BYTES = new TextEncoder().encode(BYTE_PARITY_PASSPHRASE);
 const BYTE_PARITY_ENTROPIES = [
   hexToBytes('00000000000000000000000000000000'),
@@ -179,7 +179,7 @@ describe('BIP39', () => {
         'grunhido nevasca turbo coeso listagem galinha baronesa refugiar teclado cumprir fragata vinco';
       const PASSPHRASE_STR = 'password';
       const PASSPHRASE_BYTES = new TextEncoder().encode(PASSPHRASE_STR);
-      const UTF8_PASSPHRASE_STR = '㍍ガバヴァぱばぐゞちぢ十人十色';
+      const UTF8_PASSPHRASE_STR = '七転び八起き、がんばりましょう';
       const UTF8_PASSPHRASE_BYTES = new TextEncoder().encode(UTF8_PASSPHRASE_STR);
       const JAPANESE_ENTROPY = hexToBytes('7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f');
       const JAPANESE_MNEMONIC_STR = entropyToMnemonic(JAPANESE_ENTROPY, japaneseWordlist);
