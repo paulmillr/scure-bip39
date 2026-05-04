@@ -1,50 +1,30 @@
 {
-  "name": "@scure/bip39",
+  "name": "@notus/scure-bip39",
   "version": "2.2.0",
-  "description": "Secure, audited & minimal implementation of BIP39 mnemonic phrases",
+  "description": "Notus fork of @scure/bip39: a secure, audited & minimal implementation of BIP39 mnemonic phrases",
+  "main": "dist/index.js",
   "files": [
-    "index.js",
-    "index.d.ts",
-    "wordlists/*.js",
-    "wordlists/*.d.ts",
-    "src/index.ts"
+    "dist/"
   ],
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "@noble/hashes": "2.2.0",
     "@scure/base": "2.2.0"
   },
   "devDependencies": {
-    "@paulmillr/jsbt": "0.5.0",
     "prettier": "3.6.2",
     "typescript": "6.0.2"
   },
+  "author": "Paul Miller (https://paulmillr.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notuslabs/scure-bip39.git"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "build:release": "npx --no @paulmillr/jsbt esbuild test/build",
-    "check": "npx --no @paulmillr/jsbt check package.json",
-    "check:readme": "npx --no @paulmillr/jsbt readme package.json",
-    "check:treeshake": "npx --no @paulmillr/jsbt treeshake package.json test/build/out-treeshake",
-    "check:jsdoc": "npx --no @paulmillr/jsbt tsdoc package.json",
     "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts' 'test/scripts/*.js'",
-    "bench": "node test/benchmark.js",
-    "test": "node --experimental-strip-types --no-warnings test/index.ts",
-    "test:bun": "bun test/index.ts",
-    "test:deno": "deno --allow-env --allow-read test/index.js",
-    "test:node20": "cd test; npx tsc; node compiled/test/index.js",
-    "fetch-wordlist": "./test/scripts/fetch-wordlist.js"
-  },
-  "exports": {
-    ".": "./index.js",
-    "./wordlists/czech.js": "./wordlists/czech.js",
-    "./wordlists/english.js": "./wordlists/english.js",
-    "./wordlists/french.js": "./wordlists/french.js",
-    "./wordlists/italian.js": "./wordlists/italian.js",
-    "./wordlists/japanese.js": "./wordlists/japanese.js",
-    "./wordlists/korean.js": "./wordlists/korean.js",
-    "./wordlists/portuguese.js": "./wordlists/portuguese.js",
-    "./wordlists/simplified-chinese.js": "./wordlists/simplified-chinese.js",
-    "./wordlists/spanish.js": "./wordlists/spanish.js",
-    "./wordlists/traditional-chinese.js": "./wordlists/traditional-chinese.js"
+    "test": "node --experimental-strip-types --no-warnings test/index.ts"
   },
   "keywords": [
     "bip39",
@@ -58,17 +38,9 @@
     "noble",
     "bitcoin"
   ],
-  "homepage": "https://paulmillr.com/noble/#scure",
-  "funding": "https://paulmillr.com/funding/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/paulmillr/scure-bip39.git"
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
-  "type": "module",
-  "main": "index.js",
-  "module": "index.js",
-  "types": "index.d.ts",
-  "sideEffects": false,
-  "author": "Paul Miller (https://paulmillr.com)",
-  "license": "MIT"
+  "homepage": "https://github.com/notuslabs/scure-bip39"
 }
