@@ -1,10 +1,10 @@
 import { deepStrictEqual } from './assert.ts';
 import { describe, should } from '@paulmillr/jsbt/test.js';
 import { countSequenceInHeapStream } from './heap-scanner.ts';
-import { validateMnemonic, validateMnemonicFromBytes } from '../src/index.ts';
+import { validateMnemonic, validateMnemonicFromBytes, entropyToMnemonicBytes, generateEntropyBytes } from '../src/index.ts';
 import { wordlist } from '../src/wordlists/english.ts';
 
-describe('Mnemonic Memory Security Audit', () => {
+describe('Mnemonic Memory Security Checks', () => {
   // This test suite demonstrates that JavaScript Strings (immutable) 
   // persist in the V8 heap even after they are no longer needed, 
   // as they cannot be explicitly zeroed or cleared.
@@ -33,15 +33,9 @@ describe('Mnemonic Memory Security Audit', () => {
 
   should('Byte-based API: demonstrates that memory can be explicitly cleared', async () => {
     // 1. Create mnemonic as Uint8Array (mutable)
-    // We use a different phrase than the string test and define it via bytes
-    // to avoid creating a string literal that would be interned in the heap.
-    // Phrase: 'legal winner thank year wave sausage worth useful legal winner thank yellow'
-    const mnemonic = new Uint8Array([
-      108, 101, 103, 97, 108, 32, 119, 105, 110, 110, 101, 114, 32, 116, 104, 97, 110, 107, 32, 121,
-      101, 97, 114, 32, 119, 97, 118, 101, 32, 115, 97, 117, 115, 97, 103, 101, 32, 119, 111, 114,
-      116, 104, 32, 117, 115, 101, 102, 117, 108, 32, 108, 101, 103, 97, 108, 32, 119, 105, 110,
-      110, 101, 114, 32, 116, 104, 97, 110, 107, 32, 121, 101, 108, 108, 111, 119
-    ]);
+    // We generate it randomly to ensure it's not in any source code constants.
+    const entropy = generateEntropyBytes(128);
+    const mnemonic = entropyToMnemonicBytes(entropy, wordlist);
 
     // 2. Validate using the byte-based API
     const isValid = validateMnemonicFromBytes(mnemonic, wordlist);
@@ -68,7 +62,7 @@ describe('Mnemonic Memory Security Audit', () => {
 
     // 4. Verify that the sensitive data never leaked to the V8 heap.
     // Unlike strings, byte-based mnemonics live in a separate memory area (Buffer/ArrayBuffer).
-    // This check ensures that the validation process did not leave any traces on the JS heap.
+    // This check ensures that the validation process did not leave any traces on the js heap.
     const countAfter = await countSequenceInHeapStream(pattern);
     deepStrictEqual(countAfter === 0, true, 'Mnemonic content should never leak to the V8 heap');
   });
