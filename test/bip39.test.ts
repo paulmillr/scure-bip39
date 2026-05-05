@@ -1,7 +1,7 @@
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils.js';
 import { describe, should } from '@paulmillr/jsbt/test.js';
 import {
-  bip39ValidateMnemonicFromBytes,
+  validateMnemonicFromBytes,
   entropyToMnemonic,
   entropyToMnemonicBytes,
   entropyToSeedSyncFromBytes,
@@ -204,7 +204,7 @@ describe('BIP39', () => {
       });
 
       should('validate English mnemonic bytes correctly', () => {
-        deepStrictEqual(bip39ValidateMnemonicFromBytes(MENMONIC_BYTES, englishWordlist), true);
+        deepStrictEqual(validateMnemonicFromBytes(MENMONIC_BYTES, englishWordlist), true);
       });
 
       should('recover entropy from English mnemonic bytes', () => {
@@ -219,16 +219,16 @@ describe('BIP39', () => {
           bytesToHex(JAPANESE_ENTROPY)
         );
         deepStrictEqual(
-          bip39ValidateMnemonicFromBytes(JAPANESE_MNEMONIC_BYTES, japaneseWordlist),
+          validateMnemonicFromBytes(JAPANESE_MNEMONIC_BYTES, japaneseWordlist),
           true
         );
       });
 
       should('reject mnemonic bytes with the wrong wordlist', () => {
-        deepStrictEqual(bip39ValidateMnemonicFromBytes(MENMONIC_BYTES, spanishWordlist), false);
+        deepStrictEqual(validateMnemonicFromBytes(MENMONIC_BYTES, spanishWordlist), false);
         throws(() => mnemonicToEntropyFromBytes(MENMONIC_BYTES, spanishWordlist));
         deepStrictEqual(
-          bip39ValidateMnemonicFromBytes(JAPANESE_MNEMONIC_BYTES, englishWordlist),
+          validateMnemonicFromBytes(JAPANESE_MNEMONIC_BYTES, englishWordlist),
           false
         );
         throws(() => mnemonicToEntropyFromBytes(JAPANESE_MNEMONIC_BYTES, englishWordlist));

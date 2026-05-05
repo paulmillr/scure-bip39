@@ -452,7 +452,7 @@ export function mnemonicToEntropyFromBytes(mnemonic: Uint8Array, wordlist: strin
  * @param wordlist - Imported wordlist for a specific language.
  * @returns `true` when mnemonic checksum and words are valid.
  */
-export function bip39ValidateMnemonicFromBytes(
+export function validateMnemonicFromBytes(
   mnemonic: Uint8Array,
   wordlist: string[]
 ): boolean {
@@ -464,7 +464,13 @@ export function bip39ValidateMnemonicFromBytes(
   }
 }
 
-function mnemonicToSeedSyncFromBytes(
+/**
+ * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic bytes + optional password bytes.
+ * @param mnemonic - UTF-8 bytes containing 12-24 words.
+ * @param passphrase - UTF-8 bytes that will additionally protect the key.
+ * @returns 64 bytes of key data.
+ */
+export function mnemonicToSeedSyncFromBytes(
   mnemonic: Uint8Array,
   passphrase: Uint8Array = new Uint8Array()
 ): Uint8Array {
@@ -474,6 +480,24 @@ function mnemonicToSeedSyncFromBytes(
   salt.set(MNEMONIC_SALT_PREFIX);
   salt.set(p, MNEMONIC_SALT_PREFIX.length);
   return pbkdf2(sha512, m, salt, { c: 2048, dkLen: 64 }) as Uint8Array;
+}
+
+/**
+ * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic bytes + optional password bytes.
+ * @param mnemonic - UTF-8 bytes containing 12-24 words.
+ * @param passphrase - UTF-8 bytes that will additionally protect the key.
+ * @returns 64 bytes of key data.
+ */
+export function mnemonicToSeedFromBytes(
+  mnemonic: Uint8Array,
+  passphrase: Uint8Array = new Uint8Array()
+): Promise<Uint8Array> {
+  const m = nfkdBytes(mnemonic);
+  const p = nfkdBytes(passphrase);
+  const salt = new Uint8Array(MNEMONIC_SALT_PREFIX.length + p.length);
+  salt.set(MNEMONIC_SALT_PREFIX);
+  salt.set(p, MNEMONIC_SALT_PREFIX.length);
+  return pbkdf2Async(sha512, m, salt, { c: 2048, dkLen: 64 }) as Promise<Uint8Array>;
 }
 
 /**

@@ -75,6 +75,15 @@ function validateMnemonic(mnemonic: string, wordlist: string[]): boolean;
 function mnemonicToSeed(mnemonic: string, passphrase?: string): Promise<Uint8Array>;
 function mnemonicToSeedSync(mnemonic: string, passphrase?: string): Uint8Array;
 function mnemonicToSeedWebcrypto(mnemonic: string, passphrase?: string): Promise<Uint8Array>;
+
+// Byte-oriented API
+function generateEntropyBytes(strength?: number): Uint8Array;
+function entropyToMnemonicBytes(entropy: Uint8Array, wordlist: string[]): Uint8Array;
+function mnemonicToEntropyFromBytes(mnemonic: Uint8Array, wordlist: string[]): Uint8Array;
+function validateMnemonicFromBytes(mnemonic: Uint8Array, wordlist: string[]): boolean;
+function entropyToSeedSyncFromBytes(entropy: Uint8Array, wordlist: string[], passphrase?: Uint8Array): Uint8Array;
+function mnemonicToSeedSyncFromBytes(mnemonic: Uint8Array, passphrase?: Uint8Array): Uint8Array;
+function mnemonicToSeedFromBytes(mnemonic: Uint8Array, passphrase?: Uint8Array): Promise<Uint8Array>;
 ```
 
 All wordlists (**warning: non-english wordlists are officially discouraged by bip39**):
