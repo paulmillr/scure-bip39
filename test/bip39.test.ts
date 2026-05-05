@@ -1,12 +1,14 @@
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils.js';
 import { describe, should } from '@paulmillr/jsbt/test.js';
 import {
+  bip39ValidateMnemonicFromBytes,
   entropyToMnemonic,
   entropyToMnemonicBytes,
   entropyToSeedSyncFromBytes,
   generateEntropyBytes,
   generateMnemonic,
   mnemonicToEntropy,
+  mnemonicToEntropyFromBytes,
   mnemonicToSeed,
   mnemonicToSeedSync,
   mnemonicToSeedWebcrypto,
@@ -167,12 +169,14 @@ describe('BIP39', () => {
     });
     describe('Uint8Array helpers', () => {
       const MENMONIC_STR = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+      const MENMONIC_BYTES = new TextEncoder().encode(MENMONIC_STR);
       const PASSPHRASE_STR = 'password';
       const PASSPHRASE_BYTES = new TextEncoder().encode(PASSPHRASE_STR);
       const UTF8_PASSPHRASE_STR = '七転び八起き、がんばりましょう';
       const UTF8_PASSPHRASE_BYTES = new TextEncoder().encode(UTF8_PASSPHRASE_STR);
       const JAPANESE_ENTROPY = hexToBytes('7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f');
       const JAPANESE_MNEMONIC_STR = entropyToMnemonic(JAPANESE_ENTROPY, japaneseWordlist);
+      const JAPANESE_MNEMONIC_BYTES = new TextEncoder().encode(JAPANESE_MNEMONIC_STR);
 
       should('generate entropy bytes correctly', () => {
         const entropy = generateEntropyBytes(128);
@@ -197,6 +201,37 @@ describe('BIP39', () => {
         const mnemonic = new TextDecoder().decode(mnemonicBytes);
         deepStrictEqual(mnemonic.includes('\u3000'), true);
         deepStrictEqual(validateMnemonic(mnemonic, japaneseWordlist), true);
+      });
+
+      should('validate English mnemonic bytes correctly', () => {
+        deepStrictEqual(bip39ValidateMnemonicFromBytes(MENMONIC_BYTES, englishWordlist), true);
+      });
+
+      should('recover entropy from English mnemonic bytes', () => {
+        const entropy1 = mnemonicToEntropy(MENMONIC_STR, englishWordlist);
+        const entropy2 = mnemonicToEntropyFromBytes(MENMONIC_BYTES, englishWordlist);
+        deepStrictEqual(entropy1, entropy2);
+      });
+
+      should('recover entropy from Japanese mnemonic bytes', () => {
+        deepStrictEqual(
+          bytesToHex(mnemonicToEntropyFromBytes(JAPANESE_MNEMONIC_BYTES, japaneseWordlist)),
+          bytesToHex(JAPANESE_ENTROPY)
+        );
+        deepStrictEqual(
+          bip39ValidateMnemonicFromBytes(JAPANESE_MNEMONIC_BYTES, japaneseWordlist),
+          true
+        );
+      });
+
+      should('reject mnemonic bytes with the wrong wordlist', () => {
+        deepStrictEqual(bip39ValidateMnemonicFromBytes(MENMONIC_BYTES, spanishWordlist), false);
+        throws(() => mnemonicToEntropyFromBytes(MENMONIC_BYTES, spanishWordlist));
+        deepStrictEqual(
+          bip39ValidateMnemonicFromBytes(JAPANESE_MNEMONIC_BYTES, englishWordlist),
+          false
+        );
+        throws(() => mnemonicToEntropyFromBytes(JAPANESE_MNEMONIC_BYTES, englishWordlist));
       });
 
       should('derive seed from entropy bytes correctly', () => {
@@ -525,6 +560,14 @@ describe('BIP39', () => {
           const mnemonic = entropyToMnemonic(entropy, wordlist);
           const mnemonicBytes = entropyToMnemonicBytes(entropy, wordlist);
           deepStrictEqual(new TextDecoder().decode(mnemonicBytes), mnemonic);
+        });
+        should(`${name} bytes/string recovery parity (${entropyHex})`, () => {
+          const mnemonic = entropyToMnemonic(entropy, wordlist);
+          const mnemonicBytes = new TextEncoder().encode(mnemonic);
+          deepStrictEqual(
+            bytesToHex(mnemonicToEntropyFromBytes(mnemonicBytes, wordlist)),
+            bytesToHex(mnemonicToEntropy(mnemonic, wordlist))
+          );
         });
       }
     }

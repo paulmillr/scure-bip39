@@ -260,6 +260,88 @@ const WORD_SEPARATOR = 0x20;
 const MNEMONIC_SALT_PREFIX = new Uint8Array([109, 110, 101, 109, 111, 110, 105, 99]); // "mnemonic"
 const JAPANESE_MNEMONIC_SEPARATOR = new Uint8Array([0xe3, 0x80, 0x80]);
 
+function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+function splitMnemonicBytes(mnemonic: Uint8Array): Uint8Array[] {
+  const separator = isJapaneseWordSeparator(mnemonic)
+    ? JAPANESE_MNEMONIC_SEPARATOR
+    : new Uint8Array([WORD_SEPARATOR]);
+  const words: Uint8Array[] = [];
+  let start = 0;
+
+  for (let i = 0; i <= mnemonic.length - separator.length; ) {
+    if (equalBytes(mnemonic.subarray(i, i + separator.length), separator)) {
+      words.push(mnemonic.subarray(start, i));
+      i += separator.length;
+      start = i;
+      continue;
+    }
+    i += 1;
+  }
+
+  words.push(mnemonic.subarray(start));
+  if (![12, 15, 18, 21, 24].includes(words.length)) throw new Error('Invalid mnemonic');
+  return words;
+}
+
+function isJapaneseWordSeparator(bytes: Uint8Array): boolean {
+  for (let i = 0; i <= bytes.length - JAPANESE_MNEMONIC_SEPARATOR.length; i++) {
+    if (
+      equalBytes(
+        bytes.subarray(i, i + JAPANESE_MNEMONIC_SEPARATOR.length),
+        JAPANESE_MNEMONIC_SEPARATOR
+      )
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function decodeMnemonicWordIndexes(words: Uint8Array[], wordlist: string[]): number[] {
+  const encodedWordlist = wordlist.map((word) => nfkdBytes(word));
+
+  return words.map((word) => {
+    for (let i = 0; i < encodedWordlist.length; i++) {
+      if (equalBytes(word, encodedWordlist[i])) return i;
+    }
+    throw new Error('Invalid mnemonic');
+  });
+}
+
+function decodeMnemonicEntropy(wordIndexes: number[]): Uint8Array {
+  const entropy = new Uint8Array((wordIndexes.length / 3) * 4);
+  const entropyBitLength = entropy.length * 8;
+  const checksumBitLength = entropy.length / 4;
+  let checksum = 0;
+  let bitIndex = 0;
+
+  for (const wordIndex of wordIndexes) {
+    for (let bit = 10; bit >= 0; bit--) {
+      const value = (wordIndex >> bit) & 1;
+
+      if (bitIndex < entropyBitLength) {
+        if (value) entropy[bitIndex >> 3] |= 1 << (7 - (bitIndex & 7));
+      } else {
+        checksum = (checksum << 1) | value;
+      }
+
+      bitIndex += 1;
+    }
+  }
+
+  aentropy(entropy);
+  const expectedChecksum = sha256(entropy)[0]! >> (8 - checksumBitLength);
+  if (checksum !== expectedChecksum) throw new Error('Invalid mnemonic');
+  return entropy;
+}
+
 function nfkdBytes(value: string | Uint8Array): Uint8Array {
   if (value instanceof Uint8Array && isASCII(value)) return value;
   const normalized =
@@ -334,6 +416,52 @@ export function entropyToMnemonicBytes(entropy: TArg<Uint8Array>, wordlist: stri
     }
   }
   return res;
+}
+
+/**
+ * Reversible: Converts mnemonic UTF-8 bytes to raw entropy bytes.
+ * @param mnemonic - UTF-8 bytes containing 12-24 words.
+ * @param wordlist - Imported wordlist for a specific language.
+ * @returns Raw entropy bytes.
+ * @throws If the mnemonic shape or checksum is invalid. {@link Error}
+ * @throws On wrong argument types. {@link TypeError}
+ * @throws On wrong argument ranges or values. {@link RangeError}
+ * @example
+ * Decode mnemonic bytes back into entropy.
+ * ```ts
+ * import { mnemonicToEntropyFromBytes } from '@scure/bip39';
+ * import { wordlist } from '@scure/bip39/wordlists/english.js';
+ * const mnemonic = new TextEncoder().encode(
+ *   'legal winner thank year wave sausage worth useful legal winner thank yellow'
+ * );
+ * const entropy = mnemonicToEntropyFromBytes(mnemonic, wordlist);
+ * // Produces the original 16-byte entropy payload.
+ * ```
+ */
+export function mnemonicToEntropyFromBytes(mnemonic: Uint8Array, wordlist: string[]): Uint8Array {
+  getCoder(wordlist);
+  const normalizedMnemonic = nfkdBytes(mnemonic);
+  const words = splitMnemonicBytes(normalizedMnemonic);
+  const wordIndexes = decodeMnemonicWordIndexes(words, wordlist);
+  return decodeMnemonicEntropy(wordIndexes);
+}
+
+/**
+ * Validates mnemonic bytes for being 12-24 words contained in `wordlist`.
+ * @param mnemonic - UTF-8 bytes containing 12-24 words.
+ * @param wordlist - Imported wordlist for a specific language.
+ * @returns `true` when mnemonic checksum and words are valid.
+ */
+export function bip39ValidateMnemonicFromBytes(
+  mnemonic: Uint8Array,
+  wordlist: string[]
+): boolean {
+  try {
+    mnemonicToEntropyFromBytes(mnemonic, wordlist);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 function mnemonicToSeedSyncFromBytes(
