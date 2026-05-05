@@ -47,6 +47,7 @@ describe('Mnemonic Memory Security Audit', () => {
     const isValid = validateMnemonicFromBytes(mnemonic, wordlist);
     deepStrictEqual(isValid, true, 'Mnemonic should be valid');
 
+    // Copy pattern before zeroing
     const pattern = Array.from(mnemonic);
 
     // 3. Explicitly zero the memory
