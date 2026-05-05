@@ -304,8 +304,20 @@ function isJapaneseWordSeparator(bytes: Uint8Array): boolean {
   return false;
 }
 
+const ENCODED_WORDLIST_CACHE = new WeakMap<string[], Uint8Array[]>();
+
+// caches encoded wordlist to avoid re-allocating 2048 arrays on every validation
+function getEncodedWordlist(wordlist: string[]): Uint8Array[] {
+  let cached = ENCODED_WORDLIST_CACHE.get(wordlist);
+  if (!cached) {
+    cached = wordlist.map((word) => nfkdBytes(word));
+    ENCODED_WORDLIST_CACHE.set(wordlist, cached);
+  }
+  return cached;
+}
+
 function decodeMnemonicWordIndexes(words: Uint8Array[], wordlist: string[]): number[] {
-  const encodedWordlist = wordlist.map((word) => nfkdBytes(word));
+  const encodedWordlist = getEncodedWordlist(wordlist);
 
   return words.map((word) => {
     for (let i = 0; i < encodedWordlist.length; i++) {
@@ -410,6 +422,7 @@ export function entropyToMnemonicBytes(entropy: TArg<Uint8Array>, wordlist: stri
   for (let i = 0; i < wordBytes.length; i++) {
     res.set(wordBytes[i], pos);
     pos += wordBytes[i].length;
+    wordBytes[i].fill(0); // Clear individual word buffer
     if (i < wordBytes.length - 1) {
       res.set(sep, pos);
       pos += sep.length;
@@ -457,7 +470,8 @@ export function validateMnemonicFromBytes(
   wordlist: string[]
 ): boolean {
   try {
-    mnemonicToEntropyFromBytes(mnemonic, wordlist);
+    const entropy = mnemonicToEntropyFromBytes(mnemonic, wordlist);
+    entropy.fill(0);
     return true;
   } catch (e) {
     return false;
@@ -477,9 +491,15 @@ export function mnemonicToSeedSyncFromBytes(
   const m = nfkdBytes(mnemonic);
   const p = nfkdBytes(passphrase);
   const salt = new Uint8Array(MNEMONIC_SALT_PREFIX.length + p.length);
-  salt.set(MNEMONIC_SALT_PREFIX);
-  salt.set(p, MNEMONIC_SALT_PREFIX.length);
-  return pbkdf2(sha512, m, salt, { c: 2048, dkLen: 64 }) as Uint8Array;
+  try {
+    salt.set(MNEMONIC_SALT_PREFIX);
+    salt.set(p, MNEMONIC_SALT_PREFIX.length);
+    return pbkdf2(sha512, m, salt, { c: 2048, dkLen: 64 }) as Uint8Array;
+  } finally {
+    salt.fill(0);
+    if (m !== mnemonic) m.fill(0);
+    if (p !== passphrase) p.fill(0);
+  }
 }
 
 /**
@@ -488,16 +508,22 @@ export function mnemonicToSeedSyncFromBytes(
  * @param passphrase - UTF-8 bytes that will additionally protect the key.
  * @returns 64 bytes of key data.
  */
-export function mnemonicToSeedFromBytes(
+export async function mnemonicToSeedFromBytes(
   mnemonic: Uint8Array,
   passphrase: Uint8Array = new Uint8Array()
 ): Promise<Uint8Array> {
   const m = nfkdBytes(mnemonic);
   const p = nfkdBytes(passphrase);
   const salt = new Uint8Array(MNEMONIC_SALT_PREFIX.length + p.length);
-  salt.set(MNEMONIC_SALT_PREFIX);
-  salt.set(p, MNEMONIC_SALT_PREFIX.length);
-  return pbkdf2Async(sha512, m, salt, { c: 2048, dkLen: 64 }) as Promise<Uint8Array>;
+  try {
+    salt.set(MNEMONIC_SALT_PREFIX);
+    salt.set(p, MNEMONIC_SALT_PREFIX.length);
+    return (await pbkdf2Async(sha512, m, salt, { c: 2048, dkLen: 64 })) as Uint8Array;
+  } finally {
+    salt.fill(0);
+    if (m !== mnemonic) m.fill(0);
+    if (p !== passphrase) p.fill(0);
+  }
 }
 
 /**
