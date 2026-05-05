@@ -2,7 +2,7 @@ import { deepStrictEqual } from './assert.ts';
 import { describe, should } from '@paulmillr/jsbt/test.js';
 import { countSequenceInHeapStream } from './heap-scanner.ts';
 import { validateMnemonic, validateMnemonicFromBytes } from '../src/index.ts';
-import { wordlist } from '../wordlists/english.js';
+import { wordlist } from '../src/wordlists/english.ts';
 
 describe('Mnemonic Memory Security Audit', () => {
   // This test suite demonstrates that JavaScript Strings (immutable) 
