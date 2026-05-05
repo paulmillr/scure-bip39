@@ -5,14 +5,16 @@ import * as v8 from 'v8';
  * getHeapSnapshot() triggers a full Garbage Collection before taking the snapshot.
  */
 export async function countSequenceInHeapStream(
-  sequence: number[] | Uint8Array
+  sequence: number[] | Uint8Array | string
 ): Promise<number> {
   const snapshot = v8.getHeapSnapshot();
 
   return new Promise((resolve, reject) => {
     let occurrences = 0;
 
-    const bytes = Array.from(sequence);
+    const bytes = typeof sequence === 'string' 
+      ? Array.from(sequence).map(c => c.charCodeAt(0)) 
+      : Array.from(sequence);
     const rawPattern = Buffer.from(bytes);
     const decimalPattern = Buffer.from(bytes.join(','));
     const hexPattern = Buffer.from(
