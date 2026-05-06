@@ -15,6 +15,10 @@ import {
   mnemonicToSeedWebcrypto,
   mnemonicToSeedFromBytesWebcrypto,
   validateMnemonic,
+  equalBytes,
+  normalizeMnemonicBytes,
+  splitMnemonicBytes,
+  nfkdBytes,
 } from '../src/index.ts';
 import { wordlist as czechWordlist } from '../src/wordlists/czech.ts';
 import { wordlist as englishWordlist } from '../src/wordlists/english.ts';
@@ -664,6 +668,53 @@ describe('BIP39', () => {
         false,
         'fails for invalid checksum'
       );
+    });
+  });
+  describe('Utility functions', () => {
+    should('equalBytes should compare Uint8Arrays correctly', () => {
+      const a = new Uint8Array([1, 2, 3]);
+      const b = new Uint8Array([1, 2, 3]);
+      const c = new Uint8Array([1, 2, 4]);
+      const d = new Uint8Array([1, 2]);
+      deepStrictEqual(equalBytes(a, b), true);
+      deepStrictEqual(equalBytes(a, c), false);
+      deepStrictEqual(equalBytes(a, d), false);
+    });
+
+    should('normalizeMnemonicBytes should clean up mnemonic input', () => {
+      const input = new TextEncoder().encode('  LEGAL   winner \n THANK   year  ');
+      const expected = 'legal winner thank year';
+      const normalized = normalizeMnemonicBytes(input);
+      deepStrictEqual(new TextDecoder().decode(normalized), expected);
+      normalized.fill(0);
+    });
+
+    should('splitMnemonicBytes should split English mnemonics', () => {
+      const mnemonic = new TextEncoder().encode('abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about');
+      const words = splitMnemonicBytes(mnemonic);
+      deepStrictEqual(words.length, 12);
+    });
+
+    should('splitMnemonicBytes should handle 12 words correctly', () => {
+      const mnemonic = new TextEncoder().encode('abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about');
+      const words = splitMnemonicBytes(mnemonic);
+      deepStrictEqual(words.length, 12);
+      deepStrictEqual(new TextDecoder().decode(words[0]), 'abandon');
+      deepStrictEqual(new TextDecoder().decode(words[11]), 'about');
+    });
+
+    should('splitMnemonicBytes should handle Japanese ideographic spaces', () => {
+      const mnemonic = new TextEncoder().encode('あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あおぞら');
+      const words = splitMnemonicBytes(mnemonic);
+      deepStrictEqual(words.length, 12);
+      deepStrictEqual(new TextDecoder().decode(words[0]), 'あいこくしん');
+    });
+
+    should('nfkdBytes should normalize UTF-8 bytes', () => {
+      // '㍍' (U+3312) normalizes to 'メートル' in NFKD
+      const input = new TextEncoder().encode('㍍');
+      const normalized = nfkdBytes(input);
+      deepStrictEqual(new TextDecoder().decode(normalized), 'メートル');
     });
   });
 });

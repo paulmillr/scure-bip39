@@ -260,7 +260,7 @@ const WORD_SEPARATOR = 0x20;
 const MNEMONIC_SALT_PREFIX = new Uint8Array([109, 110, 101, 109, 111, 110, 105, 99]); // "mnemonic"
 const JAPANESE_MNEMONIC_SEPARATOR = new Uint8Array([0xe3, 0x80, 0x80]);
 
-function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
+export function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) return false;
   for (let i = 0; i < a.length; i++) {
     if (a[i] !== b[i]) return false;
@@ -268,7 +268,7 @@ function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
   return true;
 }
 
-function splitMnemonicBytes(mnemonic: Uint8Array): Uint8Array[] {
+export function splitMnemonicBytes(mnemonic: Uint8Array): Uint8Array[] {
   const separator = isJapaneseWordSeparator(mnemonic)
     ? JAPANESE_MNEMONIC_SEPARATOR
     : new Uint8Array([WORD_SEPARATOR]);
@@ -354,13 +354,40 @@ function decodeMnemonicEntropy(wordIndexes: number[]): Uint8Array {
   return entropy;
 }
 
-function nfkdBytes(value: string | Uint8Array): Uint8Array {
+export function nfkdBytes(value: string | Uint8Array): Uint8Array {
   if (value instanceof Uint8Array && isASCII(value)) return value;
   const normalized =
     typeof value === 'string'
       ? value.normalize('NFKD')
       : new TextDecoder().decode(value).normalize('NFKD');
   return new TextEncoder().encode(normalized);
+}
+
+/**
+ * Normalizes mnemonic bytes: trims, replaces multiple spaces/newlines with single space, 
+ * and converts to lowercase. NFKD normalization is applied via split/decode/encode.
+ */
+export function normalizeMnemonicBytes(mnemonic: Uint8Array): Uint8Array {
+  const isWhitespace = (b: number) => b === 0x20 || b === 0x09 || b === 0x0a || b === 0x0d;
+  const temp = new Uint8Array(mnemonic.length);
+  let out = 0;
+  let lastWasSpace = true;
+  for (let i = 0; i < mnemonic.length; i++) {
+    const byte = mnemonic[i];
+    if (isWhitespace(byte)) {
+      if (!lastWasSpace) {
+        temp[out++] = 0x20;
+        lastWasSpace = true;
+      }
+      continue;
+    }
+    temp[out++] = byte >= 0x41 && byte <= 0x5a ? byte + 0x20 : byte;
+    lastWasSpace = false;
+  }
+  if (out > 0 && temp[out - 1] === 0x20) out -= 1;
+  const res = temp.slice(0, out);
+  temp.fill(0);
+  return res;
 }
 
 /**
