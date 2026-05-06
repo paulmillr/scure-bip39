@@ -480,6 +480,10 @@ export function validateMnemonicFromBytes(
 
 /**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic bytes + optional password bytes.
+ *
+ * Note: This is the primitive BIP-39 operation. It does not require a wordlist and
+ * will work even if the mnemonic checksum is invalid, as per BIP-39 specification.
+ *
  * @param mnemonic - UTF-8 bytes containing 12-24 words.
  * @param passphrase - UTF-8 bytes that will additionally protect the key.
  * @returns 64 bytes of key data.
@@ -504,6 +508,10 @@ export function mnemonicToSeedSyncFromBytes(
 
 /**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic bytes + optional password bytes.
+ *
+ * Note: This is the primitive BIP-39 operation. It does not require a wordlist and
+ * will work even if the mnemonic checksum is invalid, as per BIP-39 specification.
+ *
  * @param mnemonic - UTF-8 bytes containing 12-24 words.
  * @param passphrase - UTF-8 bytes that will additionally protect the key.
  * @returns 64 bytes of key data.
