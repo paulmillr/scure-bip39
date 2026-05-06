@@ -11,7 +11,9 @@ import {
   mnemonicToEntropyFromBytes,
   mnemonicToSeed,
   mnemonicToSeedSync,
+  mnemonicToSeedFromBytes,
   mnemonicToSeedWebcrypto,
+  mnemonicToSeedFromBytesWebcrypto,
   validateMnemonic,
 } from '../src/index.ts';
 import { wordlist as czechWordlist } from '../src/wordlists/czech.ts';
@@ -249,6 +251,25 @@ describe('BIP39', () => {
           UTF8_PASSPHRASE_BYTES
         );
         deepStrictEqual(seed1, seed2);
+      });
+
+      should('derive seed from mnemonic bytes correctly (async)', async () => {
+        const seed1 = await mnemonicToSeed(MENMONIC_STR, PASSPHRASE_STR);
+        const seed2 = await mnemonicToSeedFromBytes(MENMONIC_BYTES, PASSPHRASE_BYTES);
+        deepStrictEqual(seed1, seed2);
+        const seed3 = await mnemonicToSeedFromBytesWebcrypto(MENMONIC_BYTES, PASSPHRASE_BYTES);
+        deepStrictEqual(seed1, seed3);
+      });
+
+      should('derive seed from Japanese mnemonic bytes correctly (async)', async () => {
+        const seed1 = await mnemonicToSeed(JAPANESE_MNEMONIC_STR, UTF8_PASSPHRASE_STR);
+        const seed2 = await mnemonicToSeedFromBytes(JAPANESE_MNEMONIC_BYTES, UTF8_PASSPHRASE_BYTES);
+        deepStrictEqual(seed1, seed2);
+        const seed3 = await mnemonicToSeedFromBytesWebcrypto(
+          JAPANESE_MNEMONIC_BYTES,
+          UTF8_PASSPHRASE_BYTES
+        );
+        deepStrictEqual(seed1, seed3);
       });
 
       should('support variable entropy length', () => {

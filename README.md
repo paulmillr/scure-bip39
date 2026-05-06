@@ -63,11 +63,22 @@ bip39.validateMnemonic(mn256, wordlist);
 const seed1 = await bip39.mnemonicToSeed(mn, 'password');
 const seed2 = bip39.mnemonicToSeedSync(mn, 'password');
 const seed3 = await bip39.mnemonicToSeedWebcrypto(mn, 'password'); // Native, WebCrypto version.
+
+// Byte-oriented API (for memory security)
+const entropy = bip39.generateEntropyBytes(128); // 16 bytes
+const mnBytes = bip39.entropyToMnemonicBytes(entropy, wordlist); // Uint8Array of UTF-8 words
+
+// Explicitly zero memory after use
+const seed4 = await bip39.mnemonicToSeedFromBytes(mnBytes, new Uint8Array([1, 2, 3]));
+const seed5 = await bip39.mnemonicToSeedFromBytesWebcrypto(mnBytes); // Faster native version
+mnBytes.fill(0); 
+entropy.fill(0);
 ```
 
 This submodule contains the word lists defined by BIP39 for Czech, English, French, Italian, Japanese, Korean, Portuguese, Simplified and Traditional Chinese, and Spanish. These are not imported by default, as that would increase bundle sizes too much. Instead, you should import and use them explicitly.
 
 ```typescript
+// String-oriented API
 function generateMnemonic(wordlist: string[], strength?: number): string;
 function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Array;
 function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string;
@@ -84,6 +95,7 @@ function validateMnemonicFromBytes(mnemonic: Uint8Array, wordlist: string[]): bo
 function entropyToSeedSyncFromBytes(entropy: Uint8Array, wordlist: string[], passphrase?: Uint8Array): Uint8Array;
 function mnemonicToSeedSyncFromBytes(mnemonic: Uint8Array, passphrase?: Uint8Array): Uint8Array;
 function mnemonicToSeedFromBytes(mnemonic: Uint8Array, passphrase?: Uint8Array): Promise<Uint8Array>;
+function mnemonicToSeedFromBytesWebcrypto(mnemonic: Uint8Array, passphrase?: Uint8Array): Promise<Uint8Array>;
 ```
 
 All wordlists (**warning: non-english wordlists are officially discouraged by bip39**):

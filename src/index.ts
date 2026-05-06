@@ -507,6 +507,31 @@ export function mnemonicToSeedSyncFromBytes(
 }
 
 /**
+ * Irreversible: Uses native WebCrypto KDF to derive 64 bytes of key data from mnemonic bytes + optional password bytes.
+ * 
+ * @param mnemonic - UTF-8 bytes containing 12-24 words.
+ * @param passphrase - UTF-8 bytes that will additionally protect the key.
+ * @returns 64 bytes of key data.
+ */
+export async function mnemonicToSeedFromBytesWebcrypto(
+  mnemonic: Uint8Array,
+  passphrase: Uint8Array = new Uint8Array()
+): Promise<Uint8Array> {
+  const m = nfkdBytes(mnemonic);
+  const p = nfkdBytes(passphrase);
+  const salt = new Uint8Array(MNEMONIC_SALT_PREFIX.length + p.length);
+  try {
+    salt.set(MNEMONIC_SALT_PREFIX);
+    salt.set(p, MNEMONIC_SALT_PREFIX.length);
+    return (await pbkdf2web(sha512web, m, salt, { c: 2048, dkLen: 64 })) as Uint8Array;
+  } finally {
+    salt.fill(0);
+    if (m !== mnemonic) m.fill(0);
+    if (p !== passphrase) p.fill(0);
+  }
+}
+
+/**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic bytes + optional password bytes.
  *
  * Note: This is the primitive BIP-39 operation. It does not require a wordlist and
