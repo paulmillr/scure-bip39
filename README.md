@@ -5,8 +5,8 @@ Audited & minimal JS implementation of [BIP39 mnemonic phrases](https://github.c
 - 🔒 [**Audited**](#security) by an independent security firm
 - 🔻 Tree-shakeable: unused code is excluded from your builds
 - 🥈 Two implementations: pure JS or friendly WebCrypto wrapper
-- ➰ Only 2 audited dependencies by the same author:
-  [noble-hashes](https://github.com/paulmillr/noble-hashes) and [scure-base](https://github.com/paulmillr/scure-base)
+- ➰ Only 1 audited dependency by the same author:
+  [noble-hashes](https://github.com/paulmillr/noble-hashes)
 - 🪶 14KB (gzipped) with one wordlist, 79KB with all of them: much smaller than similar libraries
 
 Check out [scure-bip32](https://github.com/paulmillr/scure-bip32) if you need
@@ -121,18 +121,11 @@ To audit wordlist content, run `node scripts/fetch-wordlist.js`.
   - Version ranges are locked, and changes are checked with npm-diff.
 - **Dev dependencies** are excluded from end-user installs; they’re only used for development and build steps.
 
-For this package, there are 2 dependencies; and a few dev dependencies:
+For this package, there is 1 dependency; and a few dev dependencies:
 
 - [noble-hashes](https://github.com/paulmillr/noble-hashes) provides cryptographic hashing functionality
-- [scure-base](https://github.com/paulmillr/scure-base) provides low-level wordlist utilities
 - jsbt is used for benchmarking / testing / build tooling and developed by the same author
 - prettier, fast-check and typescript are used for code quality / test generation / ts compilation
-
-## Contributing & testing
-
-- `npm install && npm run build && npm test` will build the code and run tests.
-- `npm run lint` / `npm run format` will run linter / fix linter issues.
-- `npm run build:release` will build single file
 
 ## License
 
