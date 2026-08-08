@@ -1,6 +1,6 @@
 {
   "name": "@scure/bip39",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "exports": {
     ".": "./src/index.ts",
     "./wordlists/czech.js": "./src/wordlists/czech.ts",
