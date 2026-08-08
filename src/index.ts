@@ -3,7 +3,6 @@ import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2.js';
 import { sha256, sha512 } from '@noble/hashes/sha2.js';
 import { abytes, anumber, randomBytes, type TArg, type TRet } from '@noble/hashes/utils.js';
 import { pbkdf2 as pbkdf2web, sha512 as sha512web } from '@noble/hashes/webcrypto.js';
-import { utils as baseUtils } from '@scure/base';
 
 // Japanese wordlist
 // The canonical BIP-39 Japanese wordlist starts with あいこくしん.
@@ -58,27 +57,71 @@ export function generateMnemonic(wordlist: string[], strength: number = 128): st
   return entropyToMnemonic(randomBytes(strength / 8), wordlist);
 }
 
-const calcChecksum = (entropy: TArg<Uint8Array>) => {
+// BIP-39 checksum is the first ENT/32 bits of SHA-256(entropy).
+// Returned as a byte with checksum bits on the left and zeroes on the right.
+const calcChecksum = (entropy: Uint8Array) => {
   // Checksum is ent.length/4 bits long
   const bitsLeft = 8 - entropy.length / 4;
   // Zero rightmost "bitsLeft" bits in byte
   // For example: bitsLeft=4 val=10111101 -> 10110000
-  return new Uint8Array([(sha256(entropy)[0]! >> bitsLeft) << bitsLeft]);
+  return (sha256(entropy)[0]! >> bitsLeft) << bitsLeft;
 };
 
-function getCoder(wordlist: string[]) {
+function awordlist(wordlist: string[]) {
   if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
     throw new TypeError('Wordlist: expected array of 2048 strings');
   wordlist.forEach((i) => {
     if (typeof i !== 'string') throw new TypeError('wordlist: non-string element: ' + i);
   });
-  // BIP-39 appends checksum bits to entropy.
-  // It then splits the bitstream into 11-bit indexes for a 2048-word list.
-  return baseUtils.chain(
-    baseUtils.checksum(1, calcChecksum),
-    baseUtils.radix2(11, true),
-    baseUtils.alphabet(wordlist)
-  );
+}
+
+// BIP-39 appends checksum bits to entropy,
+// then splits the bitstream into 11-bit indexes for a 2048-word list.
+function encodeWords(entropy: Uint8Array, wordlist: string[]): string[] {
+  awordlist(wordlist);
+  const bytes = new Uint8Array(entropy.length + 1); // entropy || checksum byte
+  bytes.set(entropy);
+  bytes[entropy.length] = calcChecksum(entropy);
+  const words: string[] = [];
+  let carry = 0; // bit accumulator, holds < 19 bits
+  let bits = 0;
+  for (const byte of bytes) {
+    carry = (carry << 8) | byte;
+    bits += 8;
+    if (bits >= 11) {
+      bits -= 11;
+      words.push(wordlist[(carry >>> bits) & 0x7ff]!);
+      carry &= (1 << bits) - 1;
+    }
+  }
+  // Bits still in carry are the zero right bits of the checksum byte; drop them.
+  return words;
+}
+
+// Reverse of encodeWords: repacks 11-bit indexes into bytes and verifies checksum.
+function decodeWords(words: string[], wordlist: string[]): Uint8Array {
+  awordlist(wordlist);
+  const entLen = (words.length / 3) * 4; // every 3 words hold 32 entropy bits + 1 checksum bit
+  const bytes = new Uint8Array(entLen + 1); // entropy || checksum byte
+  let carry = 0; // bit accumulator, holds < 19 bits
+  let bits = 0;
+  let pos = 0;
+  for (const word of words) {
+    const index = wordlist.indexOf(word);
+    if (index === -1) throw new Error('Unknown word: ' + word);
+    carry = (carry << 11) | index;
+    bits += 11;
+    while (bits >= 8) {
+      bits -= 8;
+      bytes[pos++] = (carry >>> bits) & 0xff;
+    }
+    carry &= (1 << bits) - 1;
+  }
+  // Left-align leftover checksum bits, matching calcChecksum output.
+  if (bits > 0) bytes[pos] = carry << (8 - bits);
+  const entropy = bytes.subarray(0, entLen);
+  if (bytes[entLen] !== calcChecksum(entropy)) throw new Error('Invalid checksum');
+  return Uint8Array.from(entropy);
 }
 
 /**
@@ -105,7 +148,7 @@ function getCoder(wordlist: string[]) {
  */
 export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): TRet<Uint8Array> {
   const { words } = normalize(mnemonic);
-  const entropy = getCoder(wordlist).decode(words);
+  const entropy = decodeWords(words, wordlist);
   aentropy(entropy);
   return entropy as TRet<Uint8Array>;
 }
@@ -132,7 +175,7 @@ export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): TRet<Ui
  */
 export function entropyToMnemonic(entropy: TArg<Uint8Array>, wordlist: string[]): string {
   aentropy(entropy);
-  const words = getCoder(wordlist).encode(entropy);
+  const words = encodeWords(entropy as Uint8Array, wordlist);
   return words.join(isJapanese(wordlist) ? '\u3000' : ' ');
 }
 
@@ -163,7 +206,11 @@ export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean 
 }
 
 // BIP-39 salts PBKDF2 with the UTF-8 NFKD string "mnemonic" + passphrase.
-const psalt = (passphrase: string) => nfkd('mnemonic' + passphrase);
+const psalt = (passphrase: string) => {
+  if (typeof passphrase !== 'string')
+    throw new TypeError('invalid passphrase type: ' + typeof passphrase);
+  return nfkd('mnemonic' + passphrase);
+};
 
 /**
  * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
