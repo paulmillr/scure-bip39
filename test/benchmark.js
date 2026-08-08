@@ -1,4 +1,4 @@
-import { mark } from 'micro-bmark';
+import { mark } from '@paulmillr/jsbt/benchmark.js';
 import { mnemonicToSeed, mnemonicToSeedSync } from '../index.js';
 
 (async () => {

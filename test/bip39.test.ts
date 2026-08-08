@@ -1,5 +1,6 @@
-import { bytesToHex, hexToBytes } from '@noble/hashes/utils.js';
-import { describe, should } from '@paulmillr/jsbt/test.js';
+import { sha256 } from '@noble/hashes/sha2.js';
+import { bytesToHex, hexToBytes, randomBytes } from '@noble/hashes/utils.js';
+import { describe, it } from '@paulmillr/jsbt/test.js';
 import {
   entropyToMnemonic,
   generateMnemonic,
@@ -14,6 +15,9 @@ import { wordlist as japaneseWordlist } from '../src/wordlists/japanese.ts';
 import { wordlist as portugueseWordlist } from '../src/wordlists/portuguese.ts';
 import { wordlist as spanishWordlist } from '../src/wordlists/spanish.ts';
 import { deepStrictEqual, throws } from './assert.ts';
+// Non-canonical wordlist from bitcoinjs/bip39: proves the coder makes no assumptions
+// (alphabetical order, ASCII, prefix uniqueness) that only canonical lists satisfy.
+import customWordlist from './custom-wordlist.json' with { type: 'json' };
 
 export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) {
@@ -29,14 +33,14 @@ export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
 
 describe('BIP39', () => {
   describe('Mnemonic generation', () => {
-    should('create a valid menomic', () => {
+    it('create a valid menomic', () => {
       const mnemonic = generateMnemonic(englishWordlist, 128);
       deepStrictEqual(validateMnemonic(mnemonic, englishWordlist), true);
     });
   });
 
   describe('Mnemonic validation', () => {
-    should('accept valid menomics', () => {
+    it('accept valid menomics', () => {
       deepStrictEqual(
         validateMnemonic(
           'jump police vessel depth mutual idea cable soap trophy dust hold wink',
@@ -62,7 +66,7 @@ describe('BIP39', () => {
       );
     });
 
-    should('reject invalid menomics', () => {
+    it('reject invalid menomics', () => {
       deepStrictEqual(validateMnemonic('asd', englishWordlist), false);
       deepStrictEqual(
         validateMnemonic(generateMnemonic(englishWordlist, 128), spanishWordlist),
@@ -73,13 +77,13 @@ describe('BIP39', () => {
 
   describe('Entropy-mnemonic convertions', () => {
     describe('Should convert from mnemonic to entropy and back', () => {
-      should('work with the English wodlist', () => {
+      it('work with the English wodlist', () => {
         const mnemonic = generateMnemonic(englishWordlist, 128);
         const entropy = mnemonicToEntropy(mnemonic, englishWordlist);
         deepStrictEqual(entropyToMnemonic(entropy, englishWordlist), mnemonic);
       });
 
-      should('work with the Spanish wodlist', () => {
+      it('work with the Spanish wodlist', () => {
         const mnemonic = generateMnemonic(spanishWordlist, 128);
         const entropy = mnemonicToEntropy(mnemonic, spanishWordlist);
         deepStrictEqual(entropyToMnemonic(entropy, spanishWordlist), mnemonic);
@@ -97,14 +101,14 @@ describe('BIP39', () => {
       );
 
       describe('Sync', () => {
-        should('recover the right seed', () => {
+        it('recover the right seed', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
         });
       });
 
       describe('Async', () => {
-        should('recover the right seed', async () => {
+        it('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC);
           deepStrictEqual(equalsBytes(SEED, recoveredSeed), true);
           const recoveredSeedWeb = await mnemonicToSeedWebcrypto(MENMONIC);
@@ -124,14 +128,14 @@ describe('BIP39', () => {
       );
 
       describe('Sync', () => {
-        should('recover the right seed', () => {
+        it('recover the right seed', () => {
           const recoveredSeed = mnemonicToSeedSync(MENMONIC, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
         });
       });
 
       describe('Async', () => {
-        should('recover the right seed', async () => {
+        it('recover the right seed', async () => {
           const recoveredSeed = await mnemonicToSeed(MENMONIC, PASSPHRASE);
           deepStrictEqual(SEED, recoveredSeed);
           const recoveredSeedWeb = await mnemonicToSeedWebcrypto(MENMONIC, PASSPHRASE);
@@ -386,6 +390,18 @@ describe('BIP39', () => {
         '346b7321d8c04f6f37b49fdf062a2fddc8e1bf8f1d33171b65074531ec546d1d3469974beccb1a09263440fc92e1042580a557fdce314e27ee4eabb25fa5e5fe',
       ],
     ],
+    custom: [
+      [
+        '00000000000000000000000000000000',
+        'aband0n aband0n aband0n aband0n aband0n aband0n aband0n aband0n aband0n aband0n aband0n ab0ut',
+        'a3f1b782bc3315cea2f93e8a6db3190a18b4870afe6fb40f6e3ac2fdc2216dfe33b7ef97e31845f710231d8a7a30a49fe82df5707f4a35917a92337a4da8184d',
+      ],
+      [
+        '15da872c95a13dd738fbf50e427583ad61f18fd99f628c417a61cf8343c90419',
+        'b3y0nd 5tag3 5l33p cl1p b3cau53 tw15t t0k3n l3af at0m b3auty g3n1u5 f00d bu51n355 51d3 gr1d unabl3 m1ddl3 arm3d 0b53rv3 pa1r cr0uch t0n1ght away c0c0nut',
+        '2e9a0929ca67cd8c1a11cf71abee2c8b51c2555758f37a133ea9f491f55c352a4a831b2bf8dda61e9a4ed0ffeeae7324704f26d1304ab35ffebf8c997f73badd',
+      ],
+    ],
   };
   describe('BIP39-lib vectors', () => {
     function testVector(
@@ -396,7 +412,7 @@ describe('BIP39', () => {
       i: number
     ) {
       const [entropy, mnemonic, seed] = v;
-      should(`for ${description} (${i}), ${entropy}`, async () => {
+      it(`for ${description} (${i}), ${entropy}`, async () => {
         deepStrictEqual(
           bytesToHex(mnemonicToEntropy(mnemonic, wordlist)),
           entropy,
@@ -432,12 +448,15 @@ describe('BIP39', () => {
         i
       );
     }
-    should('Invalid entropy', () => {
+    it('Invalid entropy', () => {
       throws(() => entropyToMnemonic(Uint8Array.of(), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array([0, 0, 0]), englishWordlist));
       throws(() => entropyToMnemonic(new Uint8Array(1028), englishWordlist));
     });
-    should('validator constructors', () => {
+    for (let i = 0; i < VECTORS.custom.length; i++) {
+      testVector('Custom wordlist', customWordlist, '', VECTORS.custom[i], i);
+    }
+    it('validator constructors', () => {
       const badWordlist = englishWordlist.slice() as unknown[];
       badWordlist[0] = 1;
       throws(() => entropyToMnemonic(Uint8Array.of(), englishWordlist), RangeError);
@@ -446,7 +465,7 @@ describe('BIP39', () => {
       throws(() => generateMnemonic(englishWordlist, 129), RangeError);
       throws(() => generateMnemonic(englishWordlist, 288), RangeError);
     });
-    should('UTF8 passwords', () => {
+    it('UTF8 passwords', () => {
       for (const [_, mnemonic, seed] of VECTORS.japanese) {
         const password = '㍍ガバヴァぱばぐゞちぢ十人十色';
         const normalizedPassword = 'メートルガバヴァぱばぐゞちぢ十人十色';
@@ -462,14 +481,14 @@ describe('BIP39', () => {
         );
       }
     });
-    should('generateMnemonic can vary entropy length', () => {
+    it('generateMnemonic can vary entropy length', () => {
       deepStrictEqual(
         generateMnemonic(englishWordlist, 160).split(' ').length,
         15,
         'can vary generated entropy bit length'
       );
     });
-    should('validateMnemonic', () => {
+    it('validateMnemonic', () => {
       deepStrictEqual(
         validateMnemonic('sleep kitten', englishWordlist),
         false,
@@ -506,6 +525,82 @@ describe('BIP39', () => {
       );
     });
   });
+
+  // Naive reference implementation, used as an oracle. Converts via binary strings,
+  // sharing no logic with the bit packing in src/index.ts.
+  describe('differential oracle', () => {
+    function naiveEntropyToWords(entropy: Uint8Array, wordlist: string[]): string[] {
+      const csBits = entropy.length / 4;
+      let bits = '';
+      for (const byte of entropy) bits += byte.toString(2).padStart(8, '0');
+      bits += sha256(entropy)[0]!.toString(2).padStart(8, '0').slice(0, csBits);
+      const words = [];
+      for (let i = 0; i < bits.length; i += 11)
+        words.push(wordlist[parseInt(bits.slice(i, i + 11), 2)]!);
+      return words;
+    }
+    // Returns undefined for a bad word or checksum.
+    function naiveWordsToEntropy(words: string[], wordlist: string[]): Uint8Array | undefined {
+      let bits = '';
+      for (const word of words) {
+        const index = wordlist.indexOf(word);
+        if (index === -1) return undefined;
+        bits += index.toString(2).padStart(11, '0');
+      }
+      const csBits = bits.length / 33;
+      const entropy = new Uint8Array((bits.length - csBits) / 8);
+      for (let i = 0; i < entropy.length; i++)
+        entropy[i] = parseInt(bits.slice(i * 8, i * 8 + 8), 2);
+      const cs = sha256(entropy)[0]!.toString(2).padStart(8, '0').slice(0, csBits);
+      return bits.endsWith(cs) ? entropy : undefined;
+    }
+    const wordlists: [string[], string][] = [
+      [englishWordlist, ' '],
+      [japaneseWordlist, '　'],
+      [customWordlist, ' '],
+    ];
+    it('encode and round-trip like the naive implementation', () => {
+      for (const [wordlist, sep] of wordlists) {
+        for (const size of [16, 20, 24, 28, 32]) {
+          const cases = [new Uint8Array(size), new Uint8Array(size).fill(0xff)];
+          for (let i = 0; i < 100; i++) cases.push(randomBytes(size));
+          for (const entropy of cases) {
+            const mnemonic = entropyToMnemonic(entropy, wordlist);
+            deepStrictEqual(mnemonic, naiveEntropyToWords(entropy, wordlist).join(sep));
+            deepStrictEqual(equalsBytes(mnemonicToEntropy(mnemonic, wordlist), entropy), true);
+          }
+        }
+      }
+    });
+    it('reject unknown words before checksum verification', () => {
+      const words = entropyToMnemonic(new Uint8Array(16), englishWordlist).split(' ');
+      words[5] = 'notaword';
+      let err: unknown;
+      try {
+        mnemonicToEntropy(words.join(' '), englishWordlist);
+      } catch (e) {
+        err = e;
+      }
+      deepStrictEqual(err instanceof Error && err.message, 'Unknown word: notaword');
+    });
+    it('accept and reject mutated phrases like the naive implementation', () => {
+      for (const [wordlist, sep] of wordlists) {
+        for (const size of [16, 20, 24, 28, 32]) {
+          for (let i = 0; i < 100; i++) {
+            const words = entropyToMnemonic(randomBytes(size), wordlist).split(sep);
+            // Swap one word for a random one; checksum now only matches by chance.
+            const pos = Math.floor(Math.random() * words.length);
+            words[pos] = wordlist[Math.floor(Math.random() * 2048)]!;
+            const mutated = words.join(sep);
+            const expected = naiveWordsToEntropy(words, wordlist);
+            deepStrictEqual(validateMnemonic(mutated, wordlist), expected !== undefined);
+            if (expected !== undefined)
+              deepStrictEqual(equalsBytes(mnemonicToEntropy(mutated, wordlist), expected), true);
+          }
+        }
+      }
+    });
+  });
 });
 
-should.runWhen(import.meta.url);
+it.runWhen(import.meta.url);
