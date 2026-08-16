@@ -25,6 +25,7 @@
     "check": "jsbt-check",
     "format": "prettier --write 'src/**/*.ts' 'test/*.test.ts' 'test/scripts/*.js'",
     "test": "node test/index.ts",
+    "test:wordlist": "node test/scripts/fetch-wordlist.test.js",
     "fetch-wordlist": "./test/scripts/fetch-wordlist.js"
   },
   "exports": {
