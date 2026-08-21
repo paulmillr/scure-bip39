@@ -1,5 +1,5 @@
 import { sha256 } from '@noble/hashes/sha2.js';
-import { bytesToHex, hexToBytes, randomBytes } from '@noble/hashes/utils.js';
+import { bytesToHex, hexToBytes, randomBytes, utf8ToBytes } from '@noble/hashes/utils.js';
 import { describe, it } from '@paulmillr/jsbt/test.js';
 import {
   entropyToMnemonic,
@@ -10,10 +10,16 @@ import {
   mnemonicToSeedWebcrypto,
   validateMnemonic,
 } from '../src/index.ts';
+import { wordlist as czechWordlist } from '../src/wordlists/czech.ts';
 import { wordlist as englishWordlist } from '../src/wordlists/english.ts';
+import { wordlist as frenchWordlist } from '../src/wordlists/french.ts';
+import { wordlist as italianWordlist } from '../src/wordlists/italian.ts';
 import { wordlist as japaneseWordlist } from '../src/wordlists/japanese.ts';
+import { wordlist as koreanWordlist } from '../src/wordlists/korean.ts';
 import { wordlist as portugueseWordlist } from '../src/wordlists/portuguese.ts';
+import { wordlist as simplifiedChineseWordlist } from '../src/wordlists/simplified-chinese.ts';
 import { wordlist as spanishWordlist } from '../src/wordlists/spanish.ts';
+import { wordlist as traditionalChineseWordlist } from '../src/wordlists/traditional-chinese.ts';
 import { deepStrictEqual, throws } from './assert.ts';
 // Non-canonical wordlist from bitcoinjs/bip39: proves the coder makes no assumptions
 // (alphabetical order, ASCII, prefix uniqueness) that only canonical lists satisfy.
@@ -32,6 +38,84 @@ export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
 }
 
 describe('BIP39', () => {
+  describe('canonical wordlists', () => {
+    const entropy = '00000000000000000000000000000000';
+    const vectors: Array<[string, string[], string, string]> = [
+      [
+        'Czech',
+        czechWordlist,
+        '7e80e161c3e93d9554c2efb78d4e3cebf8fc727e9c52e03b83b94406bdcc95fc',
+        'abdikace abdikace abdikace abdikace abdikace abdikace abdikace abdikace abdikace abdikace abdikace agrese',
+      ],
+      [
+        'English',
+        englishWordlist,
+        '2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda',
+        'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      ],
+      [
+        'French',
+        frenchWordlist,
+        'ebc3959ab7801a1df6bac4fa7d970652f1df76b683cd2f4003c941c63d517e59',
+        'abaisser abaisser abaisser abaisser abaisser abaisser abaisser abaisser abaisser abaisser abaisser abeille',
+      ],
+      [
+        'Italian',
+        italianWordlist,
+        'd392c49fdb700a24cd1fceb237c1f65dcc128f6b34a8aacb58b59384b5c648c2',
+        'abaco abaco abaco abaco abaco abaco abaco abaco abaco abaco abaco abete',
+      ],
+      [
+        'Japanese',
+        japaneseWordlist,
+        '2eed0aef492291e061633d7ad8117f1a2b03eb80a29d0e4e3117ac2528d05ffd',
+        'あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あおぞら',
+      ],
+      [
+        'Korean',
+        koreanWordlist,
+        '9e95f86c167de88f450f0aaf89e87f6624a57f973c67b516e338e8e8b8897f60',
+        '가격 가격 가격 가격 가격 가격 가격 가격 가격 가격 가격 가능',
+      ],
+      [
+        'Portuguese',
+        portugueseWordlist,
+        '2685e9c194c82ae67e10ba59d9ea5345a23dc093e92276fc5361f6667d79cd3f',
+        'abacate abacate abacate abacate abacate abacate abacate abacate abacate abacate abacate abater',
+      ],
+      [
+        'Simplified Chinese',
+        simplifiedChineseWordlist,
+        '5c5942792bd8340cb8b27cd592f1015edf56a8c5b26276ee18a482428e7c5726',
+        '的 的 的 的 的 的 的 的 的 的 的 在',
+      ],
+      [
+        'Spanish',
+        spanishWordlist,
+        '46846a5a0139d1e3cb77293e521c2865f7bcdb82c44e8d0a06a2cd0ecba48c0b',
+        'ábaco ábaco ábaco ábaco ábaco ábaco ábaco ábaco ábaco ábaco ábaco abierto',
+      ],
+      [
+        'Traditional Chinese',
+        traditionalChineseWordlist,
+        '417b26b3d8500a4ae3d59717d7011952db6fc2fb84b807f3f94ac734e89c1b5f',
+        '的 的 的 的 的 的 的 的 的 的 的 在',
+      ],
+    ];
+
+    for (const [language, wordlist, digest, mnemonic] of vectors) {
+      it(`matches the fixed ${language} vector and full-list digest`, () => {
+        deepStrictEqual(
+          bytesToHex(sha256(utf8ToBytes(`${wordlist.join('\n')}\n`))),
+          digest,
+          'canonical wordlist SHA-256'
+        );
+        deepStrictEqual(entropyToMnemonic(hexToBytes(entropy), wordlist), mnemonic);
+        deepStrictEqual(bytesToHex(mnemonicToEntropy(mnemonic, wordlist)), entropy);
+      });
+    }
+  });
+
   describe('Mnemonic generation', () => {
     it('create a valid menomic', () => {
       const mnemonic = generateMnemonic(englishWordlist, 128);
