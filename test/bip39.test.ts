@@ -565,6 +565,27 @@ describe('BIP39', () => {
         );
       }
     });
+    it('rejects ill-formed Unicode without replacing valid characters', async () => {
+      const mnemonic =
+        'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
+      for (const invalid of ['\ud800', '\udfff']) {
+        await throws(() => mnemonicToSeedSync(mnemonic, invalid));
+        await throws(() => mnemonicToSeed(mnemonic, invalid));
+        await throws(() => mnemonicToSeedWebcrypto(mnemonic, invalid));
+      }
+
+      const malformedMnemonic = mnemonic.replace('about', '\ud800');
+      await throws(() => mnemonicToSeedSync(malformedMnemonic));
+      await throws(() => mnemonicToSeed(malformedMnemonic));
+      await throws(() => mnemonicToSeedWebcrypto(malformedMnemonic));
+
+      // U+FFFD and a correctly paired supplementary character remain valid and consistent.
+      for (const valid of ['\ufffd', '😀']) {
+        const expected = mnemonicToSeedSync(mnemonic, valid);
+        deepStrictEqual(await mnemonicToSeed(mnemonic, valid), expected);
+        deepStrictEqual(await mnemonicToSeedWebcrypto(mnemonic, valid), expected);
+      }
+    });
     it('generateMnemonic can vary entropy length', () => {
       deepStrictEqual(
         generateMnemonic(englishWordlist, 160).split(' ').length,

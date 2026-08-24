@@ -9,6 +9,21 @@ import { pbkdf2 as pbkdf2web, sha512 as sha512web } from '@noble/hashes/webcrypt
 // Use that sentinel so generated phrases use U+3000 ideographic spaces.
 const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u304f\u3057\u3093';
 
+// JavaScript strings can contain unpaired UTF-16 surrogates, which cannot be encoded as UTF-8.
+function isWellFormedUnicode(value: string): boolean {
+  for (let i = 0; i < value.length; i++) {
+    const current = value.charCodeAt(i);
+    if (current >= 0xd800 && current <= 0xdbff) {
+      if (i + 1 >= value.length) return false;
+      const next = value.charCodeAt(++i);
+      if (next < 0xdc00 || next > 0xdfff) return false;
+    } else if (current >= 0xdc00 && current <= 0xdfff) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // Normalization replaces equivalent sequences of characters
 // so that any two texts that are equivalent will be reduced
 // to the same sequence of code points, called the normal form of the original text.
@@ -17,6 +32,7 @@ const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u
 // It also applies NFKD to the "mnemonic" + passphrase salt.
 function nfkd(str: string) {
   if (typeof str !== 'string') throw new TypeError('invalid mnemonic type: ' + typeof str);
+  if (!isWellFormedUnicode(str)) throw new TypeError('expected well-formed Unicode string');
   return str.normalize('NFKD');
 }
 
