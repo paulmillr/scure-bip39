@@ -1,6 +1,6 @@
 {
   "name": "@scure/bip39",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "exports": {
     ".": "./src/index.ts",
     "./wordlists/czech.js": "./src/wordlists/czech.ts",
@@ -15,7 +15,7 @@
     "./wordlists/traditional-chinese.js": "./src/wordlists/traditional-chinese.ts"
   },
   "imports": {
-    "@noble/hashes": "jsr:@noble/hashes@2.3.0"
+    "@noble/hashes": "jsr:@noble/hashes@2.4.0"
   },
   "publish": {
     "include": [

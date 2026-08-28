@@ -1,8 +1,9 @@
 # Changelog for scure-bip39
 
-## 2.4.0 (2026-08-27)
+## 2.4.0 (2026-08-28)
 
-- Reject ill-formed Unicode (unpaired UTF-16 surrogates) in mnemonics, passphrases and wordlist entries with a `TypeError`, instead of silently encoding them as U+FFFD replacement characters; well-formed input (including U+FFFD itself and paired surrogates) is unaffected
+- Hardening: Unpaired UTF-16 surrogates are now rejected in mnemonics & passphrases. Normal input is unaffected
+- Upgrade noble-hashes to 2.4.0
 - Improve tests
 
 ## 2.3.0 (2026-08-08)
