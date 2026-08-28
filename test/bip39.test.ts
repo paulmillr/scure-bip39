@@ -549,6 +549,12 @@ describe('BIP39', () => {
       throws(() => generateMnemonic(englishWordlist, 129), RangeError);
       throws(() => generateMnemonic(englishWordlist, 288), RangeError);
     });
+    it('rejects ill-formed Unicode wordlist entries', async () => {
+      const malformedWordlist = englishWordlist.slice();
+      // Keep the invalid entry outside this entropy's indexes to prove the complete list is checked.
+      malformedWordlist[2047] = '\ud800';
+      await throws(() => entropyToMnemonic(new Uint8Array(16), malformedWordlist));
+    });
     it('UTF8 passwords', () => {
       for (const [_, mnemonic, seed] of VECTORS.japanese) {
         const password = '㍍ガバヴァぱばぐゞちぢ十人十色';

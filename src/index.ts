@@ -88,6 +88,9 @@ function awordlist(wordlist: string[]) {
     throw new TypeError('Wordlist: expected array of 2048 strings');
   wordlist.forEach((i) => {
     if (typeof i !== 'string') throw new TypeError('wordlist: non-string element: ' + i);
+    // Wordlists become mnemonic output, so apply the same lossless UTF-8 boundary as input phrases.
+    if (!isWellFormedUnicode(i))
+      throw new TypeError('wordlist: expected well-formed Unicode string');
   });
 }
 
